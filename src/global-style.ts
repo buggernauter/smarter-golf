@@ -13,11 +13,11 @@ export const GlobalStyle = createGlobalStyle`
           ? `
       radial-gradient(circle at top, rgba(255, 255, 255, 0.045) 0%, transparent 38%),
       radial-gradient(circle at 20% 12%, rgba(29, 185, 84, 0.08) 0%, transparent 22%),
-      linear-gradient(180deg, #191919 0%, ${theme.palette.surfaceBase} 56%, #101010 100%)
+      linear-gradient(180deg, #191919 0%, ${theme.palette.backgroundPaper} 56%, #101010 100%)
     `
           : `
-      radial-gradient(circle at top, ${theme.palette.surfaceSoft} 0%, transparent 45%),
-      ${theme.palette.surfaceBase}
+      radial-gradient(circle at top, ${theme.palette.backgroundDefault} 0%, transparent 45%),
+      ${theme.palette.backgroundPaper}
     `};
     color: ${({ theme }) => theme.palette.textPrimary};
     transition:

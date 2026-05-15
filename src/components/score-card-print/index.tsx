@@ -1,14 +1,34 @@
-import "./styles.css";
-import { parValues } from "../../api/chgk";
+import { holeData } from "../../api/chgk";
+import {
+  CellCheckBox,
+  CellWriteBox,
+  HelpBlock,
+  NineCard,
+  NineCardHeader,
+  NineCardPar,
+  NineCardTitle,
+  Page,
+  PrintButton,
+  PrintGlobalStyles,
+  PrintTable,
+  Sheet,
+  SheetGrid,
+  SheetHelp,
+  SheetLower,
+  SheetSummary,
+  SummaryField,
+  SummaryWriteBox,
+  Toolbar,
+} from "./styles";
 
 type Hole = {
   number: number;
   par: number;
 };
 
-const holes: Hole[] = parValues.map((par, index) => ({
-  number: index + 1,
-  par,
+const holes: Hole[] = holeData.map(({ holeNr, parValue }) => ({
+  number: holeNr,
+  par: parValue,
 }));
 
 const frontNine = holes.slice(0, 9);
@@ -26,34 +46,30 @@ const sections = [
 export default function ScoreCardPrint() {
   return (
     <>
-      <div className="print-card-page">
-        <div className="print-card-toolbar no-print">
-          <button
+      <PrintGlobalStyles />
+      <Page>
+        <Toolbar className="no-print">
+          <PrintButton
             type="button"
-            className="print-card-button"
             aria-label="Skriv ut"
             onClick={() => window.print()}
           >
-            <svg
-              className="print-card-button-icon"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="M7 3h10v4H7V3Zm10 14H7v4h10v-4Z" />
               <path d="M6 8h12a3 3 0 0 1 3 3v5h-3v-3H6v3H3v-5a3 3 0 0 1 3-3Zm2 7h8v2H8v-2Z" />
             </svg>
-          </button>
-        </div>
-        <main className="print-sheet" aria-label="Scorekort för utskrift">
-          <section className="sheet-grid">
+          </PrintButton>
+        </Toolbar>
+        <Sheet aria-label="Scorekort för utskrift">
+          <SheetGrid>
             {sections.map((section) => (
-              <section key={section.title} className="nine-card">
-                <div className="nine-card-header">
-                  <h3>{section.title}</h3>
-                  <p>Par {section.parTotal}</p>
-                </div>
+              <NineCard key={section.title}>
+                <NineCardHeader>
+                  <NineCardTitle>{section.title}</NineCardTitle>
+                  <NineCardPar>Par {section.parTotal}</NineCardPar>
+                </NineCardHeader>
 
-                <table className="print-table">
+                <PrintTable>
                   <thead>
                     <tr>
                       <th>Hål</th>
@@ -73,75 +89,75 @@ export default function ScoreCardPrint() {
                         <td>{hole.par}</td>
 
                         <td>
-                          <span className="check-box" aria-hidden="true" />
+                          <CellCheckBox aria-hidden="true" />
                         </td>
                         <td>
-                          <span className="check-box" aria-hidden="true" />
+                          <CellCheckBox aria-hidden="true" />
                         </td>
                         <td>
-                          <span className="write-box" aria-hidden="true" />
+                          <CellWriteBox aria-hidden="true" />
                         </td>
                         <td>
-                          <span className="write-box" aria-hidden="true" />
+                          <CellWriteBox aria-hidden="true" />
                         </td>
                         <td>
-                          <span className="check-box" aria-hidden="true" />
+                          <CellCheckBox aria-hidden="true" />
                         </td>
                         <td>
-                          <span className="write-box" aria-hidden="true" />
+                          <CellWriteBox aria-hidden="true" />
                         </td>
                       </tr>
                     ))}
                   </tbody>
-                </table>
-              </section>
+                </PrintTable>
+              </NineCard>
             ))}
-          </section>
+          </SheetGrid>
 
-          <div className="sheet-lower">
-            <section className="sheet-summary" aria-label="Summering">
-              <div className="summary-field">
+          <SheetLower>
+            <SheetSummary aria-label="Summering">
+              <SummaryField>
                 <span>Ut</span>
                 <strong>{frontPar}</strong>
-                <div className="summary-write-box" />
-              </div>
-              <div className="summary-field">
+                <SummaryWriteBox />
+              </SummaryField>
+              <SummaryField>
                 <span>In</span>
                 <strong>{backPar}</strong>
-                <div className="summary-write-box" />
-              </div>
-              <div className="summary-field">
+                <SummaryWriteBox />
+              </SummaryField>
+              <SummaryField>
                 <span>Total</span>
                 <strong>{totalPar}</strong>
-                <div className="summary-write-box" />
-              </div>
-              <div className="summary-field">
+                <SummaryWriteBox />
+              </SummaryField>
+              <SummaryField>
                 <span>Till par</span>
                 <strong>&nbsp;</strong>
-                <div className="summary-write-box" />
-              </div>
-            </section>
+                <SummaryWriteBox />
+              </SummaryField>
+            </SheetSummary>
 
-            <section className="sheet-help" aria-label="Förklaring">
-              <div className="help-block">
+            <SheetHelp aria-label="Förklaring">
+              <HelpBlock>
                 <h3>Scoringmål</h3>
                 <ul>
-                  <li>Par 3: putt/chip-läge direkt från tee.</li>
+                  <li>Par 3: putt/chip kring green.</li>
                   <li>Par 4: cirka 90 m kvar efter 2 slag.</li>
                   <li>Par 5: cirka 90 m kvar efter 3 slag.</li>
                 </ul>
-              </div>
-              <div className="help-block">
+              </HelpBlock>
+              <HelpBlock>
                 <h3>Förklaring</h3>
                 <p>
                   <strong>Down in 3:</strong> Att du får bollen i hål på tre
                   slag från scoringzonen.
                 </p>
-              </div>
-            </section>
-          </div>
-        </main>
-      </div>
+              </HelpBlock>
+            </SheetHelp>
+          </SheetLower>
+        </Sheet>
+      </Page>
     </>
   );
 }

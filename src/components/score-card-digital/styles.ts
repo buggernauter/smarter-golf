@@ -1,5 +1,5 @@
+import { ChevronDown } from "lucide-react";
 import styled, { css } from "styled-components";
-import { breakpoints } from "../../styles/breakpoints";
 
 const cardSurface = css`
   border-radius: 1.25rem;
@@ -9,18 +9,18 @@ const cardSurface = css`
           border: 0;
           background: linear-gradient(
             180deg,
-            ${theme.palette.surfaceSubtle} 0%,
-            ${theme.palette.surfaceSoft} 100%
+            ${theme.palette.surfacePrimary} 0%,
+            ${theme.palette.backgroundDefault} 100%
           );
           box-shadow:
-            0 1.125rem 2.625rem ${theme.palette.shadowBase},
-            0 0 0 0.0625rem ${theme.palette.borderSoft},
-            inset 0 0.0625rem 0 ${theme.palette.borderBase};
+            0 1.125rem 2.625rem ${theme.palette.shadowMedium},
+            0 0 0 0.0625rem ${theme.palette.outlineVariant},
+            inset 0 0.0625rem 0 ${theme.palette.divider};
         `
       : css`
-          border: 0.0625rem solid ${theme.palette.borderBase};
-          background: ${theme.palette.surfaceBase};
-          box-shadow: 0 0.875rem 1.875rem ${theme.palette.shadowBase};
+          border: 0.0625rem solid ${theme.palette.divider};
+          background: ${theme.palette.backgroundPaper};
+          box-shadow: 0 0.875rem 1.875rem ${theme.palette.shadowMedium};
         `}
 `;
 
@@ -36,25 +36,24 @@ const fieldCard = css`
           border: 0;
           background: linear-gradient(
             180deg,
-            ${theme.palette.surfaceSubtle} 0%,
-            ${theme.palette.surfaceSoft} 100%
+            ${theme.palette.surfacePrimary} 0%,
+            ${theme.palette.backgroundDefault} 100%
           );
           box-shadow:
-            inset 0 0 0 0.0625rem ${theme.palette.borderSoft},
-            inset 0 0.0625rem 0 ${theme.palette.borderBase};
+            inset 0 0 0 0.0625rem ${theme.palette.outlineVariant},
+            inset 0 0.0625rem 0 ${theme.palette.divider};
         `
       : css`
-          border: 0.0625rem solid ${theme.palette.borderBase};
-          background: ${theme.palette.surfaceSubtle};
+          border: 0.0625rem solid ${theme.palette.divider};
+          background: ${theme.palette.surfacePrimary};
         `}
 `;
 
 const controlBase = css`
-  width: 100%;
   min-height: 2.75rem;
   box-sizing: border-box;
   border-radius: 0.75rem;
-  padding: 0.5rem 0.625rem;
+  padding: 0.5rem 0rem;
   font: inherit;
   text-align: left;
   color: ${({ theme }) => theme.palette.textPrimary};
@@ -66,22 +65,21 @@ const controlBase = css`
     theme.mode === "dark"
       ? css`
           border: 0;
-          background: ${theme.palette.surfaceMuted};
+          background: ${theme.palette.surfaceSecondary};
           box-shadow:
-            inset 0 0 0 0.0625rem ${theme.palette.borderBase},
-            0 0.5rem 1.25rem ${theme.palette.shadowSoft};
+            inset 0 0 0 0.0625rem ${theme.palette.divider},
+            0 0.5rem 1.25rem ${theme.palette.shadowLight};
         `
       : css`
-          border: 0.0625rem solid ${theme.palette.borderStrong};
-          background: ${theme.palette.surfaceBase};
+          border: 0.0625rem solid ${theme.palette.outline};
+          background: ${theme.palette.backgroundPaper};
         `}
 `;
 
-export const Page = styled.div`
+export const Page = styled.div<{ $isSummaryView?: boolean }>`
   box-sizing: border-box;
-  max-width: 70rem;
-  margin: 0 auto;
-  padding: 1.75rem 1rem 2.75rem;
+  padding: ${({ $isSummaryView }) =>
+    $isSummaryView ? "1rem 0.375rem 6.5rem" : "0.5rem 0.75rem 2rem"};
   color: ${({ theme }) => theme.palette.textPrimary};
   font-family:
     Inter,
@@ -91,19 +89,34 @@ export const Page = styled.div`
     BlinkMacSystemFont,
     "Segoe UI",
     sans-serif;
-
-  @media (max-width: ${breakpoints.mobile}) {
-    padding: 1.25rem 0.75rem 2rem;
-  }
 `;
 
 export const MobileHeader = styled.div`
   display: grid;
   gap: 0.75rem;
   margin-bottom: 1rem;
+`;
 
-  @media (min-width: ${breakpoints.scorecardDesktop}) {
-    display: none;
+export const TopActionBar = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+`;
+
+export const IconActionButton = styled.button`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: ${({ theme }) => theme.palette.primaryMain};
+
+  svg {
+    width: 1.75rem;
+    height: 1.75rem;
   }
 `;
 
@@ -111,11 +124,7 @@ export const MobileNav = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.75rem;
-
-  @media (max-width: ${breakpoints.mobile}) {
-    gap: 0.5rem;
-  }
+  gap: 0.5rem;
 `;
 
 export const MobileButton = styled.button`
@@ -124,16 +133,16 @@ export const MobileButton = styled.button`
   border-radius: 999rem;
   background: ${({ theme }) =>
     theme.mode === "dark"
-      ? `linear-gradient(180deg, ${theme.palette.surfaceSubtle} 0%, ${theme.palette.surfaceSoft} 100%)`
-      : theme.palette.surfaceBase};
+      ? `linear-gradient(180deg, ${theme.palette.surfacePrimary} 0%, ${theme.palette.backgroundDefault} 100%)`
+      : theme.palette.backgroundPaper};
   border: ${({ theme }) =>
-    theme.mode === "dark" ? "0" : `0.0625rem solid ${theme.palette.borderStrong}`};
+    theme.mode === "dark" ? "0" : `0.0625rem solid ${theme.palette.outline}`};
   color: ${({ theme }) => theme.palette.textPrimary};
   font: inherit;
   box-shadow: ${({ theme }) =>
     theme.mode === "dark"
-      ? `0 1rem 2rem ${theme.palette.shadowStrong}, 0 0 0 0.0625rem ${theme.palette.borderSoft}`
-      : `0 0.625rem 1.375rem ${theme.palette.shadowStrong}`};
+      ? `0 1rem 2rem ${theme.palette.shadowDark}, 0 0 0 0.0625rem ${theme.palette.outlineVariant}`
+      : `0 0.625rem 1.375rem ${theme.palette.shadowDark}`};
   transition:
     transform 180ms ease,
     box-shadow 180ms ease,
@@ -159,13 +168,8 @@ export const MobileButton = styled.button`
 `;
 
 export const MobilePosition = styled.span`
-  font-size: 0.95rem;
-  font-weight: 600;
+  font-size: 0.88rem;
   color: ${({ theme }) => theme.palette.textSecondary};
-
-  @media (max-width: ${breakpoints.mobile}) {
-    font-size: 0.88rem;
-  }
 `;
 
 export const MobileList = styled.div`
@@ -181,36 +185,25 @@ export const MobileList = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
-
-  @media (min-width: ${breakpoints.scorecardDesktop}) {
-    display: none;
-  }
 `;
 
 export const HoleCard = styled.section`
   ${cardSurface};
   flex: 0 0 100%;
   box-sizing: border-box;
-  padding: 1.125rem;
+  padding: 1rem;
   scroll-snap-align: start;
   scroll-snap-stop: always;
-
-  @media (max-width: ${breakpoints.mobile}) {
-    padding: 1rem;
-    border-radius: 1rem;
-  }
+  border-radius: 1rem;
 `;
 
 export const HoleCardHeader = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
+  flex-direction: column;
   gap: 0.75rem;
   margin-bottom: 0.75rem;
-
-  @media (max-width: ${breakpoints.mobile}) {
-    flex-direction: column;
-  }
 `;
 
 export const HoleTitle = styled.h2`
@@ -220,7 +213,7 @@ export const HoleTitle = styled.h2`
 
 export const HoleMeta = styled.p`
   margin: 0;
-  color: ${({ theme }) => theme.palette.textMuted};
+  color: ${({ theme }) => theme.palette.textDisabled};
   font-size: 0.92rem;
 `;
 
@@ -230,24 +223,20 @@ export const HoleGoal = styled.p`
   border-radius: 0.875rem;
   background: ${({ theme }) =>
     theme.mode === "dark"
-      ? `linear-gradient(180deg, ${theme.palette.surfaceMuted} 0%, ${theme.palette.surfaceSoft} 100%)`
-      : theme.palette.surfaceMuted};
+      ? `linear-gradient(180deg, ${theme.palette.surfaceSecondary} 0%, ${theme.palette.backgroundDefault} 100%)`
+      : theme.palette.surfaceSecondary};
   color: ${({ theme }) => theme.palette.textSecondary};
   line-height: 1.45;
   box-shadow: ${({ theme }) =>
     theme.mode === "dark"
-      ? `inset 0 0 0 0.0625rem ${theme.palette.borderSoft}`
+      ? `inset 0 0 0 0.0625rem ${theme.palette.outlineVariant}`
       : "none"};
 `;
 
 export const HoleGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: 1fr;
   gap: 0.875rem;
-
-  @media (max-width: ${breakpoints.mobile}) {
-    grid-template-columns: 1fr;
-  }
 `;
 
 export const FieldLabel = styled.span`
@@ -255,7 +244,9 @@ export const FieldLabel = styled.span`
   margin-bottom: 0.5rem;
   font-size: 0.82rem;
   color: ${({ theme }) =>
-    theme.mode === "dark" ? theme.palette.textSecondary : theme.palette.textMuted};
+    theme.mode === "dark"
+      ? theme.palette.textSecondary
+      : theme.palette.textDisabled};
 `;
 
 export const HoleToggle = styled.label`
@@ -265,7 +256,7 @@ export const HoleToggle = styled.label`
     align-self: flex-start;
     width: 1.375rem;
     height: 1.375rem;
-    accent-color: ${({ theme }) => theme.palette.accentBase};
+    accent-color: ${({ theme }) => theme.palette.primaryMain};
   }
 `;
 
@@ -273,16 +264,48 @@ export const HoleField = styled.label`
   ${fieldCard};
 `;
 
+export const SelectFieldControl = styled.div`
+  position: relative;
+  display: inline-flex;
+  align-self: flex-start;
+`;
+
 const Select = styled.select`
   ${controlBase};
+  appearance: none;
+  padding-right: 2.25rem;
+
+  &:focus,
+  &:focus-visible {
+    outline: none;
+    ${({ theme }) =>
+      theme.mode === "dark"
+        ? css`
+            box-shadow: inset 0 0 0 0.0625rem ${theme.palette.primaryLight};
+          `
+        : css`
+            border-color: ${theme.palette.primaryMain};
+            box-shadow: inset 0 0 0 0.0625rem ${theme.palette.primaryLight};
+          `}
+  }
 `;
 
 export const CompactSelect = styled(Select)`
-  width: 6.25rem;
+  width: 4rem;
   max-width: 100%;
-  align-self: flex-start;
   padding-left: 0.875rem;
   font-variant-numeric: tabular-nums;
+`;
+
+export const SelectChevron = styled(ChevronDown)`
+  position: absolute;
+  top: 50%;
+  right: 0.75rem;
+  width: 0.9rem;
+  height: 0.9rem;
+  transform: translateY(-50%);
+  color: ${({ theme }) => theme.palette.textPrimary};
+  pointer-events: none;
 `;
 
 export const ScoreField = styled(HoleField)`
@@ -295,10 +318,6 @@ export const MobileDots = styled.div`
   gap: 0.5rem;
   justify-content: center;
   margin: 1rem 0 1.5rem;
-
-  @media (min-width: ${breakpoints.scorecardDesktop}) {
-    display: none;
-  }
 `;
 
 export const MobileDot = styled.button<{ $active: boolean }>`
@@ -308,119 +327,17 @@ export const MobileDot = styled.button<{ $active: boolean }>`
   border: 0;
   border-radius: 999rem;
   background: ${({ $active, theme }) =>
-    $active ? theme.palette.accentBase : theme.palette.accentMuted};
+    $active ? theme.palette.primaryMain : theme.palette.primaryLight};
   box-shadow: ${({ $active, theme }) =>
-    $active ? `0 0.5rem 1rem ${theme.palette.shadowAccent}` : "none"};
-`;
-
-export const TableWrapper = styled.div`
-  display: none;
-  overflow-x: auto;
-  margin-top: 0.75rem;
-  ${cardSurface};
-
-  @media (min-width: ${breakpoints.scorecardDesktop}) {
-    display: block;
-  }
-`;
-
-export const ScoreTable = styled.table`
-  width: 100%;
-  min-width: 57.5rem;
-  border-collapse: collapse;
-  font-size: 0.92rem;
-  background: ${({ theme }) =>
-    theme.mode === "dark"
-      ? `linear-gradient(180deg, ${theme.palette.surfaceSubtle} 0%, ${theme.palette.surfaceSoft} 100%)`
-      : theme.palette.surfaceBase};
-
-  th,
-  td {
-    border-bottom: 0.0625rem solid ${({ theme }) => theme.palette.borderSoft};
-    padding: 0.75rem 0.625rem;
-    text-align: center;
-    vertical-align: middle;
-  }
-
-  th {
-    background: ${({ theme }) =>
-      theme.mode === "dark" ? theme.palette.surfaceSoft : theme.palette.surfaceMuted};
-    font-weight: 700;
-    white-space: nowrap;
-  }
-
-  tfoot td {
-    font-weight: 700;
-  }
-
-  input[type="number"] {
-    ${controlBase};
-  }
-
-  input[type="checkbox"] {
-    width: 1.375rem;
-    height: 1.375rem;
-    accent-color: ${({ theme }) => theme.palette.accentBase};
-  }
-`;
-
-export const GoalCell = styled.td`
-  min-width: 11.875rem;
-  text-align: left;
-`;
-
-export const RelationLabel = styled.td`
-  text-align: right;
-`;
-
-export const Intro = styled.div`
-  margin-bottom: 1.5rem;
-  padding: 1.125rem;
-  border-radius: 1.125rem;
-  background: linear-gradient(
-    180deg,
-    ${({ theme }) => theme.palette.surfaceSubtle} 0%,
-    ${({ theme }) => theme.palette.surfaceSoft} 100%
-  );
-  box-shadow: ${({ theme }) =>
-    theme.mode === "dark"
-      ? `0 1rem 2.25rem ${theme.palette.shadowBase}, 0 0 0 0.0625rem ${theme.palette.borderSoft}`
-      : `0 0.75rem 1.875rem ${theme.palette.shadowSoft}`};
-  border: ${({ theme }) =>
-    theme.mode === "dark" ? "0" : `0.0625rem solid ${theme.palette.borderBase}`};
-
-  p {
-    margin: 0 0 0.625rem;
-    line-height: 1.55;
-  }
-
-  ul {
-    margin: 0 0 0.625rem;
-    padding-left: 1.25rem;
-    line-height: 1.55;
-  }
-
-  @media (max-width: ${breakpoints.mobile}) {
-    padding: 1rem;
-    border-radius: 1rem;
-  }
-`;
-
-export const IntroTitle = styled.strong`
-  display: block;
-  margin-bottom: 0.625rem;
-  font-size: 1rem;
+    $active ? `0 0.5rem 1rem ${theme.palette.shadowPrimary}` : "none"};
 `;
 
 export const Summary = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.75rem;
   margin-bottom: 1.5rem;
-
-  @media (max-width: ${breakpoints.mobile}) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+  margin-top: 5rem;
 `;
 
 export const SummaryItem = styled.div`
@@ -428,14 +345,16 @@ export const SummaryItem = styled.div`
   border-radius: 1rem;
   background: ${({ theme }) =>
     theme.mode === "dark"
-      ? `linear-gradient(180deg, ${theme.palette.surfaceSubtle} 0%, ${theme.palette.surfaceSoft} 100%)`
-      : theme.palette.accentBase};
+      ? `linear-gradient(180deg, ${theme.palette.surfacePrimary} 0%, ${theme.palette.backgroundDefault} 100%)`
+      : theme.palette.primaryMain};
   color: ${({ theme }) =>
-    theme.mode === "dark" ? theme.palette.textPrimary : theme.palette.surfaceBase};
+    theme.mode === "dark"
+      ? theme.palette.textPrimary
+      : theme.palette.backgroundPaper};
   box-shadow: ${({ theme }) =>
     theme.mode === "dark"
-      ? `0 1rem 2rem ${theme.palette.shadowBase}, 0 0 0 0.0625rem ${theme.palette.borderSoft}`
-      : `0 0.75rem 1.25rem ${theme.palette.shadowAccent}`};
+      ? `0 1rem 2rem ${theme.palette.shadowMedium}, 0 0 0 0.0625rem ${theme.palette.outlineVariant}`
+      : `0 0.75rem 1.25rem ${theme.palette.shadowPrimary}`};
 
   strong {
     font-size: 1.2rem;
@@ -449,5 +368,138 @@ export const SummaryLabel = styled.span`
   letter-spacing: 0.02em;
   opacity: ${({ theme }) => (theme.mode === "dark" ? 1 : 0.82)};
   color: ${({ theme }) =>
-    theme.mode === "dark" ? theme.palette.accentBase : "inherit"};
+    theme.mode === "dark" ? theme.palette.primaryMain : "inherit"};
+`;
+
+export const OverviewCard = styled.section`
+  ${cardSurface};
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0.875rem 0.625rem;
+  overflow: hidden;
+  border-radius: 1rem;
+`;
+
+export const OverviewTableWrap = styled.div`
+  overflow: visible;
+`;
+
+export const OverviewTable = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-variant-numeric: tabular-nums;
+
+  th,
+  td {
+    padding: 0.8rem 0.3rem;
+    border-bottom: 0.0625rem solid
+      ${({ theme }) => theme.palette.outlineVariant};
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  th {
+    font-size: 0.78rem;
+
+    color: ${({ theme }) => theme.palette.textDisabled};
+    white-space: nowrap;
+  }
+
+  tbody tr:last-child td {
+    border-bottom-color: ${({ theme }) => theme.palette.divider};
+  }
+
+  tfoot td {
+    padding-top: 0.9rem;
+
+    border-bottom: 0;
+  }
+
+  th,
+  td {
+    padding: 0.7rem 0.15rem;
+  }
+
+  th {
+    font-size: 0.68rem;
+    letter-spacing: 0.01em;
+  }
+`;
+
+export const OverviewCell = styled.td`
+  font-size: 0.95rem;
+
+  color: ${({ theme }) => theme.palette.textPrimary};
+`;
+
+export const OverviewHoleCell = styled(OverviewCell)`
+  border-right: 0.0625rem solid ${({ theme }) => theme.palette.outlineVariant};
+`;
+
+export const OverviewFooterLabel = styled.td`
+  font-size: 0.95rem;
+
+  text-align: left;
+  color: ${({ theme }) => theme.palette.textPrimary};
+`;
+
+export const OverviewHoleBadge = styled.span`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.4rem;
+  min-height: 1.4rem;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  color: ${({ theme }) => theme.palette.textPrimary};
+  font-size: 0.95rem;
+
+  box-shadow: none;
+`;
+
+export const OverviewScore = styled(OverviewCell)`
+  font-size: 0.95rem;
+`;
+
+export const OverviewIconCell = styled(OverviewCell)<{
+  $tone: "success" | "danger";
+}>`
+  svg {
+    width: 1.2rem;
+    height: 1.2rem;
+    color: ${({ $tone, theme }) =>
+      $tone === "success"
+        ? theme.mode === "dark"
+          ? "#52d273"
+          : "#1f9d55"
+        : theme.mode === "dark"
+          ? "#ff7b72"
+          : "#d93025"};
+  }
+`;
+
+export const OverviewEmpty = styled.p`
+  margin: 0;
+  color: ${({ theme }) => theme.palette.textSecondary};
+`;
+
+export const OverviewCloseButton = styled.button`
+  position: fixed;
+  left: 50%;
+  bottom: max(0.75rem, env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  width: calc(100vw - 0.75rem);
+  min-height: 3rem;
+  padding: 0.875rem 1rem;
+  border: 0;
+  border-radius: 999rem;
+  background: ${({ theme }) => theme.palette.primaryMain};
+  color: ${({ theme }) => theme.palette.backgroundPaper};
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  box-shadow: ${({ theme }) => `0 1rem 2rem ${theme.palette.shadowPrimary}`};
+  z-index: 10;
 `;

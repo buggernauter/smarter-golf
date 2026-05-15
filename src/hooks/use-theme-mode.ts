@@ -31,7 +31,7 @@ export const useThemeMode = () => {
   }, [themeMode]);
 
   const toggleTheme = () => {
-    setThemeMode((prev) => (prev === "light" ? "dark" : "light"));
+    setThemeMode((prev) => (prev === "dark" ? "light" : "dark"));
   };
 
   const theme: AppTheme = themeMode === "dark" ? darkTheme : appTheme;
