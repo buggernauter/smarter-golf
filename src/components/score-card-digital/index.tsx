@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { useScoreCard } from "../../hooks/use-score-card";
 import { HoleCards } from "./mobile-hole-cards";
@@ -15,6 +15,7 @@ export const ScoreCardDigital = () => {
   const [showSummarize, setShowSummarize] = useState(false);
   const mobileListRef = useRef<HTMLDivElement | null>(null);
   const cardRefs = useRef<Array<HTMLElement | null>>([]);
+  const previousShowSummarizeRef = useRef(false);
 
   const {
     holes,
@@ -27,21 +28,44 @@ export const ScoreCardDigital = () => {
     handleHoleStatChange,
   } = useScoreCard();
 
+  const scrollCardIntoView = useCallback(
+    (index: number, behavior: ScrollBehavior = "smooth") => {
+      const nextIndex = Math.max(0, Math.min(index, holes.length - 1));
+      const card = cardRefs.current[nextIndex];
+      if (!card) {
+        return;
+      }
+      card.scrollIntoView({
+        behavior,
+        inline: "start",
+        block: "nearest",
+      });
+    },
+    [holes.length],
+  );
+
   const scrollToHole = (index: number) => {
     const nextIndex = Math.max(0, Math.min(index, holes.length - 1));
-    const card = cardRefs.current[nextIndex];
+    scrollCardIntoView(nextIndex);
+    setActiveHoleIndex(nextIndex);
+  };
 
-    if (!card) {
+  useEffect(() => {
+    const shouldRestoreHolePosition =
+      previousShowSummarizeRef.current && !showSummarize;
+
+    previousShowSummarizeRef.current = showSummarize;
+
+    if (!shouldRestoreHolePosition) {
       return;
     }
 
-    card.scrollIntoView({
-      behavior: "smooth",
-      inline: "start",
-      block: "nearest",
+    const frameId = window.requestAnimationFrame(() => {
+      scrollCardIntoView(activeHoleIndex, "auto");
     });
-    setActiveHoleIndex(nextIndex);
-  };
+
+    return () => window.cancelAnimationFrame(frameId);
+  }, [activeHoleIndex, showSummarize, holes.length, scrollCardIntoView]);
 
   const handleMobileScroll = () => {
     const container = mobileListRef.current;
