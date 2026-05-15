@@ -71,7 +71,7 @@ export const SummarizedCard = ({ holes, onClose }: Props) => {
               <tr>
                 <th>Hål</th>
                 <th>Par</th>
-                <th>Score</th>
+                <th>Slag</th>
                 <th>SZ</th>
                 <th>D3</th>
                 <th>Straff</th>

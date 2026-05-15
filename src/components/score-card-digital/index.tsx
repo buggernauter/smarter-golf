@@ -16,6 +16,8 @@ export const ScoreCardDigital = () => {
   const mobileListRef = useRef<HTMLDivElement | null>(null);
   const cardRefs = useRef<Array<HTMLElement | null>>([]);
   const previousShowSummarizeRef = useRef(false);
+  const summaryOriginHoleIndexRef = useRef(0);
+  const isRestoringHolePositionRef = useRef(false);
 
   const {
     holes,
@@ -50,6 +52,15 @@ export const ScoreCardDigital = () => {
     setActiveHoleIndex(nextIndex);
   };
 
+  const openSummary = () => {
+    summaryOriginHoleIndexRef.current = activeHoleIndex;
+    setShowSummarize(true);
+  };
+
+  const closeSummary = () => {
+    setShowSummarize(false);
+  };
+
   useEffect(() => {
     const shouldRestoreHolePosition =
       previousShowSummarizeRef.current && !showSummarize;
@@ -60,17 +71,29 @@ export const ScoreCardDigital = () => {
       return;
     }
 
+    const holeIndexToRestore = summaryOriginHoleIndexRef.current;
+    isRestoringHolePositionRef.current = true;
+    setActiveHoleIndex(holeIndexToRestore);
+
     const frameId = window.requestAnimationFrame(() => {
-      scrollCardIntoView(activeHoleIndex, "auto");
+      scrollCardIntoView(holeIndexToRestore, "auto");
     });
 
-    return () => window.cancelAnimationFrame(frameId);
-  }, [activeHoleIndex, showSummarize, holes.length, scrollCardIntoView]);
+    const timeoutId = window.setTimeout(() => {
+      isRestoringHolePositionRef.current = false;
+    }, 150);
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+      window.clearTimeout(timeoutId);
+      isRestoringHolePositionRef.current = false;
+    };
+  }, [showSummarize, scrollCardIntoView]);
 
   const handleMobileScroll = () => {
     const container = mobileListRef.current;
 
-    if (!container) {
+    if (!container || isRestoringHolePositionRef.current) {
       return;
     }
 
@@ -118,14 +141,14 @@ export const ScoreCardDigital = () => {
           <IconActionButton
             type="button"
             aria-label="Öppna score card"
-            onClick={() => setShowSummarize(true)}
+            onClick={openSummary}
           >
             <ClipboardList aria-hidden="true" />
           </IconActionButton>
         </TopActionBar>
       )}
       {showSummarize ? (
-        <SummarizedCard holes={holes} onClose={() => setShowSummarize(false)} />
+        <SummarizedCard holes={holes} onClose={closeSummary} />
       ) : (
         <>
           <CardNavigator
