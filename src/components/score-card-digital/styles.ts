@@ -1,7 +1,7 @@
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Trash2 } from "lucide-react";
 import styled, { css } from "styled-components";
 
-const cardSurface = css`
+const StyledCardSurface = css`
   border-radius: 1.25rem;
   ${({ theme }) =>
     theme.mode === "dark"
@@ -24,7 +24,7 @@ const cardSurface = css`
         `}
 `;
 
-const fieldCard = css`
+const StyledFieldSurface = css`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -49,7 +49,7 @@ const fieldCard = css`
         `}
 `;
 
-const controlBase = css`
+const StyledControlBase = css`
   min-height: 2.75rem;
   box-sizing: border-box;
   border-radius: 0.75rem;
@@ -76,7 +76,7 @@ const controlBase = css`
         `}
 `;
 
-export const Page = styled.div<{ $isSummaryView?: boolean }>`
+export const StyledPage = styled.div<{ $isSummaryView?: boolean }>`
   box-sizing: border-box;
   padding: ${({ $isSummaryView }) =>
     $isSummaryView ? "1rem 0.375rem 6.5rem" : "0.5rem 0.75rem 2rem"};
@@ -91,19 +91,19 @@ export const Page = styled.div<{ $isSummaryView?: boolean }>`
     sans-serif;
 `;
 
-export const MobileHeader = styled.div`
+export const StyledHeader = styled.div`
   display: grid;
   gap: 0.75rem;
   margin-bottom: 1rem;
 `;
 
-export const TopActionBar = styled.div`
+export const StyledActionBar = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-bottom: 1rem;
 `;
 
-export const IconActionButton = styled.button`
+export const StyledIconButton = styled.button`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -120,14 +120,14 @@ export const IconActionButton = styled.button`
   }
 `;
 
-export const MobileNav = styled.div`
+export const StyledNavigation = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem;
 `;
 
-export const MobileButton = styled.button`
+export const StyledNavigationButton = styled.button`
   width: 2.75rem;
   height: 2.75rem;
   border-radius: 999rem;
@@ -167,12 +167,13 @@ export const MobileButton = styled.button`
   }
 `;
 
-export const MobilePosition = styled.span`
-  font-size: 0.88rem;
+export const StyledHeaderTitle = styled.span`
+  font-size: 1.5rem;
+  font-weight: 700;
   color: ${({ theme }) => theme.palette.textSecondary};
 `;
 
-export const MobileList = styled.div`
+export const StyledCarouselList = styled.div`
   display: flex;
   gap: 0.875rem;
   overflow-x: auto;
@@ -187,8 +188,8 @@ export const MobileList = styled.div`
   }
 `;
 
-export const HoleCard = styled.section`
-  ${cardSurface};
+export const StyledCardWrapper = styled.section`
+  ${StyledCardSurface};
   flex: 0 0 100%;
   box-sizing: border-box;
   padding: 1rem;
@@ -197,7 +198,7 @@ export const HoleCard = styled.section`
   border-radius: 1rem;
 `;
 
-export const HoleCardHeader = styled.div`
+export const StyledCardHeader = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -206,18 +207,18 @@ export const HoleCardHeader = styled.div`
   margin-bottom: 0.75rem;
 `;
 
-export const HoleTitle = styled.h2`
+export const StyledCardTitle = styled.h2`
   margin: 0 0 0.25rem;
   font-size: 1.05rem;
 `;
 
-export const HoleMeta = styled.p`
+export const StyledCardMeta = styled.p`
   margin: 0;
   color: ${({ theme }) => theme.palette.textDisabled};
   font-size: 0.92rem;
 `;
 
-export const HoleGoal = styled.p`
+export const StyledCardDescription = styled.p`
   margin: 0 0 1rem;
   padding: 0.75rem 0.875rem;
   border-radius: 0.875rem;
@@ -233,45 +234,75 @@ export const HoleGoal = styled.p`
       : "none"};
 `;
 
-export const HoleGrid = styled.div`
+export const StyledGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   gap: 0.875rem;
 `;
 
-export const FieldLabel = styled.span`
+export const StyledFieldLabel = styled.span`
   display: block;
   margin-bottom: 0.5rem;
-  font-size: 0.82rem;
+  font-size: 1rem;
   color: ${({ theme }) =>
     theme.mode === "dark"
       ? theme.palette.textSecondary
       : theme.palette.textDisabled};
 `;
 
-export const HoleToggle = styled.label`
-  ${fieldCard};
-
-  input[type="checkbox"] {
-    align-self: flex-start;
-    width: 1.375rem;
-    height: 1.375rem;
-    accent-color: ${({ theme }) => theme.palette.primaryMain};
-  }
+export const StyledField = styled.label`
+  ${StyledFieldSurface}
+  display: flex;
+  flex-direction: row-reverse;
+  margin-bottom: 0.5rem;
 `;
 
-export const HoleField = styled.label`
-  ${fieldCard};
+export const StyledToggleButton = styled.button<{
+  $active: boolean;
+  $tone?: "success" | "danger";
+}>`
+  ${StyledFieldSurface};
+  min-height: 3.25rem/2;
+  padding-block: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  border: 0.0625rem solid
+    ${({ $active, $tone = "success", theme }) =>
+      $active
+        ? $tone === "danger"
+          ? theme.palette.fail
+          : theme.palette.primaryMain
+        : theme.palette.outlineVariant};
+  font: inherit;
+  font-size: 1rem;
+  text-align: center;
+  color: ${({ $active, theme }) =>
+    $active ? theme.palette.backgroundPaper : theme.palette.textPrimary};
+  background: ${({ $active, $tone = "success", theme }) =>
+    $active
+      ? $tone === "danger"
+        ? theme.palette.fail
+        : theme.palette.primaryMain
+      : theme.palette.surfaceSecondary};
+  box-shadow: ${({ $active, $tone = "success", theme }) =>
+    $active
+      ? `0 0.75rem 1.5rem ${
+          $tone === "danger"
+            ? theme.palette.shadowDark
+            : theme.palette.shadowPrimary
+        }`
+      : "none"};
 `;
 
-export const SelectFieldControl = styled.div`
+export const StyledSelectControl = styled.div`
   position: relative;
   display: inline-flex;
   align-self: flex-start;
 `;
 
-const Select = styled.select`
-  ${controlBase};
+const StyledSelect = styled.select`
+  ${StyledControlBase};
   appearance: none;
   padding-right: 2.25rem;
 
@@ -290,14 +321,16 @@ const Select = styled.select`
   }
 `;
 
-export const CompactSelect = styled(Select)`
-  width: 4rem;
+export const StyledCompactSelect = styled(StyledSelect)`
+  width: 4.3rem;
   max-width: 100%;
   padding-left: 0.875rem;
+  font-size: 1.125rem;
+
   font-variant-numeric: tabular-nums;
 `;
 
-export const SelectChevron = styled(ChevronDown)`
+export const StyledSelectIcon = styled(ChevronDown)`
   position: absolute;
   top: 50%;
   right: 0.75rem;
@@ -308,11 +341,11 @@ export const SelectChevron = styled(ChevronDown)`
   pointer-events: none;
 `;
 
-export const ScoreField = styled(HoleField)`
+export const StyledSpacedField = styled(StyledField)`
   margin-top: 1rem;
 `;
 
-export const MobileDots = styled.div`
+export const StyledPagination = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
@@ -320,7 +353,7 @@ export const MobileDots = styled.div`
   margin: 1rem 0 1.5rem;
 `;
 
-export const MobileDot = styled.button<{ $active: boolean }>`
+export const StyledPaginationDot = styled.button<{ $active: boolean }>`
   width: ${({ $active }) => ($active ? "1.625rem" : "0.625rem")};
   height: 0.625rem;
   padding: 0;
@@ -332,7 +365,7 @@ export const MobileDot = styled.button<{ $active: boolean }>`
     $active ? `0 0.5rem 1rem ${theme.palette.shadowPrimary}` : "none"};
 `;
 
-export const Summary = styled.div`
+export const StyledSummaryGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.75rem;
@@ -340,7 +373,7 @@ export const Summary = styled.div`
   margin-top: 5rem;
 `;
 
-export const SummaryItem = styled.div`
+export const StyledSummaryCard = styled.div`
   padding: 0.75rem 0.875rem;
   border-radius: 1rem;
   background: ${({ theme }) =>
@@ -361,7 +394,7 @@ export const SummaryItem = styled.div`
   }
 `;
 
-export const SummaryLabel = styled.span`
+export const StyledSummaryLabel = styled.span`
   display: block;
   margin-bottom: 0.25rem;
   font-size: 0.78rem;
@@ -371,8 +404,8 @@ export const SummaryLabel = styled.span`
     theme.mode === "dark" ? theme.palette.primaryMain : "inherit"};
 `;
 
-export const OverviewCard = styled.section`
-  ${cardSurface};
+export const StyledTableCard = styled.section`
+  ${StyledCardSurface};
   box-sizing: border-box;
   width: 100%;
   padding: 0.875rem 0.625rem;
@@ -380,11 +413,11 @@ export const OverviewCard = styled.section`
   border-radius: 1rem;
 `;
 
-export const OverviewTableWrap = styled.div`
+export const StyledTableWrapper = styled.div`
   overflow: visible;
 `;
 
-export const OverviewTable = styled.table`
+export const StyledTable = styled.table`
   width: 100%;
   border-collapse: collapse;
   table-layout: fixed;
@@ -427,24 +460,24 @@ export const OverviewTable = styled.table`
   }
 `;
 
-export const OverviewCell = styled.td`
+export const StyledTableCell = styled.td`
   font-size: 0.95rem;
 
   color: ${({ theme }) => theme.palette.textPrimary};
 `;
 
-export const OverviewHoleCell = styled(OverviewCell)`
+export const StyledTableCellPrimary = styled(StyledTableCell)`
   border-right: 0.0625rem solid ${({ theme }) => theme.palette.outlineVariant};
 `;
 
-export const OverviewFooterLabel = styled.td`
+export const StyledTableFooterCell = styled.td`
   font-size: 0.95rem;
 
   text-align: left;
   color: ${({ theme }) => theme.palette.textPrimary};
 `;
 
-export const OverviewHoleBadge = styled.span`
+export const StyledBadge = styled.span`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -459,33 +492,27 @@ export const OverviewHoleBadge = styled.span`
   box-shadow: none;
 `;
 
-export const OverviewScore = styled(OverviewCell)`
+export const StyledTableValue = styled(StyledTableCell)`
   font-size: 0.95rem;
 `;
 
-export const OverviewIconCell = styled(OverviewCell)<{
+export const StyledTableStatusCell = styled(StyledTableCell)<{
   $tone: "success" | "danger";
 }>`
   svg {
     width: 1.2rem;
     height: 1.2rem;
     color: ${({ $tone, theme }) =>
-      $tone === "success"
-        ? theme.mode === "dark"
-          ? "#52d273"
-          : "#1f9d55"
-        : theme.mode === "dark"
-          ? "#ff7b72"
-          : "#d93025"};
+      $tone === "success" ? theme.palette.primaryMain : theme.palette.fail};
   }
 `;
 
-export const OverviewEmpty = styled.p`
+export const StyledEmptyText = styled.p`
   margin: 0;
   color: ${({ theme }) => theme.palette.textSecondary};
 `;
 
-export const OverviewCloseButton = styled.button`
+export const StyledCloseButton = styled.button`
   position: fixed;
   left: 50%;
   bottom: max(0.75rem, env(safe-area-inset-bottom));
@@ -502,4 +529,10 @@ export const OverviewCloseButton = styled.button`
   font-weight: 700;
   box-shadow: ${({ theme }) => `0 1rem 2rem ${theme.palette.shadowPrimary}`};
   z-index: 10;
+`;
+
+export const StyledTrashIcon = styled(Trash2)`
+  color: ${({ theme }) => theme.palette.fail};
+  display: block;
+  margin-left: auto;
 `;

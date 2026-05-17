@@ -18,6 +18,11 @@ export type UpdateCheckBoxValue = (
   field: BooleanHoleField,
 ) => (event: React.ChangeEvent<HTMLInputElement>) => void;
 
+export type ToggleHoleBooleanField = (
+  index: number,
+  field: BooleanHoleField,
+) => () => void;
+
 export type UpdateHoleNumericField = (
   index: number,
   field: NumericHoleField,

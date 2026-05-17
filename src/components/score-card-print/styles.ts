@@ -11,7 +11,7 @@ const paperTextMuted = "#655b51";
 const paperBorderSoft = "#ece4d9";
 const printLine = "#8d8d8d";
 
-const infoCard = css`
+const StyledInfoCardSurface = css`
   padding: 0.75rem 0.875rem;
   border: 0.0625rem solid #ddd5c9;
   border-radius: 1.125rem;
@@ -28,7 +28,18 @@ const infoCard = css`
   }
 `;
 
-export const PrintGlobalStyles = createGlobalStyle`
+const StyledInputBoxBase = css`
+  display: inline-block;
+  border: 0.1125rem solid #dddddd;
+  background: #fff;
+
+  @media print {
+    border-width: 0.0625rem;
+    border-color: ${printLine};
+  }
+`;
+
+export const StyledPrintGlobalStyle = createGlobalStyle`
   @media print {
     @page {
       size: A4 landscape;
@@ -53,7 +64,7 @@ export const PrintGlobalStyles = createGlobalStyle`
   }
 `;
 
-export const Page = styled.div`
+export const StyledPage = styled.div`
   min-height: 100vh;
   padding: 1.5rem;
   background: linear-gradient(135deg, #ebe7de 0%, #f5f2ea 45%, #ddd6c8 100%);
@@ -78,7 +89,7 @@ export const Page = styled.div`
   }
 `;
 
-export const Toolbar = styled.div`
+export const StyledToolbar = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -92,7 +103,7 @@ export const Toolbar = styled.div`
   }
 `;
 
-export const PrintButton = styled.button`
+export const StyledActionButton = styled.button`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -115,7 +126,7 @@ export const PrintButton = styled.button`
   }
 `;
 
-export const Sheet = styled.main`
+export const StyledSheet = styled.main`
   box-sizing: border-box;
   max-width: 70rem;
   margin: 0 auto;
@@ -142,7 +153,7 @@ export const Sheet = styled.main`
   }
 `;
 
-export const SheetGrid = styled.section`
+export const StyledGrid = styled.section`
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.875rem;
@@ -158,7 +169,7 @@ export const SheetGrid = styled.section`
   }
 `;
 
-export const NineCard = styled.section`
+export const StyledCard = styled.section`
   overflow: hidden;
   border: 0.0625rem solid ${paperBorder};
   border-radius: 1.5rem;
@@ -176,7 +187,7 @@ export const NineCard = styled.section`
   }
 `;
 
-export const NineCardHeader = styled.div`
+export const StyledCardHeader = styled.div`
   display: flex;
   align-items: baseline;
   justify-content: space-between;
@@ -192,7 +203,7 @@ export const NineCardHeader = styled.div`
   }
 `;
 
-export const NineCardTitle = styled.h3`
+export const StyledCardTitle = styled.h3`
   margin: 0;
   font-size: 1.1rem;
 
@@ -201,7 +212,7 @@ export const NineCardTitle = styled.h3`
   }
 `;
 
-export const NineCardPar = styled.p`
+export const StyledCardMeta = styled.p`
   margin: 0;
   color: ${paperTextMuted};
   font-size: 0.9rem;
@@ -213,7 +224,7 @@ export const NineCardPar = styled.p`
   }
 `;
 
-export const PrintTable = styled.table`
+export const StyledTable = styled.table`
   width: 100%;
   border-collapse: collapse;
   table-layout: fixed;
@@ -345,37 +356,29 @@ export const PrintTable = styled.table`
   }
 `;
 
-export const CellCheckBox = styled.span`
-  display: inline-block;
+export const StyledCheckboxBox = styled.span`
+  ${StyledInputBoxBase};
   width: 1.375rem;
   height: 1.125rem;
-  border: 0.1125rem solid #dddddd;
-  background: #fff;
 
   @media print {
     width: 2.6mm;
     height: 3mm;
-    border-width: 0.0625rem;
-    border-color: ${printLine};
   }
 `;
 
-export const CellWriteBox = styled.span`
-  display: inline-block;
+export const StyledInputBox = styled.span`
+  ${StyledInputBoxBase};
   width: 2.875rem;
   height: 1.25rem;
-  border: 0.1125rem solid #dddddd;
-  background: #fff;
 
   @media print {
     width: 5.4mm;
     height: 3.8mm;
-    border-width: 0.0625rem;
-    border-color: ${printLine};
   }
 `;
 
-export const SheetLower = styled.div`
+export const StyledSectionGroup = styled.div`
   display: grid;
   gap: 0.75rem;
 
@@ -391,7 +394,7 @@ export const SheetLower = styled.div`
   }
 `;
 
-export const SheetSummary = styled.section`
+export const StyledSummary = styled.section`
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 0.625rem;
@@ -408,8 +411,8 @@ export const SheetSummary = styled.section`
   }
 `;
 
-export const SummaryField = styled.div`
-  ${infoCard};
+export const StyledSummaryField = styled.div`
+  ${StyledInfoCardSurface};
   padding: 0.625rem 0.75rem;
 
   span {
@@ -437,21 +440,18 @@ export const SummaryField = styled.div`
   }
 `;
 
-export const SummaryWriteBox = styled.div`
+export const StyledSummaryInput = styled.div`
+  ${StyledInputBoxBase};
   width: 100%;
   height: 1.625rem;
-  border: 0.1125rem solid #dddddd;
   border-radius: 0.5rem;
-  background: #fff;
 
   @media print {
     height: 7mm;
-    border-width: 0.0625rem;
-    border-color: ${printLine};
   }
 `;
 
-export const SheetHelp = styled.section`
+export const StyledAsideGrid = styled.section`
   display: grid;
   grid-template-columns: 1.2fr 1fr;
   gap: 0.875rem;
@@ -468,8 +468,8 @@ export const SheetHelp = styled.section`
   }
 `;
 
-export const HelpBlock = styled.div`
-  ${infoCard};
+export const StyledInfoCard = styled.div`
+  ${StyledInfoCardSurface};
   padding: 0.875rem 1rem;
   background: ${paperMuted};
 

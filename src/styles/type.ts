@@ -30,4 +30,5 @@ export type Palette = {
   shadowDark: string;
 
   shadowPrimary: string;
+  fail: string;
 };

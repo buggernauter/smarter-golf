@@ -17,6 +17,7 @@ export const lightPalette: Palette = {
   shadowMedium: "rgba(21, 32, 43, 0.07)",
   shadowDark: "rgba(21, 32, 43, 0.08)",
   shadowPrimary: "rgba(15, 118, 110, 0.2)",
+  fail: "#ff7b72",
 };
 
 export const darkPalette: Palette = {
@@ -36,6 +37,7 @@ export const darkPalette: Palette = {
   shadowMedium: "rgba(0, 0, 0, 0.42)",
   shadowDark: "rgba(0, 0, 0, 0.56)",
   shadowPrimary: "rgba(29, 185, 84, 0.22)",
+  fail: "#d93025",
 };
 
 export type AppTheme = {

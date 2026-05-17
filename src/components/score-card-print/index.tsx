@@ -1,24 +1,24 @@
 import { holeData } from "../../api/chgk";
 import {
-  CellCheckBox,
-  CellWriteBox,
-  HelpBlock,
-  NineCard,
-  NineCardHeader,
-  NineCardPar,
-  NineCardTitle,
-  Page,
-  PrintButton,
-  PrintGlobalStyles,
-  PrintTable,
-  Sheet,
-  SheetGrid,
-  SheetHelp,
-  SheetLower,
-  SheetSummary,
-  SummaryField,
-  SummaryWriteBox,
-  Toolbar,
+  StyledActionButton,
+  StyledAsideGrid,
+  StyledCard,
+  StyledCardHeader,
+  StyledCardMeta,
+  StyledCardTitle,
+  StyledCheckboxBox,
+  StyledGrid,
+  StyledInfoCard,
+  StyledInputBox,
+  StyledPage,
+  StyledPrintGlobalStyle,
+  StyledSectionGroup,
+  StyledSheet,
+  StyledSummary,
+  StyledSummaryField,
+  StyledSummaryInput,
+  StyledTable,
+  StyledToolbar,
 } from "./styles";
 
 type Hole = {
@@ -46,10 +46,10 @@ const sections = [
 export default function ScoreCardPrint() {
   return (
     <>
-      <PrintGlobalStyles />
-      <Page>
-        <Toolbar className="no-print">
-          <PrintButton
+      <StyledPrintGlobalStyle />
+      <StyledPage>
+        <StyledToolbar className="no-print">
+          <StyledActionButton
             type="button"
             aria-label="Skriv ut"
             onClick={() => window.print()}
@@ -58,18 +58,18 @@ export default function ScoreCardPrint() {
               <path d="M7 3h10v4H7V3Zm10 14H7v4h10v-4Z" />
               <path d="M6 8h12a3 3 0 0 1 3 3v5h-3v-3H6v3H3v-5a3 3 0 0 1 3-3Zm2 7h8v2H8v-2Z" />
             </svg>
-          </PrintButton>
-        </Toolbar>
-        <Sheet aria-label="Scorekort för utskrift">
-          <SheetGrid>
+          </StyledActionButton>
+        </StyledToolbar>
+        <StyledSheet aria-label="Scorekort för utskrift">
+          <StyledGrid>
             {sections.map((section) => (
-              <NineCard key={section.title}>
-                <NineCardHeader>
-                  <NineCardTitle>{section.title}</NineCardTitle>
-                  <NineCardPar>Par {section.parTotal}</NineCardPar>
-                </NineCardHeader>
+              <StyledCard key={section.title}>
+                <StyledCardHeader>
+                  <StyledCardTitle>{section.title}</StyledCardTitle>
+                  <StyledCardMeta>Par {section.parTotal}</StyledCardMeta>
+                </StyledCardHeader>
 
-                <PrintTable>
+                <StyledTable>
                   <thead>
                     <tr>
                       <th>Hål</th>
@@ -89,75 +89,75 @@ export default function ScoreCardPrint() {
                         <td>{hole.par}</td>
 
                         <td>
-                          <CellCheckBox aria-hidden="true" />
+                          <StyledCheckboxBox aria-hidden="true" />
                         </td>
                         <td>
-                          <CellCheckBox aria-hidden="true" />
+                          <StyledCheckboxBox aria-hidden="true" />
                         </td>
                         <td>
-                          <CellWriteBox aria-hidden="true" />
+                          <StyledInputBox aria-hidden="true" />
                         </td>
                         <td>
-                          <CellWriteBox aria-hidden="true" />
+                          <StyledInputBox aria-hidden="true" />
                         </td>
                         <td>
-                          <CellCheckBox aria-hidden="true" />
+                          <StyledCheckboxBox aria-hidden="true" />
                         </td>
                         <td>
-                          <CellWriteBox aria-hidden="true" />
+                          <StyledInputBox aria-hidden="true" />
                         </td>
                       </tr>
                     ))}
                   </tbody>
-                </PrintTable>
-              </NineCard>
+                </StyledTable>
+              </StyledCard>
             ))}
-          </SheetGrid>
+          </StyledGrid>
 
-          <SheetLower>
-            <SheetSummary aria-label="Summering">
-              <SummaryField>
+          <StyledSectionGroup>
+            <StyledSummary aria-label="Summering">
+              <StyledSummaryField>
                 <span>Ut</span>
                 <strong>{frontPar}</strong>
-                <SummaryWriteBox />
-              </SummaryField>
-              <SummaryField>
+                <StyledSummaryInput />
+              </StyledSummaryField>
+              <StyledSummaryField>
                 <span>In</span>
                 <strong>{backPar}</strong>
-                <SummaryWriteBox />
-              </SummaryField>
-              <SummaryField>
+                <StyledSummaryInput />
+              </StyledSummaryField>
+              <StyledSummaryField>
                 <span>Total</span>
                 <strong>{totalPar}</strong>
-                <SummaryWriteBox />
-              </SummaryField>
-              <SummaryField>
+                <StyledSummaryInput />
+              </StyledSummaryField>
+              <StyledSummaryField>
                 <span>Till par</span>
                 <strong>&nbsp;</strong>
-                <SummaryWriteBox />
-              </SummaryField>
-            </SheetSummary>
+                <StyledSummaryInput />
+              </StyledSummaryField>
+            </StyledSummary>
 
-            <SheetHelp aria-label="Förklaring">
-              <HelpBlock>
+            <StyledAsideGrid aria-label="Förklaring">
+              <StyledInfoCard>
                 <h3>Scoringmål</h3>
                 <ul>
                   <li>Par 3: putt/chip kring green.</li>
                   <li>Par 4: cirka 90 m kvar efter 2 slag.</li>
                   <li>Par 5: cirka 90 m kvar efter 3 slag.</li>
                 </ul>
-              </HelpBlock>
-              <HelpBlock>
+              </StyledInfoCard>
+              <StyledInfoCard>
                 <h3>Förklaring</h3>
                 <p>
                   <strong>Down in 3:</strong> Att du får bollen i hål på tre
                   slag från scoringzonen.
                 </p>
-              </HelpBlock>
-            </SheetHelp>
-          </SheetLower>
-        </Sheet>
-      </Page>
+              </StyledInfoCard>
+            </StyledAsideGrid>
+          </StyledSectionGroup>
+        </StyledSheet>
+      </StyledPage>
     </>
   );
 }

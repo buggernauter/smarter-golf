@@ -1,10 +1,10 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import {
-  MobileButton,
-  MobileHeader,
-  MobileNav,
-  MobilePosition,
+  StyledHeader,
+  StyledNavigation,
+  StyledNavigationButton,
+  StyledHeaderTitle,
 } from "./styles";
 
 type MobileScoreCardNavProps = {
@@ -18,25 +18,25 @@ export const CardNavigator = ({
   totalHoles,
   onScrollToHole,
 }: MobileScoreCardNavProps) => (
-  <MobileHeader>
-    <MobileNav aria-label="Navigera mellan hål">
-      <MobileButton
+  <StyledHeader>
+    <StyledNavigation aria-label="Navigera mellan hål">
+      <StyledNavigationButton
         type="button"
         onClick={() => onScrollToHole(activeHoleIndex - 1)}
         disabled={activeHoleIndex === 0}
         aria-label="Föregående hål"
       >
         <ChevronLeft aria-hidden="true" />
-      </MobileButton>
-      <MobilePosition>Hål {activeHoleIndex + 1}</MobilePosition>
-      <MobileButton
+      </StyledNavigationButton>
+      <StyledHeaderTitle>Hål {activeHoleIndex + 1}</StyledHeaderTitle>
+      <StyledNavigationButton
         type="button"
         onClick={() => onScrollToHole(activeHoleIndex + 1)}
         disabled={activeHoleIndex === totalHoles - 1}
         aria-label="Nästa hål"
       >
         <ChevronRight aria-hidden="true" />
-      </MobileButton>
-    </MobileNav>
-  </MobileHeader>
+      </StyledNavigationButton>
+    </StyledNavigation>
+  </StyledHeader>
 );

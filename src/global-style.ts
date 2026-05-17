@@ -1,6 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 
-export const GlobalStyle = createGlobalStyle`
+export const StyledGlobalStyle = createGlobalStyle`
   :root {
     color-scheme: ${({ theme }) => theme.mode};
   }

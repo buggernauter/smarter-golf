@@ -1,16 +1,20 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { useScoreCard } from "../../hooks/use-score-card";
-import { HoleCards } from "./mobile-hole-cards";
+import { HoleCardCarousel } from "./Hole-card-carousel";
 import { CardNavigator } from "./mobile-score-card-nav";
 
+import {
+  StyledActionBar,
+  StyledIconButton,
+  StyledPage,
+  StyledTrashIcon,
+} from "./styles";
+import { ClipboardList } from "lucide-react";
+import { RoundOverview } from "./round-overview";
 import { ScoreCardSummary } from "./score-card-summary";
 
-import { IconActionButton, Page, TopActionBar } from "./styles";
-import { ClipboardList } from "lucide-react";
-import { SummarizedCard } from "./summarized-card";
-
-export const ScoreCardDigital = () => {
+export const ScoreTrackerPage = () => {
   const [activeHoleIndex, setActiveHoleIndex] = useState(0);
   const [showSummarize, setShowSummarize] = useState(false);
   const mobileListRef = useRef<HTMLDivElement | null>(null);
@@ -26,10 +30,10 @@ export const ScoreCardDigital = () => {
     totalDownIn3,
     totalThreePutt,
     totalScoringZone,
-    updateCheckBoxValue,
+    resetScoreCard,
+    toggleBooleanField,
     handleHoleStatChange,
   } = useScoreCard();
-
   const scrollCardIntoView = useCallback(
     (index: number, behavior: ScrollBehavior = "smooth") => {
       const nextIndex = Math.max(0, Math.min(index, holes.length - 1));
@@ -134,21 +138,31 @@ export const ScoreCardDigital = () => {
     relationLabel = `+${relationToPar}`;
   }
 
+  const resetValues = () => {
+    setShowSummarize(false);
+    setActiveHoleIndex(0);
+    summaryOriginHoleIndexRef.current = 0;
+    previousShowSummarizeRef.current = false;
+    isRestoringHolePositionRef.current = false;
+    cardRefs.current = [];
+    resetScoreCard();
+  };
+
   return (
-    <Page $isSummaryView={showSummarize}>
+    <StyledPage $isSummaryView={showSummarize}>
       {!showSummarize && (
-        <TopActionBar>
-          <IconActionButton
+        <StyledActionBar>
+          <StyledIconButton
             type="button"
             aria-label="Öppna score card"
             onClick={openSummary}
           >
             <ClipboardList aria-hidden="true" />
-          </IconActionButton>
-        </TopActionBar>
+          </StyledIconButton>
+        </StyledActionBar>
       )}
       {showSummarize ? (
-        <SummarizedCard holes={holes} onClose={closeSummary} />
+        <ScoreCardSummary holes={holes} onClose={closeSummary} />
       ) : (
         <>
           <CardNavigator
@@ -157,18 +171,18 @@ export const ScoreCardDigital = () => {
             onScrollToHole={scrollToHole}
           />
 
-          <HoleCards
+          <HoleCardCarousel
             holes={holes}
             activeHoleIndex={activeHoleIndex}
             mobileListRef={mobileListRef}
             cardRefs={cardRefs}
             onMobileScroll={handleMobileScroll}
             onScrollToHole={scrollToHole}
-            updateCheckBoxValue={updateCheckBoxValue}
+            toggleBooleanField={toggleBooleanField}
             updateNumericField={handleHoleStatChange}
           />
 
-          <ScoreCardSummary
+          <RoundOverview
             relationLabel={relationLabel}
             totalScore={totalScore}
             totalScoringZone={totalScoringZone}
@@ -178,6 +192,9 @@ export const ScoreCardDigital = () => {
           />
         </>
       )}
-    </Page>
+      {!showSummarize ? (
+        <StyledTrashIcon aria-hidden="true" onClick={resetValues} />
+      ) : null}
+    </StyledPage>
   );
 };
