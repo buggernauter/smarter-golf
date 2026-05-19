@@ -40,13 +40,5 @@ export const useLocalStorage = () => {
     }
   }, []);
 
-  const resetStorage = () => {
-    if (typeof window === "undefined") {
-      return;
-    } else {
-      window.localStorage.clear();
-    }
-  };
-
-  return { setValue, getValue, removeValue, resetStorage };
+  return { setValue, getValue, removeValue };
 };

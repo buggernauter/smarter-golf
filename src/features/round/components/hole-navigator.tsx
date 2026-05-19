@@ -2,28 +2,32 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import {
   StyledHeader,
+  StyledHeaderTitle,
   StyledNavigation,
   StyledNavigationButton,
-  StyledHeaderTitle,
 } from "./styles";
 
-type MobileScoreCardNavProps = {
+type Props = {
   activeHoleIndex: number;
-  totalHoles: number;
-  onScrollToHole: (index: number) => void;
+  isOnFirstHole: boolean;
+  isOnLastHole: boolean;
+  onNextHole: () => void;
+  onPreviousHole: () => void;
 };
 
-export const CardNavigator = ({
+export const HoleNavigator = ({
   activeHoleIndex,
-  totalHoles,
-  onScrollToHole,
-}: MobileScoreCardNavProps) => (
+  isOnFirstHole,
+  isOnLastHole,
+  onNextHole,
+  onPreviousHole,
+}: Props) => (
   <StyledHeader>
     <StyledNavigation aria-label="Navigera mellan hål">
       <StyledNavigationButton
         type="button"
-        onClick={() => onScrollToHole(activeHoleIndex - 1)}
-        disabled={activeHoleIndex === 0}
+        onClick={onPreviousHole}
+        disabled={isOnFirstHole}
         aria-label="Föregående hål"
       >
         <ChevronLeft aria-hidden="true" />
@@ -31,8 +35,8 @@ export const CardNavigator = ({
       <StyledHeaderTitle>Hål {activeHoleIndex + 1}</StyledHeaderTitle>
       <StyledNavigationButton
         type="button"
-        onClick={() => onScrollToHole(activeHoleIndex + 1)}
-        disabled={activeHoleIndex === totalHoles - 1}
+        onClick={onNextHole}
+        disabled={isOnLastHole}
         aria-label="Nästa hål"
       >
         <ChevronRight aria-hidden="true" />

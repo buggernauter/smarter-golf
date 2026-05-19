@@ -27,7 +27,7 @@ const StyledCardSurface = css`
 const StyledFieldSurface = css`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  gap: 0.5rem;
   padding: 0.75rem;
   border-radius: 0.875rem;
   ${({ theme }) =>
@@ -53,7 +53,7 @@ const StyledControlBase = css`
   min-height: 2.75rem;
   box-sizing: border-box;
   border-radius: 0.75rem;
-  padding: 0.5rem 0rem;
+  padding: 0.5rem 0;
   font: inherit;
   text-align: left;
   color: ${({ theme }) => theme.palette.textPrimary};
@@ -76,10 +76,10 @@ const StyledControlBase = css`
         `}
 `;
 
-export const StyledPage = styled.div<{ $isSummaryView?: boolean }>`
+export const StyledPage = styled.div`
   box-sizing: border-box;
-  padding: ${({ $isSummaryView }) =>
-    $isSummaryView ? "1rem 0.375rem 6.5rem" : "0.5rem 0.75rem 2rem"};
+  min-height: 100vh;
+  padding: 0.5rem 0.75rem 2rem;
   color: ${({ theme }) => theme.palette.textPrimary};
   font-family:
     Inter,
@@ -95,29 +95,6 @@ export const StyledHeader = styled.div`
   display: grid;
   gap: 0.75rem;
   margin-bottom: 1rem;
-`;
-
-export const StyledActionBar = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 1rem;
-`;
-
-export const StyledIconButton = styled.button`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: ${({ theme }) => theme.palette.primaryMain};
-
-  svg {
-    width: 1.75rem;
-    height: 1.75rem;
-  }
 `;
 
 export const StyledNavigation = styled.div`
@@ -202,7 +179,6 @@ export const StyledCardHeader = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  flex-direction: column;
   gap: 0.75rem;
   margin-bottom: 0.75rem;
 `;
@@ -251,10 +227,7 @@ export const StyledFieldLabel = styled.span`
 `;
 
 export const StyledField = styled.label`
-  ${StyledFieldSurface}
-  display: flex;
-  flex-direction: row-reverse;
-  margin-bottom: 0.5rem;
+  ${StyledFieldSurface};
 `;
 
 export const StyledToggleButton = styled.button<{
@@ -262,8 +235,7 @@ export const StyledToggleButton = styled.button<{
   $tone?: "success" | "danger";
 }>`
   ${StyledFieldSurface};
-  min-height: 3.25rem/2;
-  padding-block: 0.5rem;
+  min-height: 3.25rem;
   align-items: center;
   justify-content: center;
   width: 100%;
@@ -322,11 +294,10 @@ const StyledSelect = styled.select`
 `;
 
 export const StyledCompactSelect = styled(StyledSelect)`
-  width: 4.3rem;
+  width: 5.25rem;
   max-width: 100%;
   padding-left: 0.875rem;
   font-size: 1.125rem;
-
   font-variant-numeric: tabular-nums;
 `;
 
@@ -350,7 +321,7 @@ export const StyledPagination = styled.div`
   flex-wrap: wrap;
   gap: 0.5rem;
   justify-content: center;
-  margin: 1rem 0 1.5rem;
+  margin: 1rem 0 1.25rem;
 `;
 
 export const StyledPaginationDot = styled.button<{ $active: boolean }>`
@@ -365,12 +336,41 @@ export const StyledPaginationDot = styled.button<{ $active: boolean }>`
     $active ? `0 0.5rem 1rem ${theme.palette.shadowPrimary}` : "none"};
 `;
 
+export const StyledActionBar = styled.div`
+  display: flex;
+  justify-content: center;
+  padding-bottom: 0.75rem;
+`;
+
+export const StyledIconButton = styled.button`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border: 0;
+  border-radius: 999rem;
+  background: ${({ theme }) =>
+    theme.mode === "dark"
+      ? `linear-gradient(180deg, ${theme.palette.surfacePrimary} 0%, ${theme.palette.backgroundDefault} 100%)`
+      : theme.palette.backgroundPaper};
+  color: ${({ theme }) => theme.palette.primaryMain};
+  box-shadow: ${({ theme }) =>
+    theme.mode === "dark"
+      ? `0 1rem 2rem ${theme.palette.shadowDark}, 0 0 0 0.0625rem ${theme.palette.outlineVariant}`
+      : `0 0.625rem 1.375rem ${theme.palette.shadowDark}`};
+
+  svg {
+    width: 1.375rem;
+    height: 1.375rem;
+  }
+`;
+
 export const StyledSummaryGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.75rem;
-  margin-bottom: 1.5rem;
-  margin-top: 5rem;
 `;
 
 export const StyledSummaryCard = styled.div`
@@ -404,12 +404,64 @@ export const StyledSummaryLabel = styled.span`
     theme.mode === "dark" ? theme.palette.primaryMain : "inherit"};
 `;
 
-export const StyledTableCard = styled.section`
+export const StyledSummarySheetBackdrop = styled.div<{ $open: boolean }>`
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 0.75rem;
+  background: ${({ theme }) =>
+    theme.mode === "dark" ? "rgba(8, 8, 8, 0.56)" : "rgba(21, 32, 43, 0.18)"};
+  backdrop-filter: blur(12px);
+  opacity: ${({ $open }) => ($open ? 1 : 0)};
+  pointer-events: ${({ $open }) => ($open ? "auto" : "none")};
+  transition: opacity 220ms ease;
+  z-index: 30;
+`;
+
+export const StyledSummarySheet = styled.section<{ $open: boolean }>`
   ${StyledCardSurface};
+  width: min(100%, 42rem);
+  max-height: min(82vh, 52rem);
+  padding: 0.875rem 0.625rem 1rem;
+  border-radius: 1.5rem 1.5rem 1rem 1rem;
+  overflow: hidden;
+  transform: translateY(${({ $open }) => ($open ? "0" : "2rem")});
+  transition: transform 220ms ease;
+`;
+
+export const StyledSummarySheetHandle = styled.span`
+  display: block;
+  width: 3rem;
+  height: 0.3125rem;
+  margin: 0 auto 0.875rem;
+  border-radius: 999rem;
+  background: ${({ theme }) => theme.palette.outlineVariant};
+`;
+
+export const StyledSummarySheetHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0 0.5rem 0.875rem;
+`;
+
+export const StyledSummarySheetTitle = styled.h2`
+  margin: 0;
+  font-size: 1rem;
+`;
+
+export const StyledSummarySheetBody = styled.div`
+  overflow-y: auto;
+  max-height: calc(82vh - 8rem);
+  padding: 0 0.125rem;
+`;
+
+export const StyledTableCard = styled.section`
   box-sizing: border-box;
   width: 100%;
-  padding: 0.875rem 0.625rem;
-  overflow: hidden;
   border-radius: 1rem;
 `;
 
@@ -425,7 +477,7 @@ export const StyledTable = styled.table`
 
   th,
   td {
-    padding: 0.8rem 0.3rem;
+    padding: 0.7rem 0.15rem;
     border-bottom: 0.0625rem solid
       ${({ theme }) => theme.palette.outlineVariant};
     text-align: center;
@@ -433,8 +485,8 @@ export const StyledTable = styled.table`
   }
 
   th {
-    font-size: 0.78rem;
-
+    font-size: 0.68rem;
+    letter-spacing: 0.01em;
     color: ${({ theme }) => theme.palette.textDisabled};
     white-space: nowrap;
   }
@@ -445,24 +497,12 @@ export const StyledTable = styled.table`
 
   tfoot td {
     padding-top: 0.9rem;
-
     border-bottom: 0;
-  }
-
-  th,
-  td {
-    padding: 0.7rem 0.15rem;
-  }
-
-  th {
-    font-size: 0.68rem;
-    letter-spacing: 0.01em;
   }
 `;
 
 export const StyledTableCell = styled.td`
   font-size: 0.95rem;
-
   color: ${({ theme }) => theme.palette.textPrimary};
 `;
 
@@ -472,7 +512,6 @@ export const StyledTableCellPrimary = styled(StyledTableCell)`
 
 export const StyledTableFooterCell = styled.td`
   font-size: 0.95rem;
-
   text-align: left;
   color: ${({ theme }) => theme.palette.textPrimary};
 `;
@@ -483,13 +522,8 @@ export const StyledBadge = styled.span`
   justify-content: center;
   min-width: 1.4rem;
   min-height: 1.4rem;
-  padding: 0;
-  border-radius: 0;
-  background: transparent;
   color: ${({ theme }) => theme.palette.textPrimary};
   font-size: 0.95rem;
-
-  box-shadow: none;
 `;
 
 export const StyledTableValue = styled(StyledTableCell)`
@@ -509,15 +543,16 @@ export const StyledTableStatusCell = styled(StyledTableCell)<{
 
 export const StyledEmptyText = styled.p`
   margin: 0;
+  padding: 0.75rem 0.5rem;
   color: ${({ theme }) => theme.palette.textSecondary};
 `;
 
-export const StyledCloseButton = styled.button`
-  position: fixed;
-  left: 50%;
-  bottom: max(0.75rem, env(safe-area-inset-bottom));
-  transform: translateX(-50%);
-  width: calc(100vw - 0.75rem);
+export const StyledSummarySheetFooter = styled.div`
+  padding: 1rem 0.5rem 0;
+`;
+
+export const StyledPrimaryButton = styled.button`
+  width: 100%;
   min-height: 3rem;
   padding: 0.875rem 1rem;
   border: 0;
@@ -528,11 +563,20 @@ export const StyledCloseButton = styled.button`
   font-size: 1rem;
   font-weight: 700;
   box-shadow: ${({ theme }) => `0 1rem 2rem ${theme.palette.shadowPrimary}`};
-  z-index: 10;
 `;
 
-export const StyledTrashIcon = styled(Trash2)`
+export const StyledResetIcon = styled(Trash2)`
   color: ${({ theme }) => theme.palette.fail};
-  display: block;
+`;
+
+export const StyledResetButton = styled.button`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-end;
   margin-left: auto;
+  margin-top: 0.5rem;
+  padding: 0.75rem;
+  border: 0;
+  background: transparent;
 `;

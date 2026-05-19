@@ -1,10 +1,10 @@
 import { ThemeProvider } from "styled-components";
 
 import { DesktopNotice } from "./components/desktop-notice/desktop-notice";
-import { useThemeMode } from "./hooks/use-theme-mode";
+import { useThemeMode } from "./hooks/useThemeMode";
 import { StyledGlobalStyle } from "./global-style";
+import { RoundTrackerPage } from "./pages/round-tracker-page";
 import { StyledAppLayout } from "./styles/layout";
-import { ScoreTrackerPage } from "./components/score-card-digital";
 
 export default function App() {
   const { theme } = useThemeMode();
@@ -14,7 +14,7 @@ export default function App() {
       <StyledGlobalStyle />
       <StyledAppLayout>
         <DesktopNotice>
-          <ScoreTrackerPage />
+          <RoundTrackerPage />
         </DesktopNotice>
       </StyledAppLayout>
     </ThemeProvider>

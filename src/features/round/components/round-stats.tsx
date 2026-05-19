@@ -5,20 +5,20 @@ import {
 } from "./styles";
 
 type Props = {
-  relationLabel: string;
-  totalScore: number;
-  totalScoringZone: number;
+  relationToPar: string;
   totalDownIn3: number;
   totalPenalty: number;
+  totalScore: number;
+  totalScoringZone: number;
   totalThreePutt: number;
 };
 
-export const RoundOverview = ({
-  relationLabel,
-  totalScore,
-  totalScoringZone,
+export const RoundStats = ({
+  relationToPar,
   totalDownIn3,
   totalPenalty,
+  totalScore,
+  totalScoringZone,
   totalThreePutt,
 }: Props) => (
   <StyledSummaryGrid aria-label="Resultat">
@@ -28,7 +28,7 @@ export const RoundOverview = ({
     </StyledSummaryCard>
     <StyledSummaryCard>
       <StyledSummaryLabel>Score</StyledSummaryLabel>
-      <strong>{relationLabel}</strong>
+      <strong>{relationToPar}</strong>
     </StyledSummaryCard>
     <StyledSummaryCard>
       <StyledSummaryLabel>Scoring zone</StyledSummaryLabel>
