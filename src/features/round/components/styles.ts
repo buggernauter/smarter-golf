@@ -1,4 +1,4 @@
-import { ChevronDown, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import styled, { css } from "styled-components";
 
 const StyledCardSurface = css`
@@ -7,20 +7,13 @@ const StyledCardSurface = css`
     theme.mode === "dark"
       ? css`
           border: 0;
-          background: linear-gradient(
-            180deg,
-            ${theme.palette.surfacePrimary} 0%,
-            ${theme.palette.backgroundDefault} 100%
-          );
-          box-shadow:
-            0 1.125rem 2.625rem ${theme.palette.shadowMedium},
-            0 0 0 0.0625rem ${theme.palette.outlineVariant},
-            inset 0 0.0625rem 0 ${theme.palette.divider};
+          background: ${theme.palette.cardSurfaceGradient};
+          box-shadow: ${theme.palette.cardSurfaceShadow};
         `
       : css`
           border: 0.0625rem solid ${theme.palette.divider};
           background: ${theme.palette.backgroundPaper};
-          box-shadow: 0 0.875rem 1.875rem ${theme.palette.shadowMedium};
+          box-shadow: ${theme.palette.cardSurfaceShadow};
         `}
 `;
 
@@ -34,45 +27,13 @@ const StyledFieldSurface = css`
     theme.mode === "dark"
       ? css`
           border: 0;
-          background: linear-gradient(
-            180deg,
-            ${theme.palette.surfacePrimary} 0%,
-            ${theme.palette.backgroundDefault} 100%
-          );
-          box-shadow:
-            inset 0 0 0 0.0625rem ${theme.palette.outlineVariant},
-            inset 0 0.0625rem 0 ${theme.palette.divider};
+          background: ${theme.palette.fieldSurfaceGradient};
+          box-shadow: ${theme.palette.fieldSurfaceShadow};
         `
       : css`
           border: 0.0625rem solid ${theme.palette.divider};
           background: ${theme.palette.surfacePrimary};
-        `}
-`;
-
-const StyledControlBase = css`
-  min-height: 2.75rem;
-  box-sizing: border-box;
-  border-radius: 0.75rem;
-  padding: 0.5rem 0;
-  font: inherit;
-  text-align: left;
-  color: ${({ theme }) => theme.palette.textPrimary};
-  transition:
-    background 180ms ease,
-    box-shadow 180ms ease,
-    transform 180ms ease;
-  ${({ theme }) =>
-    theme.mode === "dark"
-      ? css`
-          border: 0;
-          background: ${theme.palette.surfaceSecondary};
-          box-shadow:
-            inset 0 0 0 0.0625rem ${theme.palette.divider},
-            0 0.5rem 1.25rem ${theme.palette.shadowLight};
-        `
-      : css`
-          border: 0.0625rem solid ${theme.palette.outline};
-          background: ${theme.palette.backgroundPaper};
+          box-shadow: ${theme.palette.fieldSurfaceShadow};
         `}
 `;
 
@@ -92,7 +53,8 @@ export const StyledPage = styled.div`
 `;
 
 export const StyledHeader = styled.div`
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 0.75rem;
   margin-bottom: 1rem;
 `;
@@ -110,24 +72,17 @@ export const StyledNavigationButton = styled.button`
   border-radius: 999rem;
   background: ${({ theme }) =>
     theme.mode === "dark"
-      ? `linear-gradient(180deg, ${theme.palette.surfacePrimary} 0%, ${theme.palette.backgroundDefault} 100%)`
+      ? theme.palette.navigationButtonGradient
       : theme.palette.backgroundPaper};
   border: ${({ theme }) =>
     theme.mode === "dark" ? "0" : `0.0625rem solid ${theme.palette.outline}`};
   color: ${({ theme }) => theme.palette.textPrimary};
   font: inherit;
-  box-shadow: ${({ theme }) =>
-    theme.mode === "dark"
-      ? `0 1rem 2rem ${theme.palette.shadowDark}, 0 0 0 0.0625rem ${theme.palette.outlineVariant}`
-      : `0 0.625rem 1.375rem ${theme.palette.shadowDark}`};
+  box-shadow: ${({ theme }) => theme.palette.navigationButtonShadow};
   transition:
     transform 180ms ease,
     box-shadow 180ms ease,
     opacity 180ms ease;
-
-  &:hover:not(:disabled) {
-    transform: translateY(-0.0625rem);
-  }
 
   &:active:not(:disabled) {
     transform: scale(0.97);
@@ -200,19 +155,16 @@ export const StyledCardDescription = styled.p`
   border-radius: 0.875rem;
   background: ${({ theme }) =>
     theme.mode === "dark"
-      ? `linear-gradient(180deg, ${theme.palette.surfaceSecondary} 0%, ${theme.palette.backgroundDefault} 100%)`
+      ? theme.palette.descriptionSurfaceGradient
       : theme.palette.surfaceSecondary};
   color: ${({ theme }) => theme.palette.textSecondary};
   line-height: 1.45;
-  box-shadow: ${({ theme }) =>
-    theme.mode === "dark"
-      ? `inset 0 0 0 0.0625rem ${theme.palette.outlineVariant}`
-      : "none"};
+  box-shadow: ${({ theme }) => theme.palette.descriptionSurfaceShadow};
 `;
 
 export const StyledGrid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-direction: column;
   gap: 0.875rem;
 `;
 
@@ -226,8 +178,80 @@ export const StyledFieldLabel = styled.span`
       : theme.palette.textDisabled};
 `;
 
-export const StyledField = styled.label`
+export const StyledField = styled.div`
   ${StyledFieldSurface};
+`;
+
+export const StyledStepperControl = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  min-height: 3.5rem;
+  padding: 0.375rem;
+  border-radius: 1.125rem;
+  background: ${({ theme }) =>
+    theme.mode === "dark"
+      ? theme.palette.stepperControlGradient
+      : theme.palette.backgroundPaper};
+  box-shadow: ${({ theme }) => theme.palette.stepperControlShadow};
+`;
+
+export const StyledStepperButton = styled.button`
+  flex: 0 0 3.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  padding: 0;
+  border: 0;
+  border-radius: 999rem;
+  color: ${({ theme }) => theme.palette.textPrimary};
+  background: ${({ theme }) =>
+    theme.mode === "dark"
+      ? theme.palette.stepperButtonGradient
+      : theme.palette.surfaceSecondary};
+  box-shadow: ${({ theme }) => theme.palette.stepperButtonShadow};
+  transition:
+    transform 160ms ease,
+    background 180ms ease,
+    box-shadow 180ms ease,
+    opacity 180ms ease;
+
+  &:active:not(:disabled) {
+    transform: scale(0.96);
+    background: ${({ theme }) => theme.palette.primaryMain};
+    color: ${({ theme }) => theme.palette.backgroundPaper};
+    box-shadow: ${({ theme }) => theme.palette.stepperButtonPressedShadow};
+  }
+
+  &:disabled {
+    opacity: 0.35;
+    box-shadow: none;
+  }
+
+  svg {
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+`;
+
+export const StyledStepperValue = styled.div`
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.125rem;
+  min-width: 0;
+  text-align: center;
+
+  strong {
+    font-size: 1.5rem;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    color: ${({ theme }) => theme.palette.textPrimary};
+  }
 `;
 
 export const StyledToggleButton = styled.button<{
@@ -259,57 +283,19 @@ export const StyledToggleButton = styled.button<{
       : theme.palette.surfaceSecondary};
   box-shadow: ${({ $active, $tone = "success", theme }) =>
     $active
-      ? `0 0.75rem 1.5rem ${
-          $tone === "danger"
-            ? theme.palette.shadowDark
-            : theme.palette.shadowPrimary
-        }`
+      ? $tone === "danger"
+        ? theme.palette.toggleButtonDangerShadow
+        : theme.palette.toggleButtonSuccessShadow
       : "none"};
-`;
+  transition:
+    transform 160ms ease,
+    box-shadow 180ms ease,
+    background 180ms ease,
+    color 180ms ease;
 
-export const StyledSelectControl = styled.div`
-  position: relative;
-  display: inline-flex;
-  align-self: flex-start;
-`;
-
-const StyledSelect = styled.select`
-  ${StyledControlBase};
-  appearance: none;
-  padding-right: 2.25rem;
-
-  &:focus,
-  &:focus-visible {
-    outline: none;
-    ${({ theme }) =>
-      theme.mode === "dark"
-        ? css`
-            box-shadow: inset 0 0 0 0.0625rem ${theme.palette.primaryLight};
-          `
-        : css`
-            border-color: ${theme.palette.primaryMain};
-            box-shadow: inset 0 0 0 0.0625rem ${theme.palette.primaryLight};
-          `}
+  &:active {
+    transform: scale(0.98);
   }
-`;
-
-export const StyledCompactSelect = styled(StyledSelect)`
-  width: 5.25rem;
-  max-width: 100%;
-  padding-left: 0.875rem;
-  font-size: 1.125rem;
-  font-variant-numeric: tabular-nums;
-`;
-
-export const StyledSelectIcon = styled(ChevronDown)`
-  position: absolute;
-  top: 50%;
-  right: 0.75rem;
-  width: 0.9rem;
-  height: 0.9rem;
-  transform: translateY(-50%);
-  color: ${({ theme }) => theme.palette.textPrimary};
-  pointer-events: none;
 `;
 
 export const StyledSpacedField = styled(StyledField)`
@@ -333,7 +319,7 @@ export const StyledPaginationDot = styled.button<{ $active: boolean }>`
   background: ${({ $active, theme }) =>
     $active ? theme.palette.primaryMain : theme.palette.primaryLight};
   box-shadow: ${({ $active, theme }) =>
-    $active ? `0 0.5rem 1rem ${theme.palette.shadowPrimary}` : "none"};
+    $active ? theme.palette.paginationDotShadow : "none"};
 `;
 
 export const StyledActionBar = styled.div`
@@ -353,13 +339,10 @@ export const StyledIconButton = styled.button`
   border-radius: 999rem;
   background: ${({ theme }) =>
     theme.mode === "dark"
-      ? `linear-gradient(180deg, ${theme.palette.surfacePrimary} 0%, ${theme.palette.backgroundDefault} 100%)`
+      ? theme.palette.iconButtonGradient
       : theme.palette.backgroundPaper};
   color: ${({ theme }) => theme.palette.primaryMain};
-  box-shadow: ${({ theme }) =>
-    theme.mode === "dark"
-      ? `0 1rem 2rem ${theme.palette.shadowDark}, 0 0 0 0.0625rem ${theme.palette.outlineVariant}`
-      : `0 0.625rem 1.375rem ${theme.palette.shadowDark}`};
+  box-shadow: ${({ theme }) => theme.palette.iconButtonShadow};
 
   svg {
     width: 1.375rem;
@@ -368,26 +351,25 @@ export const StyledIconButton = styled.button`
 `;
 
 export const StyledSummaryGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 0.75rem;
 `;
 
 export const StyledSummaryCard = styled.div`
+  flex: 1 1 calc(50% - 0.375rem);
+  min-width: 0;
   padding: 0.75rem 0.875rem;
   border-radius: 1rem;
   background: ${({ theme }) =>
     theme.mode === "dark"
-      ? `linear-gradient(180deg, ${theme.palette.surfacePrimary} 0%, ${theme.palette.backgroundDefault} 100%)`
-      : theme.palette.primaryMain};
+      ? theme.palette.summaryCardGradient
+      : theme.palette.summaryCardGradient};
   color: ${({ theme }) =>
     theme.mode === "dark"
       ? theme.palette.textPrimary
       : theme.palette.backgroundPaper};
-  box-shadow: ${({ theme }) =>
-    theme.mode === "dark"
-      ? `0 1rem 2rem ${theme.palette.shadowMedium}, 0 0 0 0.0625rem ${theme.palette.outlineVariant}`
-      : `0 0.75rem 1.25rem ${theme.palette.shadowPrimary}`};
+  box-shadow: ${({ theme }) => theme.palette.summaryCardShadow};
 
   strong {
     font-size: 1.2rem;
@@ -562,7 +544,7 @@ export const StyledPrimaryButton = styled.button`
   font: inherit;
   font-size: 1rem;
   font-weight: 700;
-  box-shadow: ${({ theme }) => `0 1rem 2rem ${theme.palette.shadowPrimary}`};
+  box-shadow: ${({ theme }) => theme.palette.primaryButtonShadow};
 `;
 
 export const StyledResetIcon = styled(Trash2)`

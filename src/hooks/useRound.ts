@@ -8,12 +8,10 @@ import {
 
 import type { BooleanHoleValue, NumericHoleValue } from "../types/score-card";
 import { useRoundStorage } from "./useRoundStorage";
-import { useRoundStats } from "./useRoundStats";
 
 export const useRound = () => {
   const { clearRound, hydrateRound, syncRound } = useRoundStorage();
   const [holes, setHoles] = useState(() => hydrateRound(createInitialHoles()));
-  const stats = useRoundStats(holes);
 
   useEffect(() => {
     syncRound(holes);
@@ -43,7 +41,6 @@ export const useRound = () => {
   }, [clearRound]);
 
   return {
-    ...stats,
     holes,
     resetRound,
     toggleCheckbox,

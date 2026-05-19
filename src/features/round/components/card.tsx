@@ -1,8 +1,6 @@
-import {
-  EMPTY_SCORE_VALUE,
-  PENALTY_OPTIONS,
-  SCORE_OPTIONS,
-} from "../../../constants";
+import { Minus, Plus } from "lucide-react";
+
+import { MAX_PENALTY, MAX_SCORE, MIN_ROUND_VALUE } from "../../../constants";
 import type {
   BooleanHoleValue,
   Hole,
@@ -14,15 +12,16 @@ import {
   StyledCardMeta,
   StyledCardTitle,
   StyledCardWrapper,
-  StyledCompactSelect,
   StyledField,
   StyledFieldLabel,
   StyledGrid,
-  StyledSelectControl,
-  StyledSelectIcon,
   StyledSpacedField,
+  StyledStepperButton,
+  StyledStepperControl,
+  StyledStepperValue,
   StyledToggleButton,
 } from "./styles";
+import { clampValue } from "../../../lib/helper";
 
 type Props = {
   hole: Hole;
@@ -33,7 +32,7 @@ type Props = {
     field: NumericHoleValue,
     value: number,
   ) => void;
-  registerCard: (index: number, card: HTMLElement | null) => void;
+  setHoleCardRef: (index: number, card: HTMLElement | null) => void;
 };
 
 export const Card = ({
@@ -41,97 +40,110 @@ export const Card = ({
   index,
   onToggleCheckbox,
   onUpdateNumericValue,
-  registerCard,
-}: Props) => (
-  <StyledCardWrapper
-    ref={(card) => {
-      registerCard(index, card);
-    }}
-  >
-    <StyledCardHeader>
-      <div>
-        <StyledCardTitle>Hål {hole.number}</StyledCardTitle>
-        <StyledCardMeta>
-          Par {hole.par} • {hole.meter} m
-        </StyledCardMeta>
-      </div>
-    </StyledCardHeader>
+  setHoleCardRef,
+}: Props) => {
+  const updatePenalty = (nextValue: number) => {
+    onUpdateNumericValue(index, "penalty", clampValue(nextValue, MAX_PENALTY));
+  };
 
-    <StyledCardDescription>{hole.scoringGoal}</StyledCardDescription>
+  const updateScore = (nextValue: number) => {
+    onUpdateNumericValue(index, "score", clampValue(nextValue, MAX_SCORE));
+  };
 
-    <StyledGrid>
-      <StyledToggleButton
-        type="button"
-        $active={hole.scoringZone}
-        aria-pressed={hole.scoringZone}
-        onClick={() => onToggleCheckbox(index, "scoringZone")}
-      >
-        Scoring zone
-      </StyledToggleButton>
+  return (
+    <StyledCardWrapper
+      ref={(card) => {
+        setHoleCardRef(index, card);
+      }}
+    >
+      <StyledCardHeader>
+        <div>
+          <StyledCardTitle>Hål {hole.number}</StyledCardTitle>
+          <StyledCardMeta>
+            Par {hole.par} • {hole.meter} m
+          </StyledCardMeta>
+        </div>
+      </StyledCardHeader>
 
-      <StyledToggleButton
-        type="button"
-        $active={hole.downIn3}
-        aria-pressed={hole.downIn3}
-        onClick={() => onToggleCheckbox(index, "downIn3")}
-      >
-        Down in 3
-      </StyledToggleButton>
-      <StyledToggleButton
-        type="button"
-        $active={hole.threePutt}
-        $tone="danger"
-        aria-pressed={hole.threePutt}
-        onClick={() => onToggleCheckbox(index, "threePutt")}
-      >
-        3-putt
-      </StyledToggleButton>
-      <StyledField>
-        <StyledFieldLabel>Straff</StyledFieldLabel>
-        <StyledSelectControl>
-          <StyledCompactSelect
-            value={hole.penalty}
-            onChange={(event) =>
-              onUpdateNumericValue(
-                index,
-                "penalty",
-                Number.parseInt(event.target.value, 10) || 0,
-              )
-            }
-          >
-            {PENALTY_OPTIONS.map((penalty) => (
-              <option key={penalty} value={penalty}>
-                {penalty}
-              </option>
-            ))}
-          </StyledCompactSelect>
-          <StyledSelectIcon aria-hidden="true" />
-        </StyledSelectControl>
-      </StyledField>
-    </StyledGrid>
+      <StyledCardDescription>{hole.scoringGoal}</StyledCardDescription>
 
-    <StyledSpacedField>
-      <StyledFieldLabel>Score</StyledFieldLabel>
-      <StyledSelectControl>
-        <StyledCompactSelect
-          value={hole.score}
-          onChange={(event) =>
-            onUpdateNumericValue(
-              index,
-              "score",
-              Number.parseInt(event.target.value, 10) || 0,
-            )
-          }
+      <StyledGrid>
+        <StyledToggleButton
+          type="button"
+          $active={hole.scoringZone}
+          aria-pressed={hole.scoringZone}
+          onClick={() => onToggleCheckbox(index, "scoringZone")}
         >
-          <option value={EMPTY_SCORE_VALUE}>-</option>
-          {SCORE_OPTIONS.map((score) => (
-            <option key={score} value={score}>
-              {score}
-            </option>
-          ))}
-        </StyledCompactSelect>
-        <StyledSelectIcon aria-hidden="true" />
-      </StyledSelectControl>
-    </StyledSpacedField>
-  </StyledCardWrapper>
-);
+          Scoring zone
+        </StyledToggleButton>
+
+        <StyledToggleButton
+          type="button"
+          $active={hole.downIn3}
+          aria-pressed={hole.downIn3}
+          onClick={() => onToggleCheckbox(index, "downIn3")}
+        >
+          Down in 3
+        </StyledToggleButton>
+        <StyledToggleButton
+          type="button"
+          $active={hole.threePutt}
+          $tone="danger"
+          aria-pressed={hole.threePutt}
+          onClick={() => onToggleCheckbox(index, "threePutt")}
+        >
+          3-putt
+        </StyledToggleButton>
+        <StyledField>
+          <StyledFieldLabel>Straff</StyledFieldLabel>
+          <StyledStepperControl aria-label={`Straff för hål ${hole.number}`}>
+            <StyledStepperButton
+              type="button"
+              aria-label="Minska straff"
+              disabled={hole.penalty === MIN_ROUND_VALUE}
+              onClick={() => updatePenalty(hole.penalty - 1)}
+            >
+              <Minus aria-hidden="true" />
+            </StyledStepperButton>
+            <StyledStepperValue>
+              <strong>{hole.penalty}</strong>
+            </StyledStepperValue>
+            <StyledStepperButton
+              type="button"
+              aria-label="Öka straff"
+              disabled={hole.penalty === MAX_PENALTY}
+              onClick={() => updatePenalty(hole.penalty + 1)}
+            >
+              <Plus aria-hidden="true" />
+            </StyledStepperButton>
+          </StyledStepperControl>
+        </StyledField>
+      </StyledGrid>
+
+      <StyledSpacedField>
+        <StyledFieldLabel>Score</StyledFieldLabel>
+        <StyledStepperControl aria-label={`Score för hål ${hole.number}`}>
+          <StyledStepperButton
+            type="button"
+            aria-label="Minska score"
+            disabled={hole.score === MIN_ROUND_VALUE}
+            onClick={() => updateScore(hole.score - 1)}
+          >
+            <Minus aria-hidden="true" />
+          </StyledStepperButton>
+          <StyledStepperValue>
+            <strong>{hole.score || "-"}</strong>
+          </StyledStepperValue>
+          <StyledStepperButton
+            type="button"
+            aria-label="Öka score"
+            disabled={hole.score === MAX_SCORE}
+            onClick={() => updateScore(hole.score + 1)}
+          >
+            <Plus aria-hidden="true" />
+          </StyledStepperButton>
+        </StyledStepperControl>
+      </StyledSpacedField>
+    </StyledCardWrapper>
+  );
+};

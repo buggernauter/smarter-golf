@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { clampHoleIndex } from "../domain/round-engine";
+import { useVisibleSlideObserver } from "./useVisibleSlideObserver";
 
 type Props = {
   holeCount: number;
@@ -12,11 +13,23 @@ export const useRoundNavigation = ({ holeCount }: Props) => {
   const carouselRef = useRef<HTMLDivElement | null>(null);
   const cardRefs = useRef<Map<number, HTMLElement>>(new Map());
 
+  useVisibleSlideObserver({
+    rootRef: carouselRef,
+
+    elementsRef: cardRefs,
+
+    onVisibleIndexChange: (nextIndex) => {
+      setActiveHoleIndex((currentIndex) =>
+        currentIndex === nextIndex ? currentIndex : nextIndex,
+      );
+    },
+  });
+
   useEffect(() => {
     activeHoleIndexRef.current = activeHoleIndex;
   }, [activeHoleIndex]);
 
-  const registerHoleCard = useCallback(
+  const setHoleCardRef = useCallback(
     (index: number, card: HTMLElement | null) => {
       if (card) {
         card.dataset.index = index.toString();
@@ -43,7 +56,6 @@ export const useRoundNavigation = ({ holeCount }: Props) => {
         block: "nearest",
         inline: "start",
       });
-      setActiveHoleIndex(nextIndex);
     },
     [holeCount],
   );
@@ -56,66 +68,12 @@ export const useRoundNavigation = ({ holeCount }: Props) => {
     scrollToHole(activeHoleIndexRef.current - 1);
   }, [scrollToHole]);
 
-  useEffect(() => {
-    const root = carouselRef.current;
-
-    if (!root || typeof IntersectionObserver === "undefined") {
-      return;
-    }
-
-    const visibilityMap = new Map<number, number>();
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const index = Number((entry.target as HTMLElement).dataset.index);
-
-          if (Number.isNaN(index)) {
-            return;
-          }
-
-          visibilityMap.set(
-            index,
-            entry.isIntersecting ? entry.intersectionRatio : 0,
-          );
-        });
-
-        let nextActiveIndex = activeHoleIndexRef.current;
-        let highestRatio = 0;
-
-        visibilityMap.forEach((ratio, index) => {
-          if (ratio > highestRatio) {
-            highestRatio = ratio;
-            nextActiveIndex = index;
-          }
-        });
-
-        if (highestRatio > 0) {
-          setActiveHoleIndex((currentIndex) =>
-            currentIndex === nextActiveIndex ? currentIndex : nextActiveIndex,
-          );
-        }
-      },
-      {
-        root,
-        threshold: [0.25, 0.5, 0.75, 0.95],
-      },
-    );
-
-    cardRefs.current.forEach((card) => {
-      observer.observe(card);
-    });
-
-    return () => {
-      observer.disconnect();
-    };
-  }, [holeCount]);
-
   return {
     activeHoleIndex,
     carouselRef,
     nextHole,
     previousHole,
-    registerHoleCard,
+    setHoleCardRef,
     scrollToHole,
   };
 };

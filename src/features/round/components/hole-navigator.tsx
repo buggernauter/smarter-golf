@@ -6,9 +6,10 @@ import {
   StyledNavigation,
   StyledNavigationButton,
 } from "./styles";
+import type { ReactNode } from "react";
 
 type Props = {
-  activeHoleIndex: number;
+  title: ReactNode;
   isOnFirstHole: boolean;
   isOnLastHole: boolean;
   onNextHole: () => void;
@@ -16,7 +17,7 @@ type Props = {
 };
 
 export const HoleNavigator = ({
-  activeHoleIndex,
+  title,
   isOnFirstHole,
   isOnLastHole,
   onNextHole,
@@ -32,7 +33,7 @@ export const HoleNavigator = ({
       >
         <ChevronLeft aria-hidden="true" />
       </StyledNavigationButton>
-      <StyledHeaderTitle>Hål {activeHoleIndex + 1}</StyledHeaderTitle>
+      <StyledHeaderTitle>{title}</StyledHeaderTitle>
       <StyledNavigationButton
         type="button"
         onClick={onNextHole}

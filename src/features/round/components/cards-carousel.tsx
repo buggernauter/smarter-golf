@@ -23,7 +23,7 @@ type Props = {
     field: NumericHoleValue,
     value: number,
   ) => void;
-  registerHoleCard: (index: number, card: HTMLElement | null) => void;
+  setHoleCardRef: (index: number, card: HTMLElement | null) => void;
 };
 
 export const CardsCarousel = ({
@@ -33,7 +33,7 @@ export const CardsCarousel = ({
   onScrollToHole,
   onToggleCheckboxValue,
   onUpdateNumericValue,
-  registerHoleCard,
+  setHoleCardRef,
 }: Props) => (
   <>
     <StyledCarouselList ref={carouselRef}>
@@ -44,7 +44,7 @@ export const CardsCarousel = ({
           index={index}
           onToggleCheckbox={onToggleCheckboxValue}
           onUpdateNumericValue={onUpdateNumericValue}
-          registerCard={registerHoleCard}
+          setHoleCardRef={setHoleCardRef}
         />
       ))}
     </StyledCarouselList>

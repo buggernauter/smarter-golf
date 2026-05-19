@@ -18,7 +18,7 @@ export const StyledCard = styled.section`
   border-radius: 1.5rem;
   background: ${({ theme }) => theme.palette.backgroundPaper};
   color: ${({ theme }) => theme.palette.textPrimary};
-  box-shadow: 0 1.25rem 3rem ${({ theme }) => theme.palette.shadowMedium};
+  box-shadow: ${({ theme }) => theme.palette.desktopNoticeCardShadow};
   border: 0.0625rem solid ${({ theme }) => theme.palette.divider};
 `;
 

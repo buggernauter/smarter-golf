@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import { CardsCarousel } from "../features/round/components/cards-carousel";
 import { HoleNavigator } from "../features/round/components/hole-navigator";
-import { RoundStats } from "../features/round/components/round-stats";
+
 import { SummarySheet } from "../features/round/components/summary-sheet";
 import {
   StyledActionBar,
@@ -17,24 +17,13 @@ import { useRoundNavigation } from "../hooks/useRoundNavigation";
 
 export const RoundTrackerPage = () => {
   const [isSummaryOpen, setIsSummaryOpen] = useState(false);
-  const {
-    holes,
-    relationToPar,
-    resetRound,
-    totalDownIn3,
-    totalPenalty,
-    totalScore,
-    totalScoringZone,
-    totalThreePutt,
-    updateNumericField,
-    toggleCheckbox,
-  } = useRound();
+  const { holes, resetRound, updateNumericField, toggleCheckbox } = useRound();
   const {
     activeHoleIndex,
     carouselRef,
     nextHole,
     previousHole,
-    registerHoleCard,
+    setHoleCardRef,
     scrollToHole,
   } = useRoundNavigation({
     holeCount: holes.length,
@@ -43,7 +32,7 @@ export const RoundTrackerPage = () => {
   return (
     <StyledPage>
       <HoleNavigator
-        activeHoleIndex={activeHoleIndex}
+        title={<span>Hål {activeHoleIndex + 1}</span>}
         isOnFirstHole={activeHoleIndex === 0}
         isOnLastHole={activeHoleIndex === holes.length - 1}
         onNextHole={nextHole}
@@ -57,7 +46,7 @@ export const RoundTrackerPage = () => {
         onScrollToHole={scrollToHole}
         onToggleCheckboxValue={toggleCheckbox}
         onUpdateNumericValue={updateNumericField}
-        registerHoleCard={registerHoleCard}
+        setHoleCardRef={setHoleCardRef}
       />
 
       <StyledActionBar>
@@ -69,15 +58,6 @@ export const RoundTrackerPage = () => {
           <ClipboardList aria-hidden="true" />
         </StyledIconButton>
       </StyledActionBar>
-
-      <RoundStats
-        relationToPar={relationToPar}
-        totalDownIn3={totalDownIn3}
-        totalPenalty={totalPenalty}
-        totalScore={totalScore}
-        totalScoringZone={totalScoringZone}
-        totalThreePutt={totalThreePutt}
-      />
 
       <StyledResetButton
         type="button"
