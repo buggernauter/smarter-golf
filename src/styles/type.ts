@@ -76,10 +76,10 @@ export type Palette = {
   shadowMedium: string;
 
   shadowDark: string;
-
   shadowPrimary: string;
   fail: string;
   borderDefault: string;
+  transparent: string;
 };
 
 export type PrintPalette = {

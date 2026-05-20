@@ -1,5 +1,6 @@
 import type { RefObject } from "react";
 
+import type { PlayStrategy } from "../../../domain/round-strategy";
 import type {
   BooleanHoleValue,
   Hole,
@@ -24,6 +25,7 @@ type Props = {
     value: number,
   ) => void;
   setHoleCardRef: (index: number, card: HTMLElement | null) => void;
+  playStrategy: (parValue: number) => PlayStrategy;
 };
 
 export const CardsCarousel = ({
@@ -34,12 +36,14 @@ export const CardsCarousel = ({
   onToggleCheckboxValue,
   onUpdateNumericValue,
   setHoleCardRef,
+  playStrategy,
 }: Props) => (
   <>
     <StyledCarouselList ref={carouselRef}>
       {holes.map((hole, index) => (
         <Card
           key={hole.number}
+          playStrategy={playStrategy(hole.par)}
           hole={hole}
           index={index}
           onToggleCheckbox={onToggleCheckboxValue}

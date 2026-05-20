@@ -4,10 +4,10 @@ import { clampHoleIndex } from "../domain/round-engine";
 import { useVisibleSlideObserver } from "./useVisibleSlideObserver";
 
 type Props = {
-  holeCount: number;
+  holesCount: number;
 };
 
-export const useRoundNavigation = ({ holeCount }: Props) => {
+export const useRoundNavigation = ({ holesCount }: Props) => {
   const [activeHoleIndex, setActiveHoleIndex] = useState(0);
   const activeHoleIndexRef = useRef(0);
   const carouselRef = useRef<HTMLDivElement | null>(null);
@@ -44,7 +44,7 @@ export const useRoundNavigation = ({ holeCount }: Props) => {
 
   const scrollToHole = useCallback(
     (index: number, behavior: ScrollBehavior = "smooth") => {
-      const nextIndex = clampHoleIndex(index, holeCount);
+      const nextIndex = clampHoleIndex(index, holesCount);
       const card = cardRefs.current.get(nextIndex);
 
       if (!card) {
@@ -57,7 +57,7 @@ export const useRoundNavigation = ({ holeCount }: Props) => {
         inline: "start",
       });
     },
-    [holeCount],
+    [holesCount],
   );
 
   const nextHole = useCallback(() => {

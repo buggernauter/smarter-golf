@@ -5,6 +5,7 @@ import {
   toggleRoundBooleanValue,
   updateRoundNumericValue,
 } from "../domain/round-engine";
+import { getPlayStrategy } from "../domain/round-strategy";
 
 import type { BooleanHoleValue, NumericHoleValue } from "../types/score-card";
 import { useRoundStorage } from "./useRoundStorage";
@@ -42,6 +43,7 @@ export const useRound = () => {
 
   return {
     holes,
+    playStrategy: getPlayStrategy,
     resetRound,
     toggleCheckbox,
     updateNumericField,

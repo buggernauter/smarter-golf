@@ -1,5 +1,5 @@
 import { holeData } from "../api/chgk";
-import { activeScoringStrategy } from "./round-strategy";
+import { getPlayStrategy } from "./round-strategy";
 import type {
   BooleanHoleValue,
   Hole,
@@ -18,7 +18,7 @@ const createInitialHole = ({
   downIn3: false,
   threePutt: false,
   meter: meterValue,
-  scoringGoal: activeScoringStrategy.getTargetByPar(parValue),
+  scoringGoal: getPlayStrategy(parValue).heading,
   scoringZone: false,
 });
 

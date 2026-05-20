@@ -19,6 +19,7 @@ const lightColors = {
   textDisabled: "#52606d",
   textPrimary: "#15202b",
   textSecondary: "#243b53",
+  transparent: "transparent",
 } as const;
 
 const darkColors = {
@@ -40,6 +41,7 @@ const darkColors = {
   textDisabled: "#a7a7a7",
   textPrimary: "#f5f5f5",
   textSecondary: "#d0d0d0",
+  transparent: "transparent",
 } as const;
 
 const printColors = {
@@ -66,28 +68,37 @@ const printColors = {
 
 export const gradients = {
   light: {
-    cardSurface: lightColors.backgroundPaper,
-    descriptionSurface: lightColors.surfaceSecondary,
-    fieldSurface: lightColors.surfacePrimary,
+    cardSurface: `linear-gradient(180deg, ${lightColors.backgroundPaper} 0%, ${lightColors.surfacePrimary} 100%)`,
+    descriptionSurface:
+      "linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(245, 249, 252, 0.78) 100%)",
+    fieldSurface:
+      "linear-gradient(180deg, rgba(245, 249, 252, 0.95) 0%, rgba(236, 243, 248, 0.92) 100%)",
     iconButton: lightColors.backgroundPaper,
     navigationButton: lightColors.backgroundPaper,
     pageBackground: `radial-gradient(circle at top, ${lightColors.backgroundDefault} 0%, transparent 45%), ${lightColors.backgroundPaper}`,
     pageOverlay: "none",
-    stepperButton: lightColors.surfaceSecondary,
-    stepperControl: lightColors.backgroundPaper,
+    stepperButton:
+      "linear-gradient(180deg, rgba(245, 249, 252, 0.98) 0%, rgba(236, 243, 248, 0.95) 100%)",
+    stepperControl:
+      "linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(245, 249, 252, 0.92) 100%)",
     summaryCard: lightColors.primaryMain,
   },
   dark: {
-    cardSurface: `linear-gradient(180deg, ${darkColors.surfacePrimary} 0%, ${darkColors.backgroundDefault} 100%)`,
-    descriptionSurface: `linear-gradient(180deg, ${darkColors.surfaceSecondary} 0%, ${darkColors.backgroundDefault} 100%)`,
-    fieldSurface: `linear-gradient(180deg, ${darkColors.surfacePrimary} 0%, ${darkColors.backgroundDefault} 100%)`,
+    cardSurface:
+      "linear-gradient(180deg, rgba(36, 36, 36, 0.96) 0%, rgba(18, 18, 18, 0.98) 100%)",
+    descriptionSurface:
+      "linear-gradient(180deg, rgba(35, 35, 35, 0.88) 0%, rgba(20, 20, 20, 0.72) 100%)",
+    fieldSurface:
+      "linear-gradient(180deg, rgba(44, 44, 44, 0.92) 0%, rgba(26, 26, 26, 0.94) 100%)",
     iconButton: `linear-gradient(180deg, ${darkColors.surfacePrimary} 0%, ${darkColors.backgroundDefault} 100%)`,
     navigationButton: `linear-gradient(180deg, ${darkColors.surfacePrimary} 0%, ${darkColors.backgroundDefault} 100%)`,
     pageBackground: `radial-gradient(circle at top, rgba(255, 255, 255, 0.045) 0%, transparent 38%), radial-gradient(circle at 20% 12%, ${darkColors.primaryMain}14 0%, transparent 22%), linear-gradient(180deg, #191919 0%, ${darkColors.backgroundPaper} 56%, #101010 100%)`,
     pageOverlay:
       "radial-gradient(circle at 50% -10%, rgba(255, 255, 255, 0.035) 0%, transparent 34%), radial-gradient(circle at 85% 18%, rgba(255, 255, 255, 0.025) 0%, transparent 24%)",
-    stepperButton: `linear-gradient(180deg, ${darkColors.surfacePrimary} 0%, ${darkColors.surfaceSecondary} 100%)`,
-    stepperControl: `linear-gradient(180deg, ${darkColors.surfaceSecondary} 0%, ${darkColors.backgroundDefault} 100%)`,
+    stepperButton:
+      "linear-gradient(180deg, rgba(52, 52, 52, 0.96) 0%, rgba(31, 31, 31, 0.96) 100%)",
+    stepperControl:
+      "linear-gradient(180deg, rgba(38, 38, 38, 0.94) 0%, rgba(24, 24, 24, 0.96) 100%)",
     summaryCard: `linear-gradient(180deg, ${darkColors.surfacePrimary} 0%, ${darkColors.backgroundDefault} 100%)`,
   },
   print: {
@@ -98,34 +109,34 @@ export const gradients = {
 
 export const shadows = {
   light: {
-    cardSurface: `0 0.875rem 1.875rem ${lightColors.shadowMedium}`,
-    descriptionSurface: "none",
+    cardSurface: `0 1.125rem 2.5rem ${lightColors.shadowLight}, inset 0 0.0625rem 0 rgba(255, 255, 255, 0.85)`,
+    descriptionSurface: `0 1rem 2rem ${lightColors.shadowLight}, inset 0 0.0625rem 0 rgba(255, 255, 255, 0.7)`,
     desktopNoticeCard: `0 1.25rem 3rem ${lightColors.shadowMedium}`,
-    fieldSurface: "none",
+    fieldSurface: `0 0.5rem 1rem rgba(21, 32, 43, 0.04), inset 0 0.0625rem 0 rgba(255, 255, 255, 0.75)`,
     iconButton: `0 0.625rem 1.375rem ${lightColors.shadowDark}`,
     navigationButton: `0 0.625rem 1.375rem ${lightColors.shadowDark}`,
     paginationDot: `0 0.5rem 1rem ${lightColors.shadowPrimary}`,
     primaryButton: `0 1rem 2rem ${lightColors.shadowPrimary}`,
     summaryCard: `0 0.75rem 1.25rem ${lightColors.shadowPrimary}`,
-    stepperButton: `0 0.375rem 0.875rem ${lightColors.shadowLight}`,
-    stepperButtonPressed: `0 0.75rem 1.5rem ${lightColors.shadowPrimary}`,
-    stepperControl: `inset 0 0 0 0.0625rem ${lightColors.outlineVariant}`,
+    stepperButton: `0 0.625rem 1.25rem rgba(21, 32, 43, 0.05), inset 0 0.0625rem 0 rgba(255, 255, 255, 0.8)`,
+    stepperButtonPressed: `0 0.875rem 1.5rem ${lightColors.shadowPrimary}`,
+    stepperControl: `0 0.875rem 1.75rem ${lightColors.shadowLight}, inset 0 0.0625rem 0 rgba(255, 255, 255, 0.85)`,
     toggleButtonDanger: `0 0.75rem 1.5rem ${lightColors.shadowDark}`,
     toggleButtonSuccess: `0 0.75rem 1.5rem ${lightColors.shadowPrimary}`,
   },
   dark: {
-    cardSurface: `0 1.125rem 2.625rem ${darkColors.shadowMedium}, 0 0 0 0.0625rem ${darkColors.outlineVariant}, inset 0 0.0625rem 0 ${darkColors.divider}`,
-    descriptionSurface: `inset 0 0 0 0.0625rem ${darkColors.outlineVariant}`,
+    cardSurface: `0 1.5rem 3rem ${darkColors.shadowMedium}, inset 0 0.0625rem 0 rgba(255, 255, 255, 0.05)`,
+    descriptionSurface: `0 1rem 2rem rgba(0, 0, 0, 0.18), inset 0 0.0625rem 0 rgba(255, 255, 255, 0.03)`,
     desktopNoticeCard: `0 1.25rem 3rem ${darkColors.shadowMedium}`,
-    fieldSurface: `inset 0 0 0 0.0625rem ${darkColors.outlineVariant}, inset 0 0.0625rem 0 ${darkColors.divider}`,
+    fieldSurface: `0 0.625rem 1.25rem rgba(0, 0, 0, 0.14), inset 0 0.0625rem 0 rgba(255, 255, 255, 0.04)`,
     iconButton: `0 1rem 2rem ${darkColors.shadowDark}, 0 0 0 0.0625rem ${darkColors.outlineVariant}`,
     navigationButton: `0 1rem 2rem ${darkColors.shadowDark}, 0 0 0 0.0625rem ${darkColors.outlineVariant}`,
     paginationDot: `0 0.5rem 1rem ${darkColors.shadowPrimary}`,
     primaryButton: `0 1rem 2rem ${darkColors.shadowPrimary}`,
     summaryCard: `0 1rem 2rem ${darkColors.shadowMedium}, 0 0 0 0.0625rem ${darkColors.outlineVariant}`,
-    stepperButton: `0 0.75rem 1.25rem ${darkColors.shadowLight}, inset 0 0 0 0.0625rem ${darkColors.divider}`,
-    stepperButtonPressed: `0 0.75rem 1.5rem ${darkColors.shadowPrimary}`,
-    stepperControl: `inset 0 0 0 0.0625rem ${darkColors.divider}, 0 0.75rem 1.5rem ${darkColors.shadowLight}`,
+    stepperButton: `0 0.625rem 1.25rem rgba(0, 0, 0, 0.16), inset 0 0.0625rem 0 rgba(255, 255, 255, 0.05)`,
+    stepperButtonPressed: `0 0.875rem 1.5rem ${darkColors.shadowPrimary}`,
+    stepperControl: `0 0.875rem 1.75rem rgba(0, 0, 0, 0.18), inset 0 0.0625rem 0 rgba(255, 255, 255, 0.04)`,
     toggleButtonDanger: `0 0.75rem 1.5rem ${darkColors.shadowDark}`,
     toggleButtonSuccess: `0 0.75rem 1.5rem ${darkColors.shadowPrimary}`,
   },

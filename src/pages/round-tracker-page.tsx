@@ -17,7 +17,8 @@ import { useRoundNavigation } from "../hooks/useRoundNavigation";
 
 export const RoundTrackerPage = () => {
   const [isSummaryOpen, setIsSummaryOpen] = useState(false);
-  const { holes, resetRound, updateNumericField, toggleCheckbox } = useRound();
+  const { holes, playStrategy, resetRound, updateNumericField, toggleCheckbox } =
+    useRound();
   const {
     activeHoleIndex,
     carouselRef,
@@ -26,7 +27,7 @@ export const RoundTrackerPage = () => {
     setHoleCardRef,
     scrollToHole,
   } = useRoundNavigation({
-    holeCount: holes.length,
+    holesCount: holes.length,
   });
 
   return (
@@ -47,6 +48,7 @@ export const RoundTrackerPage = () => {
         onToggleCheckboxValue={toggleCheckbox}
         onUpdateNumericValue={updateNumericField}
         setHoleCardRef={setHoleCardRef}
+        playStrategy={playStrategy}
       />
 
       <StyledActionBar>
