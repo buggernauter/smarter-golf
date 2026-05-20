@@ -4,7 +4,7 @@ export type PlayStrategy = {
 };
 
 const par3Strategy: PlayStrategy = {
-  heading: "Putt/chip-läge från tee",
+  heading: "Slag mot green",
   points: [
     "Spela mot trygg sida",
     "Lämna enkelt närspel",
