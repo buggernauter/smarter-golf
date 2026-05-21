@@ -21,6 +21,12 @@ export const getPlayedHoles = (holes: Hole[]) => holes.filter(isHolePlayed);
 
 export const hasRoundData = (holes: Hole[]) => holes.some(isHolePlayed);
 
+export const isSaveableRound = (holes: Hole[]) => {
+  const playedHoleCount = getPlayedHoles(holes).length;
+
+  return playedHoleCount === 9 || playedHoleCount === 18;
+};
+
 export const getPlayedHoleSummary = (holes: Hole[]): PlayedHoleSummary =>
   getPlayedHoles(holes).reduce<PlayedHoleSummary>(
     (summary, hole) => {

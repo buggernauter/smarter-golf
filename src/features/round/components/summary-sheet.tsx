@@ -26,12 +26,18 @@ type Props = {
   holes: Hole[];
   isOpen: boolean;
   onClose: () => void;
+  onSaveRound: () => void;
 };
 
 const renderCheckState = (value: boolean) =>
   value ? <Check aria-hidden="true" /> : <X aria-hidden="true" />;
 
-export const SummarySheet = ({ holes, isOpen, onClose }: Props) => {
+export const SummarySheet = ({
+  holes,
+  isOpen,
+  onClose,
+  onSaveRound,
+}: Props) => {
   const {
     playedHoles,
     totalDownIn3,
@@ -123,7 +129,11 @@ export const SummarySheet = ({ holes, isOpen, onClose }: Props) => {
 
         <StyledSummarySheetFooter>
           <StyledPrimaryButton type="button" onClick={onClose}>
-            Stäng
+            Close
+          </StyledPrimaryButton>
+
+          <StyledPrimaryButton onClick={onSaveRound}>
+            Save round
           </StyledPrimaryButton>
         </StyledSummarySheetFooter>
       </StyledSummarySheet>

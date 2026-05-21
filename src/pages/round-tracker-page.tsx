@@ -1,9 +1,9 @@
 import { ClipboardList } from "lucide-react";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
+import { getPlayedHoleSummary } from "../domain/round-selectors";
 import { CardsCarousel } from "../features/round/components/cards-carousel";
 import { HoleNavigator } from "../features/round/components/hole-navigator";
-
 import { SummarySheet } from "../features/round/components/summary-sheet";
 import {
   StyledActionBar,
@@ -12,13 +12,20 @@ import {
   StyledResetButton,
   StyledResetIcon,
 } from "../features/round/components/styles";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 import { useRound } from "../hooks/useRound";
 import { useRoundNavigation } from "../hooks/useRoundNavigation";
 
 export const RoundTrackerPage = () => {
   const [isSummaryOpen, setIsSummaryOpen] = useState(false);
-  const { holes, playStrategy, resetRound, updateNumericField, toggleCheckbox } =
-    useRound();
+  const { setValue } = useLocalStorage();
+  const {
+    holes,
+    playStrategy,
+    resetRound,
+    updateNumericField,
+    toggleCheckbox,
+  } = useRound();
   const {
     activeHoleIndex,
     carouselRef,
@@ -29,6 +36,26 @@ export const RoundTrackerPage = () => {
   } = useRoundNavigation({
     holesCount: holes.length,
   });
+
+  useEffect(() => {
+    const dateKey = new Date().toLocaleDateString("sv-SE");
+
+    console.log({ dateKey });
+  }, []);
+
+  const handleSaveRound = useCallback(() => {
+    const scoreSummary = getPlayedHoleSummary(holes);
+    const playedHoleCount = scoreSummary.playedHoles.length;
+    if (playedHoleCount !== 9 && playedHoleCount !== 18) {
+      return;
+    }
+    const dateKey = new Date().toLocaleDateString("sv-SE");
+    setValue({
+      key: `${playedHoleCount}-hole ${dateKey}`,
+      value: JSON.stringify(scoreSummary),
+    });
+    alert(dateKey);
+  }, [holes, setValue]);
 
   return (
     <StyledPage>
@@ -73,6 +100,7 @@ export const RoundTrackerPage = () => {
         holes={holes}
         isOpen={isSummaryOpen}
         onClose={() => setIsSummaryOpen(false)}
+        onSaveRound={handleSaveRound}
       />
     </StyledPage>
   );
