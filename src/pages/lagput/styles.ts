@@ -57,7 +57,9 @@ export const StyledResetButton = styled.button`
 `;
 
 export const StyledForm = styled.form<{ $round: Round }>`
-  display: grid;
+  display: flex;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
   background: ${({ theme, $round }) =>
     $round === "frontNine"
       ? theme.palette.pageBackgroundGradient
