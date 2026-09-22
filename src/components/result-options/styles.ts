@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 export const StyledScoreTableFrame = styled.div`
   width: 100%;
-  border: 0.09375rem solid ${({ theme }) => theme.palette.outline};
   border-radius: 1.25rem;
   overflow: hidden;
   background: ${({ theme }) => theme.palette.transparent};

@@ -58,8 +58,11 @@ export const StyledResetButton = styled.button`
 
 export const StyledForm = styled.form<{ $round: Round }>`
   display: flex;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  box-sizing: border-box;
+  margin: 0 1rem;
+  padding: 0.625rem;
+  border: 0.0625rem solid ${({ theme }) => theme.palette.outline};
+  border-radius: 1.5rem;
   background: ${({ theme, $round }) =>
     $round === "frontNine"
       ? theme.palette.pageBackgroundGradient
@@ -67,6 +70,7 @@ export const StyledForm = styled.form<{ $round: Round }>`
   background-position: left center;
   background-repeat: no-repeat;
   background-size: 100% 100%;
+  box-shadow: ${({ theme }) => theme.palette.cardSurfaceShadow};
 
   & + & {
     margin-top: clamp(1.5rem, 4vw, 2.75rem);
