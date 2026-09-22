@@ -26,7 +26,7 @@ import {
   StyledStepperValue,
   StyledToggleRow,
   StyledToggleButton,
-} from "./styles";
+} from "../../../pages/round-tracker/styles";
 import { clampValue } from "../../../lib/helper";
 
 type Props = {

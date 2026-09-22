@@ -1,22 +1,46 @@
-import { ThemeProvider } from "styled-components";
+import { Outlet } from "@tanstack/react-router";
+import { ThemeProvider, createGlobalStyle } from "styled-components";
 
-import { DesktopNotice } from "./components/desktop-notice/desktop-notice";
-import { useThemeMode } from "./hooks/useThemeMode";
-import { StyledGlobalStyle } from "./global-style";
-import { RoundTrackerPage } from "./pages/round-tracker-page";
+import { ThemeModeProvider, useThemeMode } from "./hooks/useThemeMode";
+
 import { StyledAppLayout } from "./styles/layout";
 
-export default function App() {
+const StyledBaseStyles = createGlobalStyle`
+  html,
+  body,
+  #root {
+    min-height: 100%;
+  }
+
+  body {
+    margin: 0;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
+`;
+
+export const App = () => {
+  return (
+    <ThemeModeProvider>
+      <ThemedApp />
+    </ThemeModeProvider>
+  );
+};
+
+const ThemedApp = () => {
   const { theme } = useThemeMode();
 
   return (
     <ThemeProvider theme={theme}>
-      <StyledGlobalStyle />
+      <StyledBaseStyles />
       <StyledAppLayout>
-        <DesktopNotice>
-          <RoundTrackerPage />
-        </DesktopNotice>
+        <Outlet />
       </StyledAppLayout>
     </ThemeProvider>
   );
-}
+};

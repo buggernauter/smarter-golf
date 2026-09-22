@@ -32,8 +32,3 @@ export const StyledLead = styled(StyledTextBase)`
   font-weight: 600;
   color: ${({ theme }) => theme.palette.textPrimary};
 `;
-
-export const StyledText = styled(StyledTextBase)`
-  line-height: 1.55;
-  color: ${({ theme }) => theme.palette.textSecondary};
-`;

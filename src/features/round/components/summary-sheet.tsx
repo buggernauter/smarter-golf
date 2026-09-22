@@ -20,7 +20,7 @@ import {
   StyledTableStatusCell,
   StyledTableValue,
   StyledTableWrapper,
-} from "./styles";
+} from "../../../pages/round-tracker/styles";
 
 type Props = {
   holes: Hole[];

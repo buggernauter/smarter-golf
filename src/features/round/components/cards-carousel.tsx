@@ -11,7 +11,7 @@ import {
   StyledCarouselList,
   StyledPagination,
   StyledPaginationDot,
-} from "./styles";
+} from "../../../pages/round-tracker/styles";
 
 type Props = {
   activeHoleIndex: number;

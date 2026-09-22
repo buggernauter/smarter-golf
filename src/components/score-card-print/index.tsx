@@ -1,4 +1,8 @@
+import { useNavigate } from "@tanstack/react-router";
+import { ArrowLeft, Printer } from "lucide-react";
+
 import { holeData } from "../../api/chgk";
+import { Header } from "../global-header";
 import {
   StyledActionButton,
   StyledAsideGrid,
@@ -18,7 +22,6 @@ import {
   StyledSummaryField,
   StyledSummaryInput,
   StyledTable,
-  StyledToolbar,
 } from "./styles";
 
 type Hole = {
@@ -44,22 +47,34 @@ const sections = [
 ];
 
 export default function ScoreCardPrint() {
+  const navigate = useNavigate();
+
   return (
     <>
       <StyledPrintGlobalStyle />
       <StyledPage>
-        <StyledToolbar className="no-print">
-          <StyledActionButton
-            type="button"
-            aria-label="Skriv ut"
-            onClick={() => window.print()}
-          >
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M7 3h10v4H7V3Zm10 14H7v4h10v-4Z" />
-              <path d="M6 8h12a3 3 0 0 1 3 3v5h-3v-3H6v3H3v-5a3 3 0 0 1 3-3Zm2 7h8v2H8v-2Z" />
-            </svg>
-          </StyledActionButton>
-        </StyledToolbar>
+        <Header
+          className="no-print"
+          title="Score card"
+          leading={
+            <StyledActionButton
+              type="button"
+              aria-label="Tillbaka till scorekortet"
+              onClick={() => void navigate({ to: "/" })}
+            >
+              <ArrowLeft aria-hidden="true" />
+            </StyledActionButton>
+          }
+          trailing={
+            <StyledActionButton
+              type="button"
+              aria-label="Skriv ut"
+              onClick={() => window.print()}
+            >
+              <Printer aria-hidden="true" />
+            </StyledActionButton>
+          }
+        />
         <StyledSheet aria-label="Scorekort för utskrift">
           <StyledGrid>
             {sections.map((section) => (

@@ -42,20 +42,6 @@ export const StyledPage = styled.div`
     sans-serif;
 `;
 
-export const StyledHeader = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.875rem;
-  margin-bottom: 1.5rem;
-`;
-
-export const StyledNavigation = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-`;
-
 export const StyledNavigationButton = styled.button`
   width: 2.75rem;
   height: 2.75rem;
@@ -87,12 +73,6 @@ export const StyledNavigationButton = styled.button`
     width: 1.375rem;
     height: 1.375rem;
   }
-`;
-
-export const StyledHeaderTitle = styled.span`
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: ${({ theme }) => theme.palette.textSecondary};
 `;
 
 export const StyledCarouselList = styled.div`
@@ -362,6 +342,7 @@ export const StyledPaginationDot = styled.button<{ $active: boolean }>`
 
 export const StyledActionBar = styled.div`
   display: flex;
+  gap: 0.75rem;
   justify-content: center;
   padding-bottom: 1.75rem;
 `;

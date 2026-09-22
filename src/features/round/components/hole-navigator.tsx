@@ -1,11 +1,7 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-import {
-  StyledHeader,
-  StyledHeaderTitle,
-  StyledNavigation,
-  StyledNavigationButton,
-} from "./styles";
+import { Header } from "../../../components/global-header";
+import { StyledNavigationButton } from "../../../pages/round-tracker/styles";
 import type { ReactNode } from "react";
 
 type Props = {
@@ -23,8 +19,9 @@ export const HoleNavigator = ({
   onNextHole,
   onPreviousHole,
 }: Props) => (
-  <StyledHeader>
-    <StyledNavigation aria-label="Navigera mellan hål">
+  <Header
+    title={title}
+    leading={
       <StyledNavigationButton
         type="button"
         onClick={onPreviousHole}
@@ -33,7 +30,8 @@ export const HoleNavigator = ({
       >
         <ChevronLeft aria-hidden="true" />
       </StyledNavigationButton>
-      <StyledHeaderTitle>{title}</StyledHeaderTitle>
+    }
+    trailing={
       <StyledNavigationButton
         type="button"
         onClick={onNextHole}
@@ -42,6 +40,6 @@ export const HoleNavigator = ({
       >
         <ChevronRight aria-hidden="true" />
       </StyledNavigationButton>
-    </StyledNavigation>
-  </StyledHeader>
+    }
+  />
 );

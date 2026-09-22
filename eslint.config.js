@@ -6,9 +6,9 @@ import tseslint from 'typescript-eslint'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
-  globalIgnores(['dist']),
+  globalIgnores(["dist", "src/routeTree.gen.ts"]),
   {
-    files: ['**/*.{ts,tsx}'],
+    files: ["**/*.{ts,tsx}"],
     extends: [
       js.configs.recommended,
       tseslint.configs.recommended,
@@ -20,4 +20,10 @@ export default defineConfig([
       globals: globals.browser,
     },
   },
-])
+  {
+    files: ["api/**/*.ts", "server/**/*.ts", "vite.config.ts"],
+    languageOptions: {
+      globals: globals.node,
+    },
+  },
+]);

@@ -1,10 +1,11 @@
 import { holeData } from "../api/chgk";
-import { getPlayStrategy } from "./round-strategy";
+
 import type {
   BooleanHoleValue,
   Hole,
   NumericHoleValue,
 } from "../types/score-card";
+import { getPlayStrategy } from "./round-strategy";
 
 const createInitialHole = ({
   holeNr,

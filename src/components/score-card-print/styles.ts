@@ -90,6 +90,12 @@ export const StyledToolbar = styled.div`
   }
 `;
 
+export const StyledActionGroup = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+`;
+
 export const StyledActionButton = styled.button`
   display: inline-flex;
   align-items: center;
@@ -109,7 +115,6 @@ export const StyledActionButton = styled.button`
   svg {
     width: 1.375rem;
     height: 1.375rem;
-    fill: currentColor;
   }
 `;
 

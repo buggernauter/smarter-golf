@@ -35,7 +35,7 @@ const darkColors = {
   shadowDark: "rgba(0, 0, 0, 0.56)",
   shadowLight: "rgba(0, 0, 0, 0.28)",
   shadowMedium: "rgba(0, 0, 0, 0.42)",
-  shadowPrimary: "rgba(29, 185, 84, 0.22)",
+  shadowPrimary: "rgba(29, 185, 84, 0.1)",
   surfacePrimary: "#181818",
   surfaceSecondary: "#242424",
   textDisabled: "#a7a7a7",
@@ -66,7 +66,7 @@ const printColors = {
   textMuted: "#655b51",
 } as const;
 
-export const gradients = {
+const gradients = {
   light: {
     cardSurface: `linear-gradient(180deg, ${lightColors.backgroundPaper} 0%, ${lightColors.surfacePrimary} 100%)`,
     descriptionSurface:
@@ -75,8 +75,9 @@ export const gradients = {
       "linear-gradient(180deg, rgba(245, 249, 252, 0.95) 0%, rgba(236, 243, 248, 0.92) 100%)",
     iconButton: lightColors.backgroundPaper,
     navigationButton: lightColors.backgroundPaper,
-    pageBackground: `radial-gradient(circle at top, ${lightColors.backgroundDefault} 0%, transparent 45%), ${lightColors.backgroundPaper}`,
+    pageBackground: `linear-gradient(90deg, ${lightColors.backgroundDefault} 0%, ${lightColors.backgroundPaper} 100%)`,
     pageOverlay: "none",
+    scoreMenuOption: `linear-gradient(180deg, ${lightColors.backgroundPaper} 0%, ${lightColors.surfaceSecondary} 100%)`,
     stepperButton:
       "linear-gradient(180deg, rgba(245, 249, 252, 0.98) 0%, rgba(236, 243, 248, 0.95) 100%)",
     stepperControl:
@@ -92,9 +93,10 @@ export const gradients = {
       "linear-gradient(180deg, rgba(44, 44, 44, 0.92) 0%, rgba(26, 26, 26, 0.94) 100%)",
     iconButton: `linear-gradient(180deg, ${darkColors.surfacePrimary} 0%, ${darkColors.backgroundDefault} 100%)`,
     navigationButton: `linear-gradient(180deg, ${darkColors.surfacePrimary} 0%, ${darkColors.backgroundDefault} 100%)`,
-    pageBackground: `radial-gradient(circle at top, rgba(255, 255, 255, 0.045) 0%, transparent 38%), radial-gradient(circle at 20% 12%, ${darkColors.primaryMain}14 0%, transparent 22%), linear-gradient(180deg, #191919 0%, ${darkColors.backgroundPaper} 56%, #101010 100%)`,
+    pageBackground: `linear-gradient(90deg, ${darkColors.shadowPrimary} -95%, ${darkColors.backgroundPaper} 100%)`,
     pageOverlay:
       "radial-gradient(circle at 50% -10%, rgba(255, 255, 255, 0.035) 0%, transparent 34%), radial-gradient(circle at 85% 18%, rgba(255, 255, 255, 0.025) 0%, transparent 24%)",
+    scoreMenuOption: `linear-gradient(180deg, ${darkColors.surfaceSecondary} 0%, ${darkColors.backgroundPaper} 100%)`,
     stepperButton:
       "linear-gradient(180deg, rgba(52, 52, 52, 0.96) 0%, rgba(31, 31, 31, 0.96) 100%)",
     stepperControl:
@@ -107,7 +109,7 @@ export const gradients = {
   },
 } as const;
 
-export const shadows = {
+const shadows = {
   light: {
     cardSurface: `0 1.125rem 2.5rem ${lightColors.shadowLight}, inset 0 0.0625rem 0 rgba(255, 255, 255, 0.85)`,
     descriptionSurface: `0 1rem 2rem ${lightColors.shadowLight}, inset 0 0.0625rem 0 rgba(255, 255, 255, 0.7)`,
@@ -161,6 +163,7 @@ export const lightPalette: Palette = {
   pageOverlayGradient: gradients.light.pageOverlay,
   paginationDotShadow: shadows.light.paginationDot,
   primaryButtonShadow: shadows.light.primaryButton,
+  scoreMenuOptionGradient: gradients.light.scoreMenuOption,
   summaryCardShadow: shadows.light.summaryCard,
   summaryCardGradient: gradients.light.summaryCard,
   stepperButtonGradient: gradients.light.stepperButton,
@@ -189,6 +192,7 @@ export const darkPalette: Palette = {
   pageOverlayGradient: gradients.dark.pageOverlay,
   paginationDotShadow: shadows.dark.paginationDot,
   primaryButtonShadow: shadows.dark.primaryButton,
+  scoreMenuOptionGradient: gradients.dark.scoreMenuOption,
   summaryCardShadow: shadows.dark.summaryCard,
   summaryCardGradient: gradients.dark.summaryCard,
   stepperButtonGradient: gradients.dark.stepperButton,

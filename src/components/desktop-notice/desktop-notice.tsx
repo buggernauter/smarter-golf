@@ -1,13 +1,7 @@
 import { useCallback, useEffect, useState, type ReactNode } from "react";
 
 import { breakpoints } from "../../styles/breakpoints";
-import {
-  StyledCard,
-  StyledLayout,
-  StyledLead,
-  StyledText,
-  StyledTitle,
-} from "./styles";
+import { StyledCard, StyledLayout, StyledLead, StyledTitle } from "./styles";
 
 type Props = {
   children: ReactNode;
@@ -45,10 +39,6 @@ export const DesktopNotice = ({ children }: Props) => {
       <StyledCard>
         <StyledTitle>Mobile Only</StyledTitle>
         <StyledLead>Den här appen är byggd för mobilen.</StyledLead>
-        <StyledText>
-          Öppna appen på en mobil enhet för att använda scorekortet och
-          rundöversikten som tänkt.
-        </StyledText>
       </StyledCard>
     </StyledLayout>
   );

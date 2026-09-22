@@ -25,6 +25,8 @@ export type Palette = {
 
   primaryButtonShadow: string;
 
+  scoreMenuOptionGradient: string;
+
   summaryCardGradient: string;
 
   summaryCardShadow: string;

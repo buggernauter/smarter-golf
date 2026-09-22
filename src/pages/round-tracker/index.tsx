@@ -1,23 +1,25 @@
-import { ClipboardList } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
+import { useNavigate } from "@tanstack/react-router";
+import { ArrowLeft, ClipboardList, Printer } from "lucide-react";
+import { useCallback, useState } from "react";
 
-import { getPlayedHoleSummary } from "../domain/round-selectors";
-import { CardsCarousel } from "../features/round/components/cards-carousel";
-import { HoleNavigator } from "../features/round/components/hole-navigator";
-import { SummarySheet } from "../features/round/components/summary-sheet";
+import { getPlayedHoleSummary } from "../../domain/round-selectors";
+import { CardsCarousel } from "../../features/round/components/cards-carousel";
+import { HoleNavigator } from "../../features/round/components/hole-navigator";
+import { SummarySheet } from "../../features/round/components/summary-sheet";
 import {
   StyledActionBar,
   StyledIconButton,
   StyledPage,
   StyledResetButton,
   StyledResetIcon,
-} from "../features/round/components/styles";
-import { useLocalStorage } from "../hooks/useLocalStorage";
-import { useRound } from "../hooks/useRound";
-import { useRoundNavigation } from "../hooks/useRoundNavigation";
+} from "./styles";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { useRound } from "../../hooks/useRound";
+import { useRoundNavigation } from "../../hooks/useRoundNavigation";
 
 export const RoundTrackerPage = () => {
   const [isSummaryOpen, setIsSummaryOpen] = useState(false);
+  const navigate = useNavigate();
   const { setValue } = useLocalStorage();
   const {
     holes,
@@ -36,12 +38,6 @@ export const RoundTrackerPage = () => {
   } = useRoundNavigation({
     holesCount: holes.length,
   });
-
-  useEffect(() => {
-    const dateKey = new Date().toLocaleDateString("sv-SE");
-
-    console.log({ dateKey });
-  }, []);
 
   const handleSaveRound = useCallback(() => {
     const scoreSummary = getPlayedHoleSummary(holes);
@@ -81,10 +77,24 @@ export const RoundTrackerPage = () => {
       <StyledActionBar>
         <StyledIconButton
           type="button"
+          aria-label="Till startsidan"
+          onClick={() => void navigate({ to: "/" })}
+        >
+          <ArrowLeft aria-hidden="true" />
+        </StyledIconButton>
+        <StyledIconButton
+          type="button"
           aria-label="Öppna rondöversikt"
           onClick={() => setIsSummaryOpen(true)}
         >
           <ClipboardList aria-hidden="true" />
+        </StyledIconButton>
+        <StyledIconButton
+          type="button"
+          aria-label="Öppna utskriftsvänligt scorekort"
+          onClick={() => void navigate({ to: "/print" })}
+        >
+          <Printer aria-hidden="true" />
         </StyledIconButton>
       </StyledActionBar>
 
