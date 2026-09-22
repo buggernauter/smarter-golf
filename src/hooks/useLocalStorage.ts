@@ -40,5 +40,36 @@ export const useLocalStorage = () => {
     }
   }, []);
 
-  return { setValue, getValue, removeValue };
+  const getJsonValue = useCallback(
+    <T,>(key: string, fallback: T): T => {
+      const value = getValue(key);
+
+      if (!value) {
+        return fallback;
+      }
+
+      try {
+        return JSON.parse(value) as T;
+      } catch (error) {
+        console.log(error);
+        return fallback;
+      }
+    },
+    [getValue],
+  );
+
+  const setJsonValue = useCallback(
+    <T,>({ key, value }: { key: string; value: T }) => {
+      setValue({ key, value: JSON.stringify(value) });
+    },
+    [setValue],
+  );
+
+  return {
+    setValue,
+    getValue,
+    removeValue,
+    getJsonValue,
+    setJsonValue,
+  };
 };

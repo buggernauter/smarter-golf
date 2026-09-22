@@ -21,11 +21,11 @@ import {
   rankings,
   scoringSystem,
 } from "./config";
-import { getSavedLagputRounds } from "./storage";
 import {
   holes,
   LAGPUT_SCORE_STORAGE_KEY,
   type Round,
+  type SavedLagputRound,
   type Scores,
 } from "../../types/lag-put";
 import { Header } from "../../components/global-header";
@@ -34,7 +34,7 @@ import { ArrowLeft, RotateCcw } from "lucide-react";
 export const Lagput = () => {
   const [scores, setScores] = useState<Scores>(createEmptyScores);
   const [isSummaryOpen, setIsSummaryOpen] = useState(false);
-  const { getValue, setValue } = useLocalStorage();
+  const { getJsonValue, setJsonValue } = useLocalStorage();
 
   const { level, selectedScores, totalScore } = useMemo(() => {
     const selectedScores = holes.flatMap((round) => scores[round]);
@@ -68,13 +68,14 @@ export const Lagput = () => {
     setIsSummaryOpen(true);
   };
   const handleSaveScore = () => {
-    const savedRounds = getSavedLagputRounds(
-      getValue(LAGPUT_SCORE_STORAGE_KEY),
+    const savedRounds = getJsonValue<SavedLagputRound[]>(
+      LAGPUT_SCORE_STORAGE_KEY,
+      [],
     );
 
-    setValue({
+    setJsonValue({
       key: LAGPUT_SCORE_STORAGE_KEY,
-      value: JSON.stringify([
+      value: [
         {
           scores: {
             frontNine: [...scores.frontNine],
@@ -85,7 +86,7 @@ export const Lagput = () => {
           savedAt: new Date().toISOString(),
         },
         ...savedRounds,
-      ]),
+      ],
     });
     setIsSummaryOpen(false);
   };

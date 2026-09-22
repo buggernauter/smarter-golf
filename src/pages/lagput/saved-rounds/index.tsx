@@ -5,7 +5,6 @@ import { SummaryModal } from "../../../components/summary-modal";
 import { Header } from "../../../components/global-header";
 import { useLocalStorage } from "../../../hooks/useLocalStorage";
 
-import { getSavedLagputRounds } from "../storage";
 import {
   StyledBackLink,
   StyledDeleteButton,
@@ -23,12 +22,12 @@ import {
 } from "../../../types/lag-put";
 
 export const SavedRounds = () => {
-  const { getValue, removeValue, setValue } = useLocalStorage();
+  const { getJsonValue, removeValue, setJsonValue } = useLocalStorage();
   const [selectedRound, setSelectedRound] = useState<SavedLagputRound | null>(
     null,
   );
   const [savedRounds, setSavedRounds] = useState(() =>
-    getSavedLagputRounds(getValue(LAGPUT_SCORE_STORAGE_KEY)),
+    getJsonValue<SavedLagputRound[]>(LAGPUT_SCORE_STORAGE_KEY, []),
   );
   const selectedScores = selectedRound
     ? holes.flatMap((round) => selectedRound.scores[round])
@@ -42,9 +41,9 @@ export const SavedRounds = () => {
     setSavedRounds(remainingRounds);
 
     if (remainingRounds.length) {
-      setValue({
+      setJsonValue({
         key: LAGPUT_SCORE_STORAGE_KEY,
-        value: JSON.stringify(remainingRounds),
+        value: remainingRounds,
       });
     } else {
       removeValue(LAGPUT_SCORE_STORAGE_KEY);
