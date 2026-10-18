@@ -96,8 +96,8 @@ export const StyledScoreButton = styled.button`
   padding: 0 2.5rem 0 0.75rem;
   border: 0.0625rem solid ${({ theme }) => theme.palette.outlineVariant};
   border-radius: 0.625rem;
-  background: ${({ theme }) => theme.palette.fieldSurfaceGradient};
-  box-shadow: ${({ theme }) => theme.palette.fieldSurfaceShadow};
+  background: ${({ theme }) => theme.gradients.fieldSurface};
+  box-shadow: ${({ theme }) => theme.shadows.fieldSurface};
   color: ${({ theme }) => theme.palette.textPrimary};
   font-family: Arial, sans-serif;
   font-size: 1.3rem;
@@ -116,13 +116,13 @@ export const StyledScoreButton = styled.button`
   &:active,
   &[aria-expanded="true"] {
     background: ${({ theme }) => theme.palette.surfaceSecondary};
-    box-shadow: ${({ theme }) => theme.palette.stepperButtonPressedShadow};
+    box-shadow: ${({ theme }) => theme.shadows.stepperButtonPressed};
   }
 
   @media (hover: hover) {
     &:hover {
       background: ${({ theme }) => theme.palette.surfaceSecondary};
-      box-shadow: ${({ theme }) => theme.palette.stepperButtonPressedShadow};
+      box-shadow: ${({ theme }) => theme.shadows.stepperButtonPressed};
     }
   }
 
@@ -144,8 +144,8 @@ export const StyledScoreMenu = styled.div`
   margin-top: 0.85rem;
   border: 0.0625rem solid ${({ theme }) => theme.palette.outline};
   border-radius: 1rem;
-  background: ${({ theme }) => theme.palette.fieldSurfaceGradient};
-  box-shadow: ${({ theme }) => theme.palette.fieldSurfaceShadow};
+  background: ${({ theme }) => theme.gradients.fieldSurface};
+  box-shadow: ${({ theme }) => theme.shadows.fieldSurface};
 `;
 
 export const StyledScoreMenuOption = styled.button`
@@ -159,7 +159,7 @@ export const StyledScoreMenuOption = styled.button`
   min-height: 2.75rem;
   padding: 1.25rem 0.75rem;
   border: 0;
-  background: ${({ theme }) => theme.palette.scoreMenuOptionGradient};
+  background: ${({ theme }) => theme.gradients.scoreMenuOption};
   color: ${({ theme }) => theme.palette.textPrimary};
   font-family: Arial, sans-serif;
   font-size: 1.3rem;

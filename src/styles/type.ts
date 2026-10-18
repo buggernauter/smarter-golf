@@ -1,120 +1,75 @@
 export type Palette = {
-  cardSurfaceGradient: string;
+    textOnAccent: string;
+    scoreOptionBackground: string;
+    backdrop: string;
+    textPrimary: string;
 
-  cardSurfaceShadow: string;
+    textSecondary: string;
 
-  descriptionSurfaceGradient: string;
+    textDisabled: string;
 
-  descriptionSurfaceShadow: string;
+    backgroundDefault: string;
 
-  desktopNoticeCardShadow: string;
+    backgroundPaper: string;
 
-  fieldSurfaceGradient: string;
+    surfacePrimary: string;
 
-  fieldSurfaceShadow: string;
+    surfaceSecondary: string;
 
-  iconButtonGradient: string;
+    divider: string;
 
-  iconButtonShadow: string;
+    outline: string;
 
-  pageBackgroundGradient: string;
+    outlineVariant: string;
 
-  pageOverlayGradient: string;
+    primaryMain: string;
 
-  paginationDotShadow: string;
+    primaryLight: string;
 
-  primaryButtonShadow: string;
+    shadowLight: string;
 
-  scoreMenuOptionGradient: string;
+    shadowMedium: string;
 
-  summaryCardGradient: string;
-
-  summaryCardShadow: string;
-
-  stepperButtonGradient: string;
-
-  stepperButtonPressedShadow: string;
-
-  stepperButtonShadow: string;
-
-  stepperControlGradient: string;
-
-  stepperControlShadow: string;
-
-  toggleButtonDangerShadow: string;
-
-  toggleButtonSuccessShadow: string;
-
-  navigationButtonGradient: string;
-
-  navigationButtonShadow: string;
-
-  textPrimary: string;
-
-  textSecondary: string;
-
-  textDisabled: string;
-
-  backgroundDefault: string;
-
-  backgroundPaper: string;
-
-  surfacePrimary: string;
-
-  surfaceSecondary: string;
-
-  divider: string;
-
-  outline: string;
-
-  outlineVariant: string;
-
-  primaryMain: string;
-
-  primaryLight: string;
-
-  shadowLight: string;
-
-  shadowMedium: string;
-
-  shadowDark: string;
-  shadowPrimary: string;
-  fail: string;
-  borderDefault: string;
-  transparent: string;
+    shadowDark: string;
+    shadowPrimary: string;
+    fail: string;
+    success: string;
+    warn: string;
+    borderDefault: string;
+    transparent: string;
 };
 
 export type PrintPalette = {
-  actionText: string;
+    actionText: string;
 
-  card: string;
+    card: string;
 
-  border: string;
+    border: string;
 
-  borderStrong: string;
+    borderStrong: string;
 
-  borderSubtle: string;
+    borderSubtle: string;
 
-  borderSoft: string;
+    borderSoft: string;
 
-  pageGradient: string;
+    pageGradient: string;
 
-  paper: string;
+    paper: string;
 
-  paperOverlay: string;
+    paperOverlay: string;
 
-  sheetGradient: string;
+    sheetGradient: string;
 
-  sheetShadow: string;
+    sheetShadow: string;
 
-  tableHeader: string;
+    tableHeader: string;
 
-  text: string;
+    text: string;
 
-  textMuted: string;
+    textMuted: string;
 
-  line: string;
-  muted: string;
-  panelTint: string;
-  surface: string;
+    line: string;
+    muted: string;
+    panelTint: string;
+    surface: string;
 };

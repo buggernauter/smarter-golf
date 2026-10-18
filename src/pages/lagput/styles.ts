@@ -43,8 +43,8 @@ export const StyledResetButton = styled.button`
   padding: 0.75rem 1rem;
   border: 0.0625rem solid ${({ theme }) => theme.palette.outlineVariant};
   border-radius: 0.875rem;
-  background: ${({ theme }) => theme.palette.fieldSurfaceGradient};
-  box-shadow: ${({ theme }) => theme.palette.fieldSurfaceShadow};
+  background: ${({ theme }) => theme.gradients.fieldSurface};
+  box-shadow: ${({ theme }) => theme.shadows.fieldSurface};
   color: ${({ theme }) => theme.palette.textPrimary};
   font-family: Arial, sans-serif;
   font-size: 1.2rem;
@@ -65,12 +65,12 @@ export const StyledForm = styled.form<{ $round: Round }>`
   border-radius: 1.5rem;
   background: ${({ theme, $round }) =>
     $round === "frontNine"
-      ? theme.palette.pageBackgroundGradient
-      : theme.palette.pageBackgroundGradient};
+      ? theme.gradients.pageBackground
+      : theme.gradients.pageBackground};
   background-position: left center;
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  box-shadow: ${({ theme }) => theme.palette.cardSurfaceShadow};
+  box-shadow: ${({ theme }) => theme.shadows.cardSurface};
 
   & + & {
     margin-top: clamp(1.5rem, 4vw, 2.75rem);
@@ -82,8 +82,8 @@ export const StyledScoringSystem = styled.section`
   padding: 1.25rem;
   border: 0.0625rem solid ${({ theme }) => theme.palette.divider};
   border-radius: 1rem;
-  background: ${({ theme }) => theme.palette.fieldSurfaceGradient};
-  box-shadow: ${({ theme }) => theme.palette.fieldSurfaceShadow};
+  background: ${({ theme }) => theme.gradients.fieldSurface};
+  box-shadow: ${({ theme }) => theme.shadows.fieldSurface};
   color: ${({ theme }) => theme.palette.textPrimary};
 
   p {
@@ -101,8 +101,8 @@ export const StyledReferenceCard = styled.aside`
   padding: 1.25rem;
   border: 0.0625rem solid ${({ theme }) => theme.palette.divider};
   border-radius: 1rem;
-  background: ${({ theme }) => theme.palette.fieldSurfaceGradient};
-  box-shadow: ${({ theme }) => theme.palette.fieldSurfaceShadow};
+  background: ${({ theme }) => theme.gradients.fieldSurface};
+  box-shadow: ${({ theme }) => theme.shadows.fieldSurface};
   color: ${({ theme }) => theme.palette.textPrimary};
 `;
 
@@ -151,7 +151,7 @@ export const StyledFinishButton = styled.button`
   border-radius: 0.875rem;
   background: ${({ theme }) => theme.palette.primaryMain};
   color: ${({ theme }) => theme.palette.backgroundPaper};
-  box-shadow: ${({ theme }) => theme.palette.primaryButtonShadow};
+  box-shadow: ${({ theme }) => theme.shadows.primaryButton};
   font-family: Georgia, "Times New Roman", serif;
   font-size: 1.2rem;
   font-weight: 700;
@@ -165,13 +165,13 @@ export const StyledFinishButton = styled.button`
 
   @media (hover: hover) {
     &:hover {
-      box-shadow: ${({ theme }) => theme.palette.primaryButtonShadow};
+      box-shadow: ${({ theme }) => theme.shadows.primaryButton};
       transform: translateY(-0.0625rem);
     }
   }
 
   &:active {
-    box-shadow: ${({ theme }) => theme.palette.primaryButtonShadow};
+    box-shadow: ${({ theme }) => theme.shadows.primaryButton};
     transform: translateY(0.0625rem);
   }
 
@@ -192,8 +192,8 @@ export const StyledSavedRoundsLink = styled(Link)`
   padding: 0.75rem 1rem;
   border: 0.0625rem solid ${({ theme }) => theme.palette.outlineVariant};
   border-radius: 0.875rem;
-  background: ${({ theme }) => theme.palette.fieldSurfaceGradient};
-  box-shadow: ${({ theme }) => theme.palette.fieldSurfaceShadow};
+  background: ${({ theme }) => theme.gradients.fieldSurface};
+  box-shadow: ${({ theme }) => theme.shadows.fieldSurface};
   color: ${({ theme }) => theme.palette.textPrimary};
   font-family: Arial, sans-serif;
   font-size: 1.2rem;
@@ -207,7 +207,7 @@ export const StyledSavedRoundsLink = styled(Link)`
   @media (hover: hover) {
     &:hover {
       background: ${({ theme }) => theme.palette.surfaceSecondary};
-      box-shadow: ${({ theme }) => theme.palette.iconButtonShadow};
+      box-shadow: ${({ theme }) => theme.shadows.iconButton};
     }
   }
 

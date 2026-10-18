@@ -1,4 +1,4 @@
-import type { Hole } from "../types/score-card";
+import type { Hole } from "../../types/score-card";
 
 export type PlayedHoleSummary = {
   playedHoles: Hole[];

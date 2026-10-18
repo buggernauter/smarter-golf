@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 export const StyledSavedRoundsPage = styled.main`
   min-height: 100dvh;
-  background: ${({ theme }) => theme.palette.pageBackgroundGradient};
+  background: ${({ theme }) => theme.gradients.pageBackground};
   color: ${({ theme }) => theme.palette.textPrimary};
   font-family: Arial, sans-serif;
 `;
@@ -52,9 +52,9 @@ export const StyledRoundButton = styled.button`
   padding: 1rem;
   border: 0.0625rem solid ${({ theme }) => theme.palette.outline};
   border-radius: 1rem;
-  background: ${({ theme }) => theme.palette.cardSurfaceGradient};
+  background: ${({ theme }) => theme.gradients.cardSurface};
   color: ${({ theme }) => theme.palette.textPrimary};
-  box-shadow: ${({ theme }) => theme.palette.cardSurfaceShadow};
+  box-shadow: ${({ theme }) => theme.shadows.cardSurface};
   font: inherit;
   text-align: left;
   cursor: pointer;

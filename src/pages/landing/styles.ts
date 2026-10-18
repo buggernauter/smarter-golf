@@ -12,8 +12,8 @@ export const StyledLandingPage = styled.main`
 
 export const StyledCardSurface = css`
   border-radius: 1.75rem;
-  background: ${({ theme }) => theme.palette.cardSurfaceGradient};
-  box-shadow: ${({ theme }) => theme.palette.cardSurfaceShadow};
+  background: ${({ theme }) => theme.gradients.cardSurface};
+  box-shadow: ${({ theme }) => theme.shadows.cardSurface};
   border: 0.0625rem solid ${({ theme }) => theme.palette.divider};
 `;
 
@@ -57,7 +57,7 @@ export const StyledLinkIcon = styled.div<{ $tone: "primary" | "secondary" }>`
     $tone === "primary"
       ? `linear-gradient(135deg, ${theme.palette.primaryMain} 0%, ${theme.palette.textSecondary} 100%)`
       : `linear-gradient(135deg, ${theme.palette.textSecondary} 0%, ${theme.palette.textDisabled} 100%)`};
-  box-shadow: ${({ theme }) => theme.palette.primaryButtonShadow};
+  box-shadow: ${({ theme }) => theme.shadows.primaryButton};
 
   svg {
     width: 1.6rem;

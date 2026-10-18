@@ -5,8 +5,9 @@ const StyledTextBase = styled.p`
 `;
 
 export const StyledLayout = styled.div`
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   min-height: 100vh;
   padding: 2rem;
   box-sizing: border-box;
@@ -18,7 +19,7 @@ export const StyledCard = styled.section`
   border-radius: 1.5rem;
   background: ${({ theme }) => theme.palette.backgroundPaper};
   color: ${({ theme }) => theme.palette.textPrimary};
-  box-shadow: ${({ theme }) => theme.palette.desktopNoticeCardShadow};
+  box-shadow: ${({ theme }) => theme.shadows.desktopNoticeCard};
   border: 0.0625rem solid ${({ theme }) => theme.palette.divider};
 `;
 

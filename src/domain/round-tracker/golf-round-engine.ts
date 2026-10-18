@@ -1,0 +1,27 @@
+import { holeData } from '../../api/chgk';
+import type { Hole, NumericHoleValue, BooleanHoleValue } from '../../types/score-card';
+import { getPlayStrategy } from './golf-round-strategy';
+
+const createInitialHole = ({ holeNr, parValue, meterValue }: (typeof holeData)[number]): Hole => ({
+    number: holeNr,
+    par: parValue,
+    score: 0,
+    penalty: 0,
+    downIn3: false,
+    threePutt: false,
+    meter: meterValue,
+    scoringGoal: getPlayStrategy(parValue).heading,
+    scoringZone: false,
+});
+
+export const createInitialHoles = (): Hole[] => holeData.map(createInitialHole);
+
+export const updateRoundNumericValue = (
+    holes: Hole[],
+    index: number,
+    field: NumericHoleValue,
+    value: number,
+) => holes.map((hole, holeIndex) => (holeIndex === index ? { ...hole, [field]: value } : hole));
+
+export const toggleRoundBooleanValue = (holes: Hole[], index: number, field: BooleanHoleValue) =>
+    holes.map((hole, holeIndex) => (holeIndex === index ? { ...hole, [field]: !hole[field] } : hole));

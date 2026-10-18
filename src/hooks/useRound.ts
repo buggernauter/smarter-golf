@@ -1,51 +1,41 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from 'react';
 
+import { getPlayStrategy } from '../domain/round-tracker/golf-round-strategy';
+
+import type { BooleanHoleValue, NumericHoleValue } from '../types/score-card';
+import { useRoundStorage } from './useRoundStorage';
 import {
-  createInitialHoles,
-  toggleRoundBooleanValue,
-  updateRoundNumericValue,
-} from "../domain/round-engine";
-import { getPlayStrategy } from "../domain/round-strategy";
+    createInitialHoles,
+    updateRoundNumericValue,
+    toggleRoundBooleanValue,
+} from '../domain/round-tracker/golf-round-engine';
 
-import type { BooleanHoleValue, NumericHoleValue } from "../types/score-card";
-import { useRoundStorage } from "./useRoundStorage";
+export const useScorecard = () => {
+    const { clearRound, hydrateRound, syncRound } = useRoundStorage();
+    const [holes, setHoles] = useState(() => hydrateRound(createInitialHoles()));
 
-export const useRound = () => {
-  const { clearRound, hydrateRound, syncRound } = useRoundStorage();
-  const [holes, setHoles] = useState(() => hydrateRound(createInitialHoles()));
+    useEffect(() => {
+        syncRound(holes);
+    }, [holes, syncRound]);
 
-  useEffect(() => {
-    syncRound(holes);
-  }, [holes, syncRound]);
+    const updateNumericField = useCallback((index: number, field: NumericHoleValue, value: number) => {
+        setHoles((currentHoles) => updateRoundNumericValue(currentHoles, index, field, value));
+    }, []);
 
-  const updateNumericField = useCallback(
-    (index: number, field: NumericHoleValue, value: number) => {
-      setHoles((currentHoles) =>
-        updateRoundNumericValue(currentHoles, index, field, value),
-      );
-    },
-    [],
-  );
+    const toggleCheckbox = useCallback((index: number, field: BooleanHoleValue) => {
+        setHoles((currentHoles) => toggleRoundBooleanValue(currentHoles, index, field));
+    }, []);
 
-  const toggleCheckbox = useCallback(
-    (index: number, field: BooleanHoleValue) => {
-      setHoles((currentHoles) =>
-        toggleRoundBooleanValue(currentHoles, index, field),
-      );
-    },
-    [],
-  );
+    const resetRound = useCallback(() => {
+        clearRound();
+        setHoles(createInitialHoles());
+    }, [clearRound]);
 
-  const resetRound = useCallback(() => {
-    clearRound();
-    setHoles(createInitialHoles());
-  }, [clearRound]);
-
-  return {
-    holes,
-    playStrategy: getPlayStrategy,
-    resetRound,
-    toggleCheckbox,
-    updateNumericField,
-  };
+    return {
+        holes,
+        playStrategy: getPlayStrategy,
+        resetRound,
+        toggleCheckbox,
+        updateNumericField,
+    };
 };

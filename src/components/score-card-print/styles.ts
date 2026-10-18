@@ -146,15 +146,27 @@ export const StyledSheet = styled.main`
 `;
 
 export const StyledGrid = styled.section`
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  display: flex;
+  > * {
+    flex: 1 1 0;
+    min-width: 0;
+  }
   gap: 0.875rem;
 
   @media (max-width: ${breakpoints.printCompact}) {
-    grid-template-columns: 1fr;
+    flex-direction: column;
+
+    > * {
+      flex-basis: auto;
+    }
   }
 
   @media print {
+    flex-direction: row;
+
+    > * {
+      flex-basis: 0;
+    }
     display: flex;
     align-items: flex-start;
     gap: 1mm;
@@ -371,14 +383,20 @@ export const StyledInputBox = styled.span`
 `;
 
 export const StyledSectionGroup = styled.div`
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 0.75rem;
 
   @media (max-width: ${breakpoints.printCompact}) {
-    grid-template-columns: 1fr;
+    flex-direction: column;
+
+    > * {
+      flex-basis: auto;
+    }
   }
 
   @media print {
+    flex-direction: row;
     display: flex;
     align-items: flex-start;
     gap: 1.5mm;
@@ -387,16 +405,28 @@ export const StyledSectionGroup = styled.div`
 `;
 
 export const StyledSummary = styled.section`
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  display: flex;
+  > * {
+    flex: 1 1 0;
+    min-width: 0;
+  }
   gap: 0.625rem;
   margin: 0.75rem 0;
 
   @media (max-width: ${breakpoints.printCompact}) {
-    grid-template-columns: 1fr;
+    flex-direction: column;
+
+    > * {
+      flex-basis: auto;
+    }
   }
 
   @media print {
+    flex-direction: row;
+
+    > * {
+      flex-basis: 0;
+    }
     flex: 0 0 84mm;
     margin: 0;
     gap: 2mm;
@@ -444,15 +474,31 @@ export const StyledSummaryInput = styled.div`
 `;
 
 export const StyledAsideGrid = styled.section`
-  display: grid;
-  grid-template-columns: 1.2fr 1fr;
+  display: flex;
+  > * {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  > :first-child {
+    flex-grow: 1.2;
+  }
   gap: 0.875rem;
 
   @media (max-width: ${breakpoints.printCompact}) {
-    grid-template-columns: 1fr;
+    flex-direction: column;
+
+    > * {
+      flex-basis: auto;
+    }
   }
 
   @media print {
+    flex-direction: row;
+
+    > * {
+      flex-basis: 0;
+    }
     flex: 1 1 0;
     min-width: 0;
     align-items: flex-start;

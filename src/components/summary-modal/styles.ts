@@ -4,8 +4,9 @@ export const StyledModalBackdrop = styled.div`
   position: fixed;
   z-index: 10;
   inset: 0;
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 1rem;
   background: ${({ theme }) => theme.palette.shadowDark};
 `;
@@ -18,8 +19,8 @@ export const StyledSummaryModal = styled.section`
   padding: 1.25rem;
   border: 0.0625rem solid ${({ theme }) => theme.palette.outline};
   border-radius: 1.25rem;
-  background: ${({ theme }) => theme.palette.cardSurfaceGradient};
-  box-shadow: ${({ theme }) => theme.palette.cardSurfaceShadow};
+  background: ${({ theme }) => theme.gradients.cardSurface};
+  box-shadow: ${({ theme }) => theme.shadows.cardSurface};
 `;
 
 export const StyledSummaryHeader = styled.header`
@@ -36,11 +37,12 @@ export const StyledSummaryTitle = styled.h2`
 `;
 
 export const StyledSummaryClose = styled.button`
-  display: grid;
+  display: flex;
   width: 2.75rem;
   min-width: 2.75rem;
   height: 2.75rem;
-  place-items: center;
+  align-items: center;
+  justify-content: center;
   padding: 0;
   border: 0.0625rem solid ${({ theme }) => theme.palette.outline};
   border-radius: 50%;
@@ -50,14 +52,15 @@ export const StyledSummaryClose = styled.button`
 `;
 
 export const StyledSummaryScore = styled.div`
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 0.25rem;
   margin: 1.25rem 0;
   padding: 1rem;
   border-radius: 0.875rem;
-  background: ${({ theme }) => theme.palette.fieldSurfaceGradient};
+  background: ${({ theme }) => theme.gradients.fieldSurface};
   color: ${({ theme }) => theme.palette.textPrimary};
-  box-shadow: ${({ theme }) => theme.palette.fieldSurfaceShadow};
+  box-shadow: ${({ theme }) => theme.shadows.fieldSurface};
   text-align: center;
 
   span {
@@ -87,7 +90,8 @@ export const StyledSummaryLevel = styled.p`
 `;
 
 export const StyledSummaryList = styled.ul`
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 0;
   margin: 0;
   padding: 0;
@@ -96,14 +100,22 @@ export const StyledSummaryList = styled.ul`
 `;
 
 export const StyledSummaryListItem = styled.li`
-  display: grid;
-  grid-template-columns: 1fr auto auto;
+  display: flex;
   gap: 1rem;
   align-items: center;
   min-height: 2.75rem;
   border-bottom: 0.0625rem solid ${({ theme }) => theme.palette.outlineVariant};
   color: ${({ theme }) => theme.palette.textPrimary};
   font-family: Arial, sans-serif;
+
+  > :first-child {
+    flex: 1;
+    min-width: 0;
+  }
+
+  > :not(:first-child) {
+    flex-shrink: 0;
+  }
 
   span:last-child {
     min-width: 3.5rem;
