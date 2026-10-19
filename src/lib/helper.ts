@@ -11,3 +11,6 @@ export const formatSavedAt = (savedAt: string) =>
         dateStyle: 'medium',
         timeStyle: 'short',
     }).format(new Date(savedAt));
+
+export const getCourseHcp = (hcpIndex: number, slopeRating: number, courseRating: number, par: number) =>
+    hcpIndex * (slopeRating / 113) + courseRating - par;

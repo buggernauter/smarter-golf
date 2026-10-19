@@ -7,7 +7,7 @@ export const StyledForecastResult = styled.div`
     padding: 1rem 0.875rem;
 `;
 
-export const StyledForecastConfidence = styled(StyledForecastResult)`
+export const StyledForecastGoal = styled(StyledForecastResult)`
     flex: 1 1 0;
     display: flex;
     flex-direction: column;
@@ -15,7 +15,7 @@ export const StyledForecastConfidence = styled(StyledForecastResult)`
     background: ${({ theme }) => theme.palette.surfaceSecondary};
 `;
 export const StyledForecastLabel = styled.div`
-    color: ${({ theme }) => theme.palette.textDisabled};
+    color: ${({ theme }) => theme.palette.textSecondary};
     font-size: 0.78rem;
     font-weight: 600;
     letter-spacing: 0.02em;
@@ -33,8 +33,11 @@ export const StyledForecastScore = styled.div`
     }
 `;
 
-export const StyledForecastPercent = styled(StyledForecastScore)`
-    font-size: 1.2rem;
+export const StyledForecastText = styled.p`
+    margin: 0.5rem 0 0;
+    color: ${({ theme }) => theme.palette.textSecondary};
+    font-size: 0.85rem;
+    line-height: 1.5;
 `;
 export const StyledForecastCard = styled.div`
     ${StyledCardSurface};

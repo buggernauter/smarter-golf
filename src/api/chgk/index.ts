@@ -4,6 +4,12 @@ export type HoleData = {
     meterValue: number;
 };
 export const coursePar = 71;
+export const courseRating = 69.9;
+export const slopeRating = 126;
+export const tees = {
+    tee1: 55,
+};
+
 export const holeData: HoleData[] = [
     {
         holeNr: 1,

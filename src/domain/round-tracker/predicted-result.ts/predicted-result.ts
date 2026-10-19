@@ -1,114 +1,106 @@
-import { coursePar } from '../../../api/chgk';
+import { isHoleCompleted } from '../golf-round-selectors.ts';
 
-// Modellantagande, bör senare utvärderas mot historiska rundor.
-const PRIOR_STD = 0.8;
+// Egna, preliminära modellantaganden som ska valideras mot riktiga rundor.
+const FORM_RESIDUAL_LIMIT = 2;
+const FORM_PRIOR_HOLES = 12;
+const FORM_ADJUSTMENT_LIMIT = 0.35;
+const CENTRAL_80_PERCENT_Z = 1.2815515655446004;
 
 export type PredictionInput = {
-    holes: ReadonlyArray<{ score: number; par: number }>;
-    /** Antal virtuella hål som startvärdet motsvarar. */
-    startingWeight: number;
+    holes: ReadonlyArray<{
+        score: number;
+        expectedTotalStroke: number;
+    }>;
+    predictionRange?: {
+        fullRoundStandardDeviation: number;
+        baselineStandardDeviation: number;
+    };
 };
 
 export type Prediction = {
     playedHoles: number;
-    currentResult: number;
-    predictedResult: number;
-    predictedStrokes: number;
-    /** Uppskattat spann, utan verifierad täckningssannolikhet. */
-    estimatedResultRange: { bestResult: number; worstResult: number };
-    /** Andel av rundan med registrerade slutresultat, 0–100. */
+    actualTotalScore: number;
+    expectedRemaining: number;
+    expectedFinal: number;
+    formAdjustment: number;
+    predictionInterval: { lower: number; upper: number; level: 0.8; isCalibrated: false } | null;
     playedPercentage: number;
     isComplete: boolean;
 };
 
-const check = ({
-    playedHoleResults,
-    totalHoles,
-    startingWeight,
-}: Omit<PredictionInput, 'holes'> & { playedHoleResults: number[]; totalHoles: number }) => {
-    if (!Number.isInteger(totalHoles) || totalHoles < 1) {
-        throw new RangeError('totalHoles måste vara ett positivt heltal.');
-    }
+const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
 
-    if (!Number.isFinite(startingWeight) || startingWeight <= 0) {
-        throw new RangeError('startingWeight måste vara ändligt och större än 0.');
+const validate = ({ holes, predictionRange: uncertainty }: PredictionInput) => {
+    if (holes.length !== 18) {
+        throw new RangeError('Prognosen kräver en planerad rond med 18 hål.');
+    }
+    for (const hole of holes) {
+        if (!Number.isSafeInteger(hole.score) || hole.score < 0) {
+            throw new RangeError('Score måste vara ett icke-negativt säkert heltal.');
+        }
+        if (!Number.isFinite(hole.expectedTotalStroke) || hole.expectedTotalStroke < 1) {
+            throw new RangeError('Förväntad bruttoscore måste vara ändlig och minst 1.');
+        }
     }
     if (
-        playedHoleResults.length > totalHoles ||
-        playedHoleResults.some((score) => !Number.isInteger(score))
+        uncertainty &&
+        (!Number.isFinite(uncertainty.fullRoundStandardDeviation) ||
+            uncertainty.fullRoundStandardDeviation < 0 ||
+            !Number.isFinite(uncertainty.baselineStandardDeviation) ||
+            uncertainty.baselineStandardDeviation < 0)
     ) {
-        throw new RangeError('Ange heltalsresultat för högst totalHoles avslutade hål.');
+        throw new RangeError('Ogiltiga parametrar för prognosens osäkerhet.');
     }
 };
 
-export const predictRound = ({ holes, startingWeight }: PredictionInput): Prediction | null => {
-    const playedHoleResults: number[] = [];
-    const totalHoles = holes.length;
-    let currentResult = 0;
+export const predictRound = ({ holes, predictionRange: uncertainty }: PredictionInput): Prediction => {
+    validate({ holes, predictionRange: uncertainty });
 
-    for (const hole of holes) {
-        if (hole.score > 0) {
-            const result = hole.score - hole.par - 1;
-            playedHoleResults.push(result);
-            currentResult += result;
-        }
-    }
+    const playedHoles = holes.filter(isHoleCompleted);
+    const remaining = holes.filter((hole) => !isHoleCompleted(hole));
+    const actualTotalScore = playedHoles.reduce((sum, hole) => sum + hole.score, 0);
+    const strokesAboveExpected = playedHoles.reduce(
+        (sum, hole) =>
+            sum + clamp(hole.score - hole.expectedTotalStroke, -FORM_RESIDUAL_LIMIT, FORM_RESIDUAL_LIMIT),
+        0,
+    );
+    const formAdjustment = clamp(
+        strokesAboveExpected / (playedHoles.length + FORM_PRIOR_HOLES),
+        -FORM_ADJUSTMENT_LIMIT,
+        FORM_ADJUSTMENT_LIMIT,
+    );
+    const expectedRemaining = remaining.reduce(
+        (sum, hole) => sum + Math.max(1, hole.expectedTotalStroke + formAdjustment),
+        0,
+    );
+    const expectedFinal = actualTotalScore + expectedRemaining;
+    const isComplete = remaining.length === 0;
 
-    check({
-        playedHoleResults,
-        totalHoles,
-        startingWeight,
-    });
+    let predictionInterval: Prediction['predictionInterval'] = null;
+    if (isComplete || uncertainty) {
+        const fraction = remaining.length / holes.length;
 
-    const playedHoles = playedHoleResults.length;
-
-    const remaining = totalHoles - playedHoles;
-
-    if (remaining === 0) {
-        return {
-            playedHoles,
-            currentResult,
-            predictedResult: currentResult,
-            predictedStrokes: Math.round(coursePar + totalHoles + currentResult),
-            estimatedResultRange: { bestResult: currentResult, worstResult: currentResult },
-            playedPercentage: 100,
-            isComplete: true,
+        const variance = uncertainty
+            ? uncertainty.fullRoundStandardDeviation ** 2 * fraction +
+              uncertainty.baselineStandardDeviation ** 2 * fraction ** 2
+            : 0;
+        const margin = CENTRAL_80_PERCENT_Z * Math.sqrt(variance);
+        predictionInterval = {
+            lower: Math.max(actualTotalScore + remaining.length, Math.floor(expectedFinal - margin)),
+            upper: Math.ceil(expectedFinal + margin),
+            level: 0.8,
+            isCalibrated: false,
         };
     }
 
-    const averageResultPerPlayedHole = currentResult / playedHoles;
-    const effectiveHoleCount = playedHoles + startingWeight;
-    // Bogey motsvarar 0, så de virtuella hålen bidrar bara till vikten.
-    const estimatedResultPerRemainingHole = currentResult / effectiveHoleCount;
-
-    let squaredDeviations = 0;
-    for (const score of playedHoleResults) {
-        squaredDeviations += (score - averageResultPerPlayedHole) ** 2;
-    }
-
-    // Tar även hänsyn till skillnaden mellan observerat snitt
-    // och startvärdet, så tidig oenighet ger större osäkerhet.
-    const weightedMeanDifference =
-        ((playedHoles * startingWeight) / effectiveHoleCount) * averageResultPerPlayedHole ** 2;
-
-    const estimatedResultVariancePerHole =
-        (squaredDeviations + startingWeight * PRIOR_STD ** 2 + weightedMeanDifference) / effectiveHoleCount;
-
-    const expected = currentResult + remaining * estimatedResultPerRemainingHole;
-    const remainingResultStandardDeviation = Math.sqrt(
-        estimatedResultVariancePerHole * remaining * (1 + remaining / effectiveHoleCount),
-    );
-
     return {
-        playedHoles,
-        currentResult,
-        predictedResult: expected,
-        predictedStrokes: Math.round(coursePar + totalHoles + expected),
-        estimatedResultRange: {
-            bestResult: expected - remainingResultStandardDeviation,
-            worstResult: expected + remainingResultStandardDeviation,
-        },
-        playedPercentage: Math.round((playedHoles / totalHoles) * 100),
-        isComplete: false,
+        playedHoles: playedHoles.length,
+        actualTotalScore,
+        expectedRemaining,
+        expectedFinal,
+        formAdjustment,
+        predictionInterval,
+        playedPercentage: Math.round((playedHoles.length / holes.length) * 100),
+        isComplete,
     };
 };

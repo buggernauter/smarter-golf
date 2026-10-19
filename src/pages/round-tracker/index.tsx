@@ -19,8 +19,8 @@ import { CardsCarousel } from './components/cards-carousel';
 import { SummarySheet } from './components/summary-sheet';
 import { predictRound } from '../../domain/round-tracker/predicted-result.ts/predicted-result';
 import { Forecast } from './components/forecast/forecast';
-
-const MINIMUM_PLAYED_HOLES = 3;
+import { getRoundGoalStatus } from '../../domain/round-tracker/golf-round-goal';
+import { hcp } from '../../api/player';
 
 export const RoundTrackerPage = () => {
     const [isSummaryOpen, setIsSummaryOpen] = useState(false);
@@ -54,10 +54,18 @@ export const RoundTrackerPage = () => {
     }, [resetRound, scrollToHole]);
 
     const prediction = predictRound({
-        holes,
-        startingWeight: 3,
+        holes: holes.map((hole) => ({
+            score: hole.score,
+            expectedTotalStroke: hole.par + 1,
+        })),
+        predictionRange: {
+            // Preliminärt spridningsantagande, inte en handicapformel.
+            // Påverkar enbart intervallet; ska kalibreras mot rondhistorik.
+            fullRoundStandardDeviation: 3.5 + 0.1 * Math.max(0, hcp),
+            baselineStandardDeviation: 0,
+        },
     });
-    const holesUntilPrediction = holes.filter((hole) => hole.score > 0).length > MINIMUM_PLAYED_HOLES;
+    const goalStatus = getRoundGoalStatus(prediction);
 
     return (
         <StyledPage>
@@ -69,11 +77,9 @@ export const RoundTrackerPage = () => {
                 <Home aria-hidden="true" />
             </StyledIconButton>
             <Forecast
-                titleLeft="Prognos"
-                titleRight="Säkerhet"
-                value={prediction?.predictedStrokes}
-                confidence={prediction?.playedPercentage}
-                isReady={holesUntilPrediction}
+                prediction={prediction}
+                goalStatus={goalStatus}
+                totalHoles={holes.length}
             />
             <CardsCarousel
                 carouselRef={carouselRef}
@@ -100,19 +106,6 @@ export const RoundTrackerPage = () => {
                 ))}
             </StyledPagination>
 
-            {/* <section aria-label="Resultatprognos">
-                {prediction ? (
-                    <>
-                        <p>Uppskattat resultat: {prediction.predictedStrokes} slag</p>
-                        <p>Prognos säkerhet: {Math.round(prediction.playedPercentage)}%</p>
-                    </>
-                ) : (
-                    <>
-                        <p>Uppskattat resultat: Spela {holesUntilPrediction} hål till</p>
-                        <p>Prognos säkerhet: 0%</p>
-                    </>
-                )}
-            </section> */}
             <StyledActionBar>
                 <StyledIconButton
                     type="button"
