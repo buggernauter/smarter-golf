@@ -1,8 +1,8 @@
 import { useNavigate } from "@tanstack/react-router";
 import { ArrowLeft, Printer } from "lucide-react";
 
-import { holeData } from "../../api/chgk";
-import { Header } from "../global-header";
+import { holeData } from "@/api/chgk";
+import { Header } from "@/components/global-header";
 import {
   StyledActionButton,
   StyledAsideGrid,
@@ -22,7 +22,7 @@ import {
   StyledSummaryField,
   StyledSummaryInput,
   StyledTable,
-} from "./styles";
+} from "@/components/score-card-print/styles";
 
 type Hole = {
   number: number;
@@ -42,7 +42,7 @@ const frontPar = frontNine.reduce((sum, hole) => sum + hole.par, 0);
 const backPar = backNine.reduce((sum, hole) => sum + hole.par, 0);
 
 const sections = [
-  { title: "Ut", holes: frontNine, parTotal: frontPar },
+  { title: "Out", holes: frontNine, parTotal: frontPar },
   { title: "In", holes: backNine, parTotal: backPar },
 ];
 
@@ -59,7 +59,7 @@ export default function ScoreCardPrint() {
           leading={
             <StyledActionButton
               type="button"
-              aria-label="Tillbaka till scorekortet"
+              aria-label="Back to scorecard"
               onClick={() => void navigate({ to: "/" })}
             >
               <ArrowLeft aria-hidden="true" />
@@ -68,14 +68,14 @@ export default function ScoreCardPrint() {
           trailing={
             <StyledActionButton
               type="button"
-              aria-label="Skriv ut"
+              aria-label="Print"
               onClick={() => window.print()}
             >
               <Printer aria-hidden="true" />
             </StyledActionButton>
           }
         />
-        <StyledSheet aria-label="Scorekort för utskrift">
+        <StyledSheet aria-label="Printable scorecard">
           <StyledGrid>
             {sections.map((section) => (
               <StyledCard key={section.title}>
@@ -87,11 +87,11 @@ export default function ScoreCardPrint() {
                 <StyledTable>
                   <thead>
                     <tr>
-                      <th>Hål</th>
+                      <th>Hole</th>
                       <th>Par</th>
                       <th>SZ</th>
                       <th>D3</th>
-                      <th>Straff</th>
+                      <th>Penalties</th>
                       <th>Putts</th>
                       <th>3-putt</th>
                       <th>Score</th>
@@ -130,9 +130,9 @@ export default function ScoreCardPrint() {
           </StyledGrid>
 
           <StyledSectionGroup>
-            <StyledSummary aria-label="Summering">
+            <StyledSummary aria-label="Summary">
               <StyledSummaryField>
-                <span>Ut</span>
+                <span>Out</span>
                 <strong>{frontPar}</strong>
                 <StyledSummaryInput />
               </StyledSummaryField>
@@ -147,26 +147,26 @@ export default function ScoreCardPrint() {
                 <StyledSummaryInput />
               </StyledSummaryField>
               <StyledSummaryField>
-                <span>Till par</span>
+                <span>To par</span>
                 <strong>&nbsp;</strong>
                 <StyledSummaryInput />
               </StyledSummaryField>
             </StyledSummary>
 
-            <StyledAsideGrid aria-label="Förklaring">
+            <StyledAsideGrid aria-label="Explanation">
               <StyledInfoCard>
-                <h3>Scoringmål</h3>
+                <h3>Scoring targets</h3>
                 <ul>
-                  <li>Par 3: putt/chip kring green.</li>
-                  <li>Par 4: cirka 90 m kvar efter 2 slag.</li>
-                  <li>Par 5: cirka 90 m kvar efter 3 slag.</li>
+                  <li>Par 3: putt or chip around the green.</li>
+                  <li>Par 4: about 90 m remaining after 2 shots.</li>
+                  <li>Par 5: about 90 m remaining after 3 shots.</li>
                 </ul>
               </StyledInfoCard>
               <StyledInfoCard>
-                <h3>Förklaring</h3>
+                <h3>Explanation</h3>
                 <p>
-                  <strong>Down in 3:</strong> Att du får bollen i hål på tre
-                  slag från scoringzonen.
+                  <strong>Down in 3:</strong> Hole the ball in three
+                  strokes from the scoring zone.
                 </p>
               </StyledInfoCard>
             </StyledAsideGrid>

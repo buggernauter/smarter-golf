@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-import { useVisibleSlideObserver } from './useVisibleSlideObserver';
+import { useVisibleSlideObserver } from '@/hooks/useVisibleSlideObserver';
 
 export const useSwipeNavigation = () => {
     const [activeHoleIndex, setActiveHoleIndex] = useState(0);

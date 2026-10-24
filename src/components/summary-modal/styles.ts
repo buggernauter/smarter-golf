@@ -12,7 +12,7 @@ export const StyledModalBackdrop = styled.div`
 `;
 
 export const StyledSummaryModal = styled.section`
-  width: min(100%, 28rem);
+  width: 100%;
   max-height: calc(100dvh - 2rem);
   box-sizing: border-box;
   overflow-y: auto;

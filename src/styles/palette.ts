@@ -1,4 +1,4 @@
-import type { Palette, PrintPalette } from './type';
+import type { Palette, PrintPalette } from '@/styles/type';
 
 const lightColors: Palette = {
     textOnAccent: '#ffffff',

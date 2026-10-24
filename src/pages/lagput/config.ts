@@ -1,4 +1,4 @@
-import type { Round, Scores } from "../../types/lag-put";
+import type { Round, Scores } from "@/types/lag-put";
 
 export const lagPuttDistances: Record<Round, number[]> = {
   frontNine: [22, 12, 18, 10, 14, 8, 22, 12, 18],

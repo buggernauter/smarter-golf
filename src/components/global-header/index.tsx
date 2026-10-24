@@ -4,8 +4,8 @@ import {
   StyledGlobalHeader,
   StyledHeaderAction,
   StyledHeaderTitle,
-} from "./styles";
-import { ThemeToggleButton } from "../theme-toggle";
+} from "@/components/global-header/styles";
+import { ThemeToggleButton } from "@/components/theme-toggle";
 
 interface GlobalHeaderProps {
   title: ReactNode;

@@ -1,4 +1,4 @@
-import { StyledPrognosFill, StyledPrognosTrack } from './styles';
+import { StyledPrognosFill, StyledPrognosTrack } from '@/components/ui/prognos/styles';
 
 interface PrognosProps {
     value: number;

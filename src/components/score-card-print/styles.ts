@@ -1,7 +1,6 @@
 import styled, { createGlobalStyle, css } from "styled-components";
 
-import { breakpoints } from "../../styles/breakpoints";
-import { printPalette } from "../../styles/palette";
+import { printPalette } from "@/styles/palette";
 
 const StyledInfoCardSurface = css`
   padding: 0.75rem 0.875rem;
@@ -58,14 +57,10 @@ export const StyledPrintGlobalStyle = createGlobalStyle`
 
 export const StyledPage = styled.div`
   min-height: 100vh;
-  padding: 1.5rem;
+  padding: 0.0625rem;
   background: ${printPalette.pageGradient};
   color: ${printPalette.text};
   font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
-
-  @media (max-width: ${breakpoints.printCompact}) {
-    padding: 0.0625rem;
-  }
 
   @media print {
     width: 100%;
@@ -78,16 +73,12 @@ export const StyledPage = styled.div`
 
 export const StyledToolbar = styled.div`
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: stretch;
   justify-content: space-between;
   gap: 1rem;
-  max-width: 70rem;
   margin: 0 auto 1.125rem;
 
-  @media (max-width: ${breakpoints.printCompact}) {
-    flex-direction: column;
-    align-items: stretch;
-  }
 `;
 
 export const StyledActionGroup = styled.div`
@@ -120,22 +111,16 @@ export const StyledActionButton = styled.button`
 
 export const StyledSheet = styled.main`
   box-sizing: border-box;
-  max-width: 70rem;
   margin: 0 auto;
-  padding: 1.75rem;
+  padding: 0;
   border: 0.0625rem solid ${printPalette.border};
   border-radius: 1.75rem;
   background: ${printPalette.sheetGradient};
   box-shadow: ${printPalette.sheetShadow};
 
-  @media (max-width: ${breakpoints.printCompact}) {
-    padding: 0;
-  }
-
   @media print {
     display: block;
     width: 100%;
-    max-width: none;
     padding: 0;
     border: 0;
     border-radius: 0;
@@ -147,19 +132,12 @@ export const StyledSheet = styled.main`
 
 export const StyledGrid = styled.section`
   display: flex;
+  flex-direction: column;
   > * {
-    flex: 1 1 0;
+    flex: 1 1 auto;
     min-width: 0;
   }
   gap: 0.875rem;
-
-  @media (max-width: ${breakpoints.printCompact}) {
-    flex-direction: column;
-
-    > * {
-      flex-basis: auto;
-    }
-  }
 
   @media print {
     flex-direction: row;
@@ -387,12 +365,8 @@ export const StyledSectionGroup = styled.div`
   flex-direction: column;
   gap: 0.75rem;
 
-  @media (max-width: ${breakpoints.printCompact}) {
-    flex-direction: column;
-
-    > * {
-      flex-basis: auto;
-    }
+  > * {
+    flex-basis: auto;
   }
 
   @media print {
@@ -406,20 +380,13 @@ export const StyledSectionGroup = styled.div`
 
 export const StyledSummary = styled.section`
   display: flex;
+  flex-direction: column;
   > * {
-    flex: 1 1 0;
+    flex: 1 1 auto;
     min-width: 0;
   }
   gap: 0.625rem;
   margin: 0.75rem 0;
-
-  @media (max-width: ${breakpoints.printCompact}) {
-    flex-direction: column;
-
-    > * {
-      flex-basis: auto;
-    }
-  }
 
   @media print {
     flex-direction: row;
@@ -475,8 +442,9 @@ export const StyledSummaryInput = styled.div`
 
 export const StyledAsideGrid = styled.section`
   display: flex;
+  flex-direction: column;
   > * {
-    flex: 1 1 0;
+    flex: 1 1 auto;
     min-width: 0;
   }
 
@@ -484,14 +452,6 @@ export const StyledAsideGrid = styled.section`
     flex-grow: 1.2;
   }
   gap: 0.875rem;
-
-  @media (max-width: ${breakpoints.printCompact}) {
-    flex-direction: column;
-
-    > * {
-      flex-basis: auto;
-    }
-  }
 
   @media print {
     flex-direction: row;

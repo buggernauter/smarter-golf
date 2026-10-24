@@ -5,7 +5,7 @@ import {
     StyledStepperButton,
     StyledStepperControl,
     StyledStepperValue,
-} from './styles';
+} from '@/components/ui/update-number-field/styles';
 interface Props {
     title: string;
     value: number;
@@ -20,7 +20,7 @@ export const NumberStepper = ({ title, value, updateValue, minValue, maxValue }:
             <StyledStepperControl>
                 <StyledStepperButton
                     type="button"
-                    aria-label="Minska"
+                    aria-label="Decrease"
                     disabled={value <= minValue}
                     onClick={() => updateValue(value - 1)}
                 >
@@ -31,7 +31,7 @@ export const NumberStepper = ({ title, value, updateValue, minValue, maxValue }:
                 </StyledStepperValue>
                 <StyledStepperButton
                     type="button"
-                    aria-label="Öka"
+                    aria-label="Increase"
                     disabled={value >= maxValue}
                     onClick={() => updateValue(value + 1)}
                 >

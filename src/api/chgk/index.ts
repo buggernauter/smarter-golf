@@ -78,8 +78,8 @@ export const holeData: HoleData[] = [
     },
     {
         holeNr: 14,
-        parValue: 3,
-        meterValue: 110,
+        parValue: 4,
+        meterValue: 269,
     },
     {
         holeNr: 15,

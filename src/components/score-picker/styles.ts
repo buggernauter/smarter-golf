@@ -82,12 +82,6 @@ export const ScoreTrigger = styled.button`
         line-height: ${typography.lineHeight};
     }
 
-    @media (hover: hover) {
-        &:hover {
-            background: ${({ theme }) => theme.palette.surfaceSecondary};
-            border-color: ${({ theme }) => theme.palette.borderDefault};
-        }
-    }
 
     &:focus-visible {
         outline: ${focus.width} solid ${({ theme }) => theme.palette.primaryMain};
@@ -179,11 +173,6 @@ export const ScoreButton = styled.button`
         line-height: ${typography.labelLineHeight};
     }
 
-    @media (hover: hover) {
-        &:hover {
-            background: ${({ theme }) => theme.palette.surfaceSecondary};
-        }
-    }
 
     &:focus-visible {
         outline: ${focus.width} solid ${({ theme }) => theme.palette.primaryMain};
@@ -218,8 +207,5 @@ export const DeleteButton = styled(ScoreButton)`
     svg {
         width: ${DELETE_ICON_SIZE};
         height: ${DELETE_ICON_SIZE};
-    }
-    &:hover {
-        background: ${({ theme }) => theme.palette.transparent};
     }
 `;

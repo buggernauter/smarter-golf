@@ -9,7 +9,7 @@ import {
   type SetStateAction,
 } from "react";
 
-import { appTheme, darkTheme, type AppTheme } from "../styles/palette";
+import { appTheme, darkTheme, type AppTheme } from "@/styles/palette";
 
 export type ThemeMode = "light" | "dark";
 

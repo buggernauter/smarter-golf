@@ -1,78 +1,68 @@
-import { scoreGoal } from '../../../../api/player';
-import type { Prediction } from '../../../../domain/round-tracker/predicted-result.ts/predicted-result';
-import type { getRoundGoalStatus } from '../../../../domain/round-tracker/golf-round-goal';
-
+import { ClipboardList } from 'lucide-react';
+import { scoreGoal } from '@/api/player';
+import type { Prediction } from '@/types/score-card';
+import { StyledIconButton } from '@/pages/round-tracker/styles';
 import {
     StyledForecastCard,
     StyledForecastGoal,
+    StyledForecastHeader,
+    StyledForecastProgress,
     StyledForecastResult,
     StyledForecastScore,
-    StyledForecastLabel,
-    StyledForecastText,
-} from './styles';
+    StyledForecastStat,
+    StyledForecastStats,
+    StyledForecastStatValue,
+} from '@/pages/round-tracker/components/forecast/styles';
+import { Spacer } from '@/components/ui/spacer';
 
 interface Props {
     prediction: Prediction;
-    goalStatus: ReturnType<typeof getRoundGoalStatus>;
     totalHoles: number;
+    onOpenSummary: () => void;
 }
 
-const formatStrokes = (value: number) =>
-    new Intl.NumberFormat('sv-SE', { maximumFractionDigits: 1 }).format(value);
-
-export const Forecast = ({ prediction, goalStatus, totalHoles }: Props) => {
-    const remainingHoles = totalHoles - prediction.playedHoles;
-    const { remainingBudget, improvementNeeded, goalAchieved } = goalStatus;
+export const Forecast = ({ prediction, totalHoles, onOpenSummary }: Props) => {
+    const remainingBudget = scoreGoal - prediction.strokesSoFar;
+    const range = prediction.predictedStrokesRange;
+    const forecast = prediction.isRoundComplete
+        ? prediction.strokesSoFar
+        : prediction.completedHoles < 3
+          ? 'Calculating …'
+          : range === null
+            ? '–'
+            : `${range.lower}–${range.higher}`;
+    const hasForecast = prediction.isRoundComplete || (prediction.completedHoles >= 3 && range !== null);
 
     return (
         <StyledForecastCard aria-live="polite" aria-atomic="true">
-            <StyledForecastResult>
-                <StyledForecastLabel>{prediction.isComplete ? 'Slutscore' : 'Prognos'}</StyledForecastLabel>
-                <StyledForecastScore>
-                    {Math.round(prediction.expectedFinal)} slag
-                    {!prediction.isComplete && prediction.predictionInterval && (
-                        <span>
-                            {' · troligen '}
-                            {prediction.predictionInterval.lower}–{prediction.predictionInterval.upper}
-                        </span>
-                    )}
-                </StyledForecastScore>
-                <StyledForecastText>
-                    {prediction.playedHoles} av {totalHoles} hål färdigspelade
-                </StyledForecastText>
-                {!prediction.isComplete && (
-                    <StyledForecastText>
-                        {prediction.predictionInterval
-                            ? 'Preliminärt spann (80 %)'
-                            : 'Utifrån Scoring Zone-planen'}
-                    </StyledForecastText>
-                )}
-            </StyledForecastResult>
-            <StyledForecastGoal>
-                {/* <StyledForecastLabel>
-                    Break {scoreGoal + 1} · högst {scoreGoal} slag
-                </StyledForecastLabel> */}
-                {prediction.isComplete ? (
-                    <StyledForecastScore>
-                        {goalAchieved ? 'Målet klarat!' : 'Målet nåddes inte'}
-                    </StyledForecastScore>
-                ) : (
-                    <>
-                        <StyledForecastScore>
-                            {remainingBudget < 0
-                                ? `${Math.abs(remainingBudget)} slag över målbudgeten`
-                                : `${remainingBudget} slag kvar på ${remainingHoles} hål`}
-                        </StyledForecastScore>
-                        <StyledForecastText>
-                            {remainingBudget < remainingHoles
-                                ? 'Målet går inte längre att nå den här rundan.'
-                                : improvementNeeded > 0
-                                  ? `Spela ${formatStrokes(Math.ceil(improvementNeeded * 10) / 10)} slag bättre än prognosen på återstående hål.`
-                                  : 'Prognosen ligger inom mål.'}
-                        </StyledForecastText>
-                    </>
-                )}
-            </StyledForecastGoal>
+            <StyledForecastHeader>
+                <StyledForecastResult>
+                    <Spacer size={8} />
+
+                    <StyledForecastScore $hasForecast={hasForecast}>{forecast}</StyledForecastScore>
+                </StyledForecastResult>
+                <StyledForecastGoal>
+                    <StyledIconButton type="button" aria-label="Open round summary" onClick={onOpenSummary}>
+                        <ClipboardList aria-hidden="true" />
+                    </StyledIconButton>
+                </StyledForecastGoal>
+            </StyledForecastHeader>
+
+            <StyledForecastStats>
+                <StyledForecastStat>
+                    <StyledForecastStatValue>{prediction.strokesSoFar}</StyledForecastStatValue> strokes
+                </StyledForecastStat>
+                <StyledForecastStat>
+                    <StyledForecastStatValue>{Math.abs(remainingBudget)}</StyledForecastStatValue>{' '}
+                    {remainingBudget < 0 ? 'strokes over target' : 'strokes remaining'}
+                </StyledForecastStat>
+            </StyledForecastStats>
+
+            <StyledForecastProgress
+                aria-label="Completed holes"
+                value={prediction.completedHoles}
+                max={totalHoles}
+            />
         </StyledForecastCard>
     );
 };

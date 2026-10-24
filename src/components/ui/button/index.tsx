@@ -3,7 +3,7 @@ import {
   type ButtonHTMLAttributes,
   type CSSProperties,
 } from "react";
-import { StyledButton, type ButtonVariant } from "./styles";
+import { StyledButton, type ButtonVariant } from "@/components/ui/button/styles";
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: ButtonVariant;

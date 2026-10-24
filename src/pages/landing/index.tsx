@@ -5,8 +5,8 @@ import {
   StyledLinkIcon,
   StyledLinkContent,
   StyledLinkTitle,
-} from "./styles";
-import { Header } from "../../components/global-header";
+} from "@/pages/landing/styles";
+import { Header } from "@/components/global-header";
 
 export const LandingPage = () => {
   return (
@@ -22,7 +22,7 @@ export const LandingPage = () => {
         <StyledRouteLink to="/lagput">
           <StyledLinkIcon $tone="primary"></StyledLinkIcon>
           <StyledLinkContent>
-            <StyledLinkTitle>Lagput</StyledLinkTitle>
+            <StyledLinkTitle>Lag putting</StyledLinkTitle>
           </StyledLinkContent>
         </StyledRouteLink>
       </StyledLinkGrid>

@@ -1,4 +1,4 @@
-import type { Hole } from '../../types/score-card';
+import type { Hole } from '@/types/score-card';
 
 type PlayedHoleSummary = {
     playedHoles: Hole[];
@@ -10,8 +10,8 @@ type PlayedHoleSummary = {
     totalThreePutt: number;
 };
 
-export const isHoleCompleted = (hole: Pick<Hole, 'score'>) =>
-    Number.isSafeInteger(hole.score) && hole.score > 0;
+export const isHoleCompleted = (hole: Pick<Hole, 'stroke'>) =>
+    Number.isSafeInteger(hole.stroke) && hole.stroke > 0;
 
 const getPlayedHoles = (holes: Hole[]) => holes.filter(isHoleCompleted);
 
@@ -22,7 +22,7 @@ export const getPlayedHoleSummary = (holes: Hole[]): PlayedHoleSummary =>
         (summary, hole) => {
             summary.playedHoles.push(hole);
             summary.totalPar += hole.par;
-            summary.totalScore += hole.score;
+            summary.totalScore += hole.stroke;
             summary.totalPenalty += hole.penalty;
             summary.totalDownIn3 += Number(hole.downIn3);
             summary.totalScoringZone += Number(hole.scoringZone);

@@ -119,12 +119,6 @@ export const StyledScoreButton = styled.button`
     box-shadow: ${({ theme }) => theme.shadows.stepperButtonPressed};
   }
 
-  @media (hover: hover) {
-    &:hover {
-      background: ${({ theme }) => theme.palette.surfaceSecondary};
-      box-shadow: ${({ theme }) => theme.shadows.stepperButtonPressed};
-    }
-  }
 
   &:focus-visible {
     outline: 0.125rem solid ${({ theme }) => theme.palette.primaryMain};

@@ -7,7 +7,7 @@ export const getSwedishDateKey = () =>
     }).format(new Date());
 
 export const formatSavedAt = (savedAt: string) =>
-    new Intl.DateTimeFormat('sv-SE', {
+    new Intl.DateTimeFormat('en-GB', {
         dateStyle: 'medium',
         timeStyle: 'short',
     }).format(new Date(savedAt));

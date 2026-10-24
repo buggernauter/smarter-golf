@@ -2,117 +2,98 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { predictRound } from '../src/domain/round-tracker/predicted-result.ts/predicted-result.ts';
 
-const createHoles = () => Array.from({ length: 18 }, () => ({ score: 0, expectedTotalStroke: 5 }));
-const uncertainty = {
-    fullRoundStandardDeviation: 6,
-    baselineStandardDeviation: 2,
-};
+const createHoles = () => Array.from({ length: 18 }, (_, index) => ({
+    number: index + 1,
+    par: 4,
+    stroke: 0,
+    penalty: 0,
+    downIn3: false,
+    threePutt: false,
+    meter: 300,
+    scoringGoal: '',
+    scoringZone: false,
+}));
 
-test('noll hål ger en ändlig startprognos utan påhittat intervall', () => {
+test('no forecast before the first completed hole', () => {
     const result = predictRound({ holes: createHoles() });
-    assert.equal(result.expectedFinal, 90);
+    assert.equal(result.expectedFinal, null);
+    assert.equal(result.expectedRemaining, null);
     assert.equal(result.actualTotalScore, 0);
-    assert.equal(result.formAdjustment, 0);
-    assert.equal(result.predictionInterval, null);
+    assert.equal(result.playedHoles, 0);
+    assert.equal(result.playedPercentage, 0);
+    assert.equal(result.isComplete, false);
 });
 
-test('faktiska slag plus återstående håls egna förväntningar, utan intern avrundning', () => {
+test('one completed hole produces a forecast based on the deviation from par', () => {
     const holes = createHoles();
-    holes[0].score = 5;
-    holes[17].expectedTotalStroke = 6.25;
+    holes[0].stroke = 5;
     const result = predictRound({ holes });
     assert.equal(result.actualTotalScore, 5);
-    assert.equal(result.expectedRemaining, 86.25);
-    assert.equal(result.expectedFinal, 91.25);
+    assert.equal(result.expectedRemaining, 85);
+    assert.equal(result.expectedFinal, 90);
     assert.equal(result.playedHoles, 1);
 });
 
-test('katastrofhål räknas fullt men extrapoleras begränsat', () => {
+test('different hole pars and playing orders use the average relative to par without rounding', () => {
     const holes = createHoles();
-    holes[0].score = 12;
-    const first = predictRound({ holes });
-    assert.equal(first.actualTotalScore, 12);
-    assert.equal(first.formAdjustment, 2 / 13);
-    assert.ok(Math.abs(first.expectedRemaining - (85 + 17 * 2 / 13)) < 1e-10);
-    holes[0].score = 20;
-    const worse = predictRound({ holes });
-    assert.equal(worse.actualTotalScore, 20);
-    assert.equal(worse.expectedRemaining, first.expectedRemaining);
+    holes[0] = { ...holes[0], stroke: 4, par: 3 };
+    holes[8] = { ...holes[8], stroke: 7, par: 5 };
+    holes[17] = { ...holes[17], stroke: 4, par: 4 };
+    const result = predictRound({ holes });
+    assert.equal(result.actualTotalScore, 15);
+    assert.equal(result.expectedRemaining, 75);
+    assert.equal(result.expectedFinal, 90);
+    holes[17].stroke = 3;
+    assert.ok(Math.abs(predictRound({ holes }).expectedFinal! - 84) < 1e-10);
 });
 
-test('korrigerad och borttagen score beräknas om från grunden', () => {
+test('playing under par lowers the forecast', () => {
     const holes = createHoles();
-    holes[0].score = 12;
-    predictRound({ holes });
-    holes[0].score = 5;
+    holes[0].stroke = 3;
+    const result = predictRound({ holes });
+    assert.equal(result.expectedRemaining, 51);
+    assert.equal(result.expectedFinal, 54);
+});
+
+test('corrected and removed strokes trigger a fresh calculation', () => {
+    const holes = createHoles();
+    holes[0].stroke = 12;
+    assert.equal(predictRound({ holes }).expectedFinal, 216);
+    holes[0].stroke = 5;
     assert.equal(predictRound({ holes }).expectedFinal, 90);
-    holes[0].score = 0;
-    assert.equal(predictRound({ holes }).playedHoles, 0);
+    holes[0].stroke = 0;
+    assert.equal(predictRound({ holes }).expectedFinal, null);
 });
 
-test('formjustering begränsas åt båda håll och hålförväntan understiger inte 1', () => {
-    for (const score of [1, 12]) {
-        const holes = createHoles();
-        for (let i = 0; i < 10; i++) holes[i].score = score;
-        assert.equal(predictRound({ holes }).formAdjustment, score === 1 ? -0.35 : 0.35);
-    }
-    const holes = createHoles().map(() => ({ score: 1, expectedTotalStroke: 2 }));
-    holes[17] = { score: 0, expectedTotalStroke: 1 };
-    assert.equal(predictRound({ holes }).expectedRemaining, 1);
+test('a completed round produces the exact actual final score', () => {
+    const holes = createHoles().map((hole, index) => ({ ...hole, stroke: index % 2 === 0 ? 4 : 6 }));
+    const result = predictRound({ holes });
+    assert.equal(result.actualTotalScore, 90);
+    assert.equal(result.expectedFinal, 90);
+    assert.equal(result.expectedRemaining, 0);
+    assert.equal(result.playedHoles, 18);
+    assert.equal(result.playedPercentage, 100);
+    assert.equal(result.isComplete, true);
 });
 
-test('80-procentsintervallet smalnar av och blir exakt faktisk slutscore', () => {
+test('the calculation does not mutate its input', () => {
     const holes = createHoles();
-    let previousWidth = Infinity;
-    for (let n = 0; n <= 18; n++) {
-        if (n > 0) holes[n - 1].score = 5;
-        const interval = predictRound({ holes, predictionRange: uncertainty }).predictionInterval!;
-        assert.equal(interval.level, 0.8);
-        assert.equal(interval.isCalibrated, false);
-        assert.ok(Number.isFinite(interval.lower) && Number.isFinite(interval.upper));
-        const width = interval.upper - interval.lower;
-        assert.ok(width <= previousWidth);
-        previousWidth = width;
-    }
-    const final = predictRound({ holes });
-    assert.equal(final.expectedFinal, 90);
-    assert.equal(final.expectedRemaining, 0);
-    assert.equal(final.isComplete, true);
-    assert.equal(final.predictionInterval!.lower, 90);
-    assert.equal(final.predictionInterval!.upper, 90);
+    holes[0].stroke = 7;
+    const before = structuredClone(holes);
+    predictRound({ holes });
+    assert.deepEqual(holes, before);
 });
 
-test('ogiltig score, hålförväntan, rondlängd och osäkerhet avvisas', () => {
-    for (const score of [-1, 1.5, NaN, Infinity, Number.MAX_SAFE_INTEGER + 1]) {
+test('invalid strokes, par and round length are rejected', () => {
+    for (const stroke of [-1, 1.5, NaN, Infinity, Number.MAX_SAFE_INTEGER + 1]) {
         const holes = createHoles();
-        holes[0].score = score;
+        holes[0].stroke = stroke;
         assert.throws(() => predictRound({ holes }), RangeError);
     }
-    for (const expectedTotalStroke of [0, NaN, Infinity]) {
+    for (const par of [-1, 0, NaN, Infinity]) {
         const holes = createHoles();
-        holes[0].expectedTotalStroke = expectedTotalStroke;
+        holes[0].par = par;
         assert.throws(() => predictRound({ holes }), RangeError);
     }
     assert.throws(() => predictRound({ holes: [] }), RangeError);
-    for (const invalid of [
-        { ...uncertainty, fullRoundStandardDeviation: -1 },
-        { ...uncertainty, baselineStandardDeviation: NaN },
-    ]) {
-        assert.throws(() => predictRound({ holes: createHoles(), predictionRange: invalid }), RangeError);
-    }
-});
-
-test('större spridning breddar intervallet utan att ändra mittprognosen', () => {
-    const holes = createHoles();
-    const lowerVariation = predictRound({
-        holes,
-        predictionRange: { fullRoundStandardDeviation: 3.5, baselineStandardDeviation: 0 },
-    });
-    const higherVariation = predictRound({
-        holes,
-        predictionRange: { fullRoundStandardDeviation: 5.64, baselineStandardDeviation: 0 },
-    });
-    assert.equal(lowerVariation.expectedFinal, higherVariation.expectedFinal);
-    assert.ok(higherVariation.predictionInterval!.lower < lowerVariation.predictionInterval!.lower);
-    assert.ok(higherVariation.predictionInterval!.upper > lowerVariation.predictionInterval!.upper);
 });

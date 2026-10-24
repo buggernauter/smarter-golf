@@ -1,10 +1,10 @@
 import { useCallback } from 'react';
 
-import { STORAGE_KEY } from '../constants';
+import { STORAGE_KEY } from '@/constants';
 
-import { useLocalStorage } from './useLocalStorage';
-import type { Hole } from '../types/score-card';
-import { hasRoundData } from '../domain/round-tracker/golf-round-selectors';
+import { useLocalStorage } from '@/hooks/useLocalStorage';
+import type { Hole } from '@/types/score-card';
+import { hasRoundData } from '@/domain/round-tracker/golf-round-selectors';
 
 export const useRoundStorage = (storageKey = STORAGE_KEY) => {
     const { getValue, removeValue, setValue } = useLocalStorage();
@@ -75,7 +75,7 @@ const mergeStoredRound = (baseRound: Hole[], storedValue: unknown) => {
 
         return {
             ...hole,
-            score: typeof storedHole.score === 'number' ? storedHole.score : hole.score,
+            stroke: typeof storedHole.stroke === 'number' ? storedHole.stroke : hole.stroke,
             penalty: typeof storedHole.penalty === 'number' ? storedHole.penalty : hole.penalty,
             downIn3: typeof storedHole.downIn3 === 'boolean' ? storedHole.downIn3 : hole.downIn3,
             threePutt: typeof storedHole.threePutt === 'boolean' ? storedHole.threePutt : hole.threePutt,

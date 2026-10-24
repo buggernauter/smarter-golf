@@ -1,7 +1,7 @@
 import { SunMoon } from "lucide-react";
 
-import { useThemeMode } from "../../hooks/useThemeMode";
-import { StyledThemeToggle } from "./styles";
+import { useThemeMode } from "@/hooks/useThemeMode";
+import { StyledThemeToggle } from "@/components/theme-toggle/styles";
 
 export const ThemeToggleButton = () => {
   const { themeMode, toggleTheme } = useThemeMode();

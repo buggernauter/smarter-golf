@@ -10,18 +10,19 @@ import {
     StyledPlaceHolder,
     StyledValue,
     StrategyBadge,
-} from './styles';
+} from '@/components/score-picker/styles';
 import { Delete } from 'lucide-react';
-import { fadeOut } from '../ui/animations';
+import { fadeOut } from '@/components/ui/animations';
 
 interface Props {
     value: number;
     par: number;
     strategyDelta: number;
     maxValue: number;
-    onSelect: (score: number) => void;
+    updateStrokes: (score: number) => void;
+    onHoleFinish: VoidFunction;
 }
-export const ScorePicker = ({ value, par, strategyDelta, maxValue, onSelect }: Props) => {
+export const ScorePicker = ({ value, par, strategyDelta, maxValue, updateStrokes, onHoleFinish }: Props) => {
     const dialogRef = useRef<HTMLDialogElement>(null);
     const scores = Array.from({ length: maxValue }, (_, index) => index + 1);
 
@@ -29,14 +30,14 @@ export const ScorePicker = ({ value, par, strategyDelta, maxValue, onSelect }: P
         scores.slice(index * 3, index * 3 + 3),
     );
 
-    const handleUpdateScore = (e: ChangeEvent<HTMLInputElement, HTMLInputElement>) => {
+    const handleupdateStrokes = (e: ChangeEvent<HTMLInputElement, HTMLInputElement>) => {
         const input = e.target.value;
         if (!/^\d*$/.test(input)) {
             return;
         }
         const score = input === '' ? 0 : Number(input);
         if (Number.isSafeInteger(score)) {
-            onSelect(score);
+            updateStrokes(score);
         }
     };
     const closeDialogAnimated = async (
@@ -52,8 +53,9 @@ export const ScorePicker = ({ value, par, strategyDelta, maxValue, onSelect }: P
     const handleCloseModal = () => closeDialogAnimated(dialogRef.current);
 
     const selectScore = (score: number) => {
-        onSelect(score);
+        updateStrokes(score);
         handleCloseModal();
+        onHoleFinish();
     };
 
     return (
@@ -61,13 +63,13 @@ export const ScorePicker = ({ value, par, strategyDelta, maxValue, onSelect }: P
             <ScoreTrigger
                 type="button"
                 aria-haspopup="dialog"
-                aria-label={`Välj score, aktuellt värde ${value || 'ej valt'}`}
+                aria-label={`Select score, current value ${value || 'not selected'}`}
                 onClick={() => dialogRef.current?.showModal()}
             >
                 {value ? (
                     <StyledValue>{value}</StyledValue>
                 ) : (
-                    <StyledPlaceHolder>{'Antal slag'}</StyledPlaceHolder>
+                    <StyledPlaceHolder>{'Strokes'}</StyledPlaceHolder>
                 )}
                 {value > 0 && (
                     <StrategyBadge $onStrategy={strategyDelta <= 0}>
@@ -86,10 +88,10 @@ export const ScorePicker = ({ value, par, strategyDelta, maxValue, onSelect }: P
                     type="text"
                     inputMode="numeric"
                     pattern="[0-9]*"
-                    aria-label="Antal slag"
+                    aria-label="Number of strokes"
                     value={value === 0 ? '' : String(value)}
                     placeholder=""
-                    onChange={handleUpdateScore}
+                    onChange={handleupdateStrokes}
                     onBlur={handleCloseModal}
                 />
                 <ScoreGrid>
@@ -118,9 +120,9 @@ export const ScorePicker = ({ value, par, strategyDelta, maxValue, onSelect }: P
                             {rowIndex === scoreRows.length - 1 && (
                                 <DeleteButton
                                     type="button"
-                                    aria-label="Återställ score"
+                                    aria-label="Reset score"
                                     onPointerDown={(event) => event.preventDefault()}
-                                    onClick={() => onSelect(0)}
+                                    onClick={() => updateStrokes(0)}
                                 >
                                     <Delete strokeWidth={1} aria-hidden="true" />
                                 </DeleteButton>

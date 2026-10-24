@@ -1,45 +1,44 @@
-import { MAX_SCORE } from '../../../constants';
-import { getStrategyDelta, type PlayStrategy } from '../../../domain/round-tracker/golf-round-strategy';
-import type { BooleanHoleValue, Hole, NumericHoleValue } from '../../../types/score-card';
+import { MAX_SCORE } from '@/constants';
+import { getStrategyDelta, type PlayStrategy } from '@/domain/round-tracker/golf-round-strategy';
+import type { BooleanHoleValue, Hole, NumericHoleValue } from '@/types/score-card';
 
+import { ScorePicker } from '@/components/score-picker';
 import {
-    StyledCardDescription,
+    StyledCardHeader,
+    StyledCardWrapper,
     StyledCardDescriptionList,
+    StyledCardDescription,
     StyledCardDescriptionPoint,
     StyledCardDescriptionPointText,
     StyledCardDescriptionText,
-    StyledCardHeader,
     StyledCardMeta,
     StyledCardTitle,
     StyledControlStack,
-    StyledCardWrapper,
     StyledButtonsWrapper,
     StyledToggleRow,
     StyledToggleButton,
-} from '../styles';
-import { ScorePicker } from '../../../components/score-picker';
+} from '@/pages/round-tracker/components/forecast/card/styles';
 
 type Props = {
     hole: Hole;
     index: number;
     onToggleCheckbox: (index: number, field: BooleanHoleValue) => void;
-    onUpdateValue: (index: number, field: NumericHoleValue, value: number) => void;
+    updateStrokes: (index: number, field: NumericHoleValue, value: number) => void;
     setHoleCardRef: (index: number, card: HTMLElement | null) => void;
     playStrategy: PlayStrategy;
+    onHoleFinish: VoidFunction;
 };
 
 export const Card = ({
     hole,
     index,
     onToggleCheckbox,
-    onUpdateValue,
+    updateStrokes,
     setHoleCardRef,
     playStrategy,
+    onHoleFinish,
 }: Props) => {
-    const updateScore = (value: number) => {
-        onUpdateValue(index, 'score', value);
-    };
-    const strategyDelta = getStrategyDelta(hole.score, hole.par);
+    const strategyDelta = getStrategyDelta(hole.stroke, hole.par);
 
     return (
         <StyledCardWrapper
@@ -49,16 +48,16 @@ export const Card = ({
         >
             <StyledCardHeader>
                 <div>
-                    <StyledCardTitle>Hål {hole.number}</StyledCardTitle>
+                    <StyledCardTitle>Hole {hole.number}</StyledCardTitle>
                     <StyledCardMeta>
                         Par {hole.par} • {hole.meter} m
                     </StyledCardMeta>
                 </div>
             </StyledCardHeader>
 
-            <StyledCardDescription aria-label={`Mål för hål ${hole.number}`}>
+            <StyledCardDescription aria-label={`Target for hole ${hole.number}`}>
                 <StyledCardDescriptionText>{playStrategy.heading}</StyledCardDescriptionText>
-                <StyledCardDescriptionList aria-label="Spelplan">
+                <StyledCardDescriptionList aria-label="Game plan">
                     {playStrategy.points.map((point) => (
                         <StyledCardDescriptionPoint key={point}>
                             <StyledCardDescriptionPointText>{point}</StyledCardDescriptionPointText>
@@ -100,11 +99,12 @@ export const Card = ({
 
             <StyledControlStack>
                 <ScorePicker
-                    value={hole.score}
+                    value={hole.stroke}
                     par={hole.par}
                     maxValue={MAX_SCORE}
-                    onSelect={updateScore}
+                    updateStrokes={(value) => updateStrokes(index, 'stroke', value)}
                     strategyDelta={strategyDelta}
+                    onHoleFinish={onHoleFinish}
                 />
             </StyledControlStack>
         </StyledCardWrapper>

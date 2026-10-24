@@ -1,21 +1,31 @@
 export type PlayStrategy = {
     heading: string;
-    points: [string, string, string, string?];
+    points: [string, string, string?, string?, string?];
 };
 export const ScoringZoneInstruction = 'Scoring zone';
 const par3Strategy: PlayStrategy = {
-    heading: 'Slag mot green',
-    points: ['Sikta mot trygg sida', 'Enklaste chip-läget', '2 putt'],
+    heading: 'Scoring zone in 1 shot',
+    points: ['Tee shot: secure side of green ', '2 putts'],
 };
-
 const createPar4Strategy = (): PlayStrategy => ({
-    heading: '2 slag till scoring zone',
-    points: ['Bollen i spel från tee', '2:a slaget mot ~90 m', '3:e slaget på green', '2 putt'],
+    heading: 'Scoring zone in 2 shots',
+    points: [
+        'Tee shot: keep the ball in play',
+        '2nd shot: get within 90 m of the green',
+        '3rd shot: middle of the green',
+        '2 putts',
+    ],
 });
 
 const createPar5Strategy = (): PlayStrategy => ({
-    heading: '3 slag till scoring zone',
-    points: ['Bollen i spel från tee', '3:e slaget mot ~90 m', '4:e slaget på green', '2 putt'],
+    heading: 'Scoring zone in 3 shots',
+    points: [
+        'Tee shot: keep the ball in play',
+        '2nd shot: advance towards the scoring zone',
+        '3rd shot: get within 90 m of the green',
+        '4th shot: aim for the middle of the green',
+        '2 putts',
+    ],
 });
 
 export const getPlayStrategy = (parValue: number): PlayStrategy => {
@@ -30,7 +40,7 @@ export const getPlayStrategy = (parValue: number): PlayStrategy => {
     return createPar5Strategy();
 };
 
-export const getStrategyDelta = (score: number, par: number) => {
+export const getStrategyDelta = (stroke: number, par: number) => {
     const targetScore = par + 1;
-    return score - targetScore;
+    return stroke - targetScore;
 };

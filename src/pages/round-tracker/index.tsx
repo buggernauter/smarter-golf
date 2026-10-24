@@ -1,137 +1,131 @@
 import { useNavigate } from '@tanstack/react-router';
-import { ClipboardList, Home } from 'lucide-react';
+import { Home, Save, CalendarDays } from 'lucide-react';
 import { useCallback, useState } from 'react';
 
-import {
-    StyledActionBar,
-    StyledIconButton,
-    StyledPage,
-    StyledPagination,
-    StyledPaginationDot,
-    StyledResetIcon,
-} from './styles';
-import { useLocalStorage } from '../../hooks/useLocalStorage';
-import { useScorecard } from '../../hooks/useRound';
-import { useSwipeNavigation } from '../../hooks/useRoundNavigation';
-import { getPlayedHoleSummary } from '../../domain/round-tracker/golf-round-selectors';
-import { CardsCarousel } from './components/cards-carousel';
+import { StyledFooter, StyledIconButton, StyledPage } from '@/pages/round-tracker/styles';
 
-import { SummarySheet } from './components/summary-sheet';
-import { predictRound } from '../../domain/round-tracker/predicted-result.ts/predicted-result';
-import { Forecast } from './components/forecast/forecast';
-import { getRoundGoalStatus } from '../../domain/round-tracker/golf-round-goal';
-import { hcp } from '../../api/player';
+import { useScorecard } from '@/hooks/useRound';
+import { useSwipeNavigation } from '@/hooks/useRoundNavigation';
+
+import { CardsCarousel } from '@/pages/round-tracker/components/cards-carousel';
+
+import { SummaryDialog } from '@/pages/round-tracker/components/summary-dialog';
+import { predictRound } from '@/domain/round-tracker/predicted-result';
+import { Forecast } from '@/pages/round-tracker/components/forecast/forecast';
+import { Spacer } from '@/components/ui/spacer';
+import { readRoundHistory, saveRound, type SavedRound } from '@/domain/round-tracker/round-history';
+import { HistoryDialog } from '@/pages/round-tracker/components/history-dialog';
 
 export const RoundTrackerPage = () => {
     const [isSummaryOpen, setIsSummaryOpen] = useState(false);
+    const [oldRounds, setOldRounds] = useState<SavedRound[]>([]);
+    const [isHistoryOpen, setIsHistoryOpen] = useState(false);
     const navigate = useNavigate();
-    const { setValue } = useLocalStorage();
-    const { holes, playStrategy, resetRound, updateNumericField, toggleCheckbox } = useScorecard();
+    const { holes, playStrategy, resetRound, updateStrokes, toggleCheckbox } = useScorecard();
     const { activeHoleIndex, carouselRef, nextHole, previousHole, setHoleCardRef, scrollToHole } =
         useSwipeNavigation();
 
     const handleSaveRound = useCallback(() => {
-        const scoreSummary = getPlayedHoleSummary(holes);
-        const playedHoleCount = scoreSummary.playedHoles.length;
-        if (playedHoleCount !== 9 && playedHoleCount !== 18) {
-            alert('Not all holes have been played');
+        try {
+            saveRound(holes);
+        } catch (error) {
+            console.error(error);
+            alert('Kunde inte spara rundan. Försök igen.');
             return;
         }
-        const dateKey = new Date().toLocaleDateString('sv-SE');
+
+        setIsSummaryOpen(false);
+        resetRound();
+        void navigate({ to: '/' });
+    }, [resetRound, navigate, holes]);
+
+    const handleOpenHistory = () => {
         try {
-            setValue({ key: `${playedHoleCount}-hole ${dateKey}`, value: JSON.stringify(scoreSummary) });
-        } catch (error) {
-            alert(dateKey);
-            console.error(error);
-        } finally {
+            setOldRounds(readRoundHistory());
             setIsSummaryOpen(false);
+            setIsHistoryOpen(true);
+        } catch (error) {
+            console.error(error);
+            alert('Kunde inte läsa sparade rundor.');
         }
-    }, [holes, setValue]);
+    };
 
     const handleResetRound = useCallback(() => {
         scrollToHole(0);
         resetRound();
-    }, [resetRound, scrollToHole]);
+        void navigate({ to: '/' });
+    }, [navigate, resetRound, scrollToHole]);
 
-    const prediction = predictRound({
-        holes: holes.map((hole) => ({
-            score: hole.score,
-            expectedTotalStroke: hole.par + 1,
-        })),
-        predictionRange: {
-            // Preliminärt spridningsantagande, inte en handicapformel.
-            // Påverkar enbart intervallet; ska kalibreras mot rondhistorik.
-            fullRoundStandardDeviation: 3.5 + 0.1 * Math.max(0, hcp),
-            baselineStandardDeviation: 0,
-        },
-    });
-    const goalStatus = getRoundGoalStatus(prediction);
+    const handleDeleteRound = (id: string) => {
+        try {
+            window.localStorage.removeItem(id);
+            setOldRounds((rounds) => rounds.filter((round) => round.id !== id));
+        } catch (error) {
+            console.error(error);
+            alert('Kunde inte radera rundan.');
+        }
+    };
+    const handleHoleFinished = () => {
+        if (activeHoleIndex === holes.length - 1) {
+            setIsSummaryOpen(true);
+            return;
+        }
+        scrollToHole(activeHoleIndex + 1);
+    };
+    const prediction = predictRound({ holes });
 
     return (
         <StyledPage>
             <StyledIconButton
                 type="button"
-                aria-label="Till startsidan"
+                aria-label="Go to home page"
                 onClick={() => void navigate({ to: '/' })}
             >
                 <Home aria-hidden="true" />
             </StyledIconButton>
+            <Spacer size={8} />
+
             <Forecast
                 prediction={prediction}
-                goalStatus={goalStatus}
                 totalHoles={holes.length}
+                onOpenSummary={() => setIsSummaryOpen(true)}
             />
             <CardsCarousel
                 carouselRef={carouselRef}
                 holes={holes}
                 onToggleCheckboxValue={toggleCheckbox}
-                onUpdateValue={updateNumericField}
+                updateStrokes={updateStrokes}
                 setHoleCardRef={setHoleCardRef}
                 playStrategy={playStrategy}
                 isOnFirstHole={activeHoleIndex === 0}
                 isOnLastHole={activeHoleIndex === holes.length - 1}
+                onHoleFinish={handleHoleFinished}
                 onNextHole={nextHole}
                 onPreviousHole={previousHole}
             />
-            <StyledPagination aria-hidden="true">
-                {holes.map((hole, index) => (
-                    <StyledPaginationDot
-                        key={hole.number}
-                        type="button"
-                        $active={index === activeHoleIndex}
-                        aria-label={`Gå till hål ${hole.number}`}
-                        aria-current={index === activeHoleIndex ? 'true' : undefined}
-                        onClick={() => scrollToHole(index)}
-                    />
-                ))}
-            </StyledPagination>
 
-            <StyledActionBar>
-                <StyledIconButton
-                    type="button"
-                    aria-label="Öppna rondöversikt"
-                    onClick={() => setIsSummaryOpen(true)}
-                >
-                    <ClipboardList aria-hidden="true" />
-                </StyledIconButton>
-                {/* <StyledIconButton
-                    type="button"
-                    aria-label="Öppna utskriftsvänligt scorekort"
-                    onClick={() => void navigate({ to: '/print' })}
-                >
-                    <Printer aria-hidden="true" />
-                </StyledIconButton> */}
-                <StyledIconButton type="button" aria-label="Nollställ rond" onClick={handleResetRound}>
-                    <StyledResetIcon aria-hidden="true" />
-                </StyledIconButton>
-            </StyledActionBar>
-
-            <SummarySheet
+            <SummaryDialog
                 holes={holes}
                 isOpen={isSummaryOpen}
                 onClose={() => setIsSummaryOpen(false)}
                 onSaveRound={handleSaveRound}
+                onResetRound={handleResetRound}
             />
+            {isHistoryOpen && (
+                <HistoryDialog
+                    rounds={oldRounds}
+                    onDeleteRound={handleDeleteRound}
+                    onClose={() => setIsHistoryOpen(false)}
+                />
+            )}
+            <StyledFooter>
+                <StyledIconButton type="button" aria-label="Open round history" onClick={handleOpenHistory}>
+                    <CalendarDays aria-hidden="true" />
+                </StyledIconButton>
+                <StyledIconButton type="button" aria-label="Save and finish round" onClick={handleSaveRound}>
+                    <Save aria-hidden="true" />
+                </StyledIconButton>
+            </StyledFooter>
         </StyledPage>
     );
 };

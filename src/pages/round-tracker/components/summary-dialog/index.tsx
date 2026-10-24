@@ -1,10 +1,13 @@
-import { Check, X } from 'lucide-react';
+import { ArrowLeft, Check, X } from 'lucide-react';
 
-import type { Hole } from '../../../types/score-card';
+import type { Hole } from '@/types/score-card';
+
+import { getPlayedHoleSummary } from '@/domain/round-tracker/golf-round-selectors';
 import {
     StyledBadge,
     StyledEmptyText,
-    StyledPrimaryButton,
+    StyledButton,
+    StyledSummaryCloseButton,
     StyledSummarySheet,
     StyledSummarySheetBackdrop,
     StyledSummarySheetBody,
@@ -19,20 +22,21 @@ import {
     StyledTableStatusCell,
     StyledTableValue,
     StyledTableWrapper,
-} from '../../../pages/round-tracker/styles';
-import { getPlayedHoleSummary } from '../../../domain/round-tracker/golf-round-selectors';
+} from '@/pages/round-tracker/components/summary-dialog/styles';
 
 type Props = {
     holes: Hole[];
     isOpen: boolean;
-    onClose: () => void;
-    onSaveRound: () => void;
+    onClose: VoidFunction;
+    onBack?: VoidFunction;
+    onSaveRound?: VoidFunction;
+    onResetRound?: VoidFunction;
 };
 
 const renderCheckState = (value: boolean) =>
     value ? <Check aria-hidden="true" /> : <X aria-hidden="true" />;
 
-export const SummarySheet = ({ holes, isOpen, onClose, onSaveRound }: Props) => {
+export const SummaryDialog = ({ holes, isOpen, onClose, onSaveRound, onBack, onResetRound }: Props) => {
     const {
         playedHoles,
         totalDownIn3,
@@ -42,12 +46,12 @@ export const SummarySheet = ({ holes, isOpen, onClose, onSaveRound }: Props) => 
         totalScoringZone,
         totalThreePutt,
     } = getPlayedHoleSummary(holes);
-
+    const isOngoingRound = Boolean(onSaveRound || onResetRound);
     return (
         <StyledSummarySheetBackdrop $open={isOpen} aria-hidden={!isOpen} onClick={onClose}>
             <StyledSummarySheet
                 $open={isOpen}
-                aria-label="Scorekort"
+                aria-label="Scorecard"
                 aria-modal="true"
                 role="dialog"
                 onClick={(event) => {
@@ -55,24 +59,46 @@ export const SummarySheet = ({ holes, isOpen, onClose, onSaveRound }: Props) => 
                 }}
             >
                 <StyledSummarySheetHeader>
-                    <StyledSummarySheetTitle>Scorekort</StyledSummarySheetTitle>
+                    {!onBack && <span aria-hidden="true" />}
+                    {onBack && (
+                        <StyledSummaryCloseButton
+                            type="button"
+                            aria-label="Back to round history"
+                            onClick={onBack}
+                        >
+                            <ArrowLeft aria-hidden="true" />
+                        </StyledSummaryCloseButton>
+                    )}
+
+                    <StyledSummarySheetTitle>Scorecard</StyledSummarySheetTitle>
+
+                    {!onBack && (
+                        <StyledSummaryCloseButton
+                            type="button"
+                            aria-label="Close scorecard"
+                            onClick={onClose}
+                        >
+                            <X aria-hidden="true" />
+                        </StyledSummaryCloseButton>
+                    )}
+                    {onBack && <span aria-hidden="true" />}
                 </StyledSummarySheetHeader>
 
                 <StyledSummarySheetBody>
                     <StyledTableCard>
                         {playedHoles.length === 0 ? (
-                            <StyledEmptyText>Ingen spelad hålstatistik ännu.</StyledEmptyText>
+                            <StyledEmptyText>No hole statistics yet.</StyledEmptyText>
                         ) : (
                             <StyledTableWrapper>
                                 <StyledTable>
                                     <thead>
                                         <tr>
-                                            <th>Hål</th>
+                                            <th>Hole</th>
                                             <th>Par</th>
-                                            <th>Slag</th>
+                                            <th>Strokes</th>
                                             <th>SZ</th>
                                             <th>D3</th>
-                                            <th>Straff</th>
+                                            <th>Penalties</th>
                                             <th>3-putt</th>
                                         </tr>
                                     </thead>
@@ -83,7 +109,7 @@ export const SummarySheet = ({ holes, isOpen, onClose, onSaveRound }: Props) => 
                                                     <StyledBadge>{hole.number}</StyledBadge>
                                                 </StyledTableCellPrimary>
                                                 <StyledTableCell>{hole.par}</StyledTableCell>
-                                                <StyledTableValue>{hole.score || '-'}</StyledTableValue>
+                                                <StyledTableValue>{hole.stroke || '-'}</StyledTableValue>
                                                 <StyledTableStatusCell
                                                     $tone={hole.scoringZone ? 'success' : 'danger'}
                                                 >
@@ -118,13 +144,17 @@ export const SummarySheet = ({ holes, isOpen, onClose, onSaveRound }: Props) => 
                     </StyledTableCard>
                 </StyledSummarySheetBody>
 
-                <StyledSummarySheetFooter>
-                    <StyledPrimaryButton type="button" onClick={onClose}>
-                        Close
-                    </StyledPrimaryButton>
+                {isOngoingRound && (
+                    <StyledSummarySheetFooter>
+                        <StyledButton type="button" onClick={onSaveRound} $isSave={true}>
+                            Save round
+                        </StyledButton>
 
-                    <StyledPrimaryButton onClick={onSaveRound}>Save round</StyledPrimaryButton>
-                </StyledSummarySheetFooter>
+                        <StyledButton type="button" onClick={onResetRound} $isSave={false}>
+                            Finish without saving
+                        </StyledButton>
+                    </StyledSummarySheetFooter>
+                )}
             </StyledSummarySheet>
         </StyledSummarySheetBackdrop>
     );

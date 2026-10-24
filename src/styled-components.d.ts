@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-object-type, @typescript-eslint/no-unused-vars */
 import type { CSSProp } from "styled-components";
 
-import type { appTheme } from "./styles/palette";
+import type { appTheme } from "@/styles/palette";
 
 type ThemeType = typeof appTheme;
 

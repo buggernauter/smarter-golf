@@ -11,24 +11,24 @@ import {
   StyledResetButton,
   StyledSavedRoundsLink,
   StyledScoringSystem,
-} from "./styles";
-import { ScoreOptions } from "../../components/result-options";
-import { SummaryModal } from "../../components/summary-modal";
-import { useLocalStorage } from "../../hooks/useLocalStorage";
+} from "@/pages/lagput/styles";
+import { ScoreOptions } from "@/components/result-options";
+import { SummaryModal } from "@/components/summary-modal";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 import {
   createEmptyScores,
   lagPuttDistances,
   rankings,
   scoringSystem,
-} from "./config";
+} from "@/pages/lagput/config";
 import {
   holes,
   LAGPUT_SCORE_STORAGE_KEY,
   type Round,
   type SavedLagputRound,
   type Scores,
-} from "../../types/lag-put";
-import { Header } from "../../components/global-header";
+} from "@/types/lag-put";
+import { Header } from "@/components/global-header";
 import { ArrowLeft, RotateCcw } from "lucide-react";
 
 export const Lagput = () => {

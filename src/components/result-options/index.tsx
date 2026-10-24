@@ -2,7 +2,7 @@ import { Check, ChevronDown } from "lucide-react";
 import { useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
-import { scoringSystem } from "../../pages/lagput/config";
+import { scoringSystem } from "@/pages/lagput/config";
 import {
   StyledScoreButton,
   StyledScoreMenu,
@@ -11,7 +11,7 @@ import {
   StyledScoreTable,
   StyledScoreTableFrame,
   StyledTotal,
-} from "./styles";
+} from "@/components/result-options/styles";
 
 interface Props {
   list: number[];

@@ -66,9 +66,6 @@ export const StyledButton = styled.button<StyledButtonProps>`
     `;
   }}
 
-  &:hover:not(:disabled) {
-    transform: translateY(-0.0625rem);
-  }
 
   &:active:not(:disabled) {
     transform: translateY(0.0625rem);

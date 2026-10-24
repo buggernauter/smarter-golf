@@ -1,9 +1,9 @@
 import { ArrowLeft, Trash2 } from "lucide-react";
 import { useState } from "react";
 
-import { SummaryModal } from "../../../components/summary-modal";
-import { Header } from "../../../components/global-header";
-import { useLocalStorage } from "../../../hooks/useLocalStorage";
+import { SummaryModal } from "@/components/summary-modal";
+import { Header } from "@/components/global-header";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 
 import {
   StyledBackLink,
@@ -13,13 +13,13 @@ import {
   StyledRoundButton,
   StyledRoundList,
   StyledSavedRoundsPage,
-} from "./styles";
-import { formatSavedAt } from "../../../lib/helper";
+} from "@/pages/lagput/saved-rounds/styles";
+import { formatSavedAt } from "@/lib/helper";
 import {
   type SavedLagputRound,
   LAGPUT_SCORE_STORAGE_KEY,
   holes,
-} from "../../../types/lag-put";
+} from "@/types/lag-put";
 
 export const SavedRounds = () => {
   const { getJsonValue, removeValue, setJsonValue } = useLocalStorage();

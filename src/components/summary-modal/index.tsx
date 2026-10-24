@@ -1,6 +1,6 @@
 import { X } from "lucide-react";
 
-import { scoringSystem } from "../../pages/lagput/config";
+import { scoringSystem } from "@/pages/lagput/config";
 import {
   StyledModalBackdrop,
   StyledSummaryClose,
@@ -11,8 +11,8 @@ import {
   StyledSummaryModal,
   StyledSummaryScore,
   StyledSummaryTitle,
-} from "./styles";
-import { StyledFinishButton } from "../../pages/lagput/styles";
+} from "@/components/summary-modal/styles";
+import { StyledFinishButton } from "@/pages/lagput/styles";
 
 interface SummaryModalProps {
   isOpen: boolean;

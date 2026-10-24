@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 
-import { STORAGE_KEY } from '../constants';
+import { STORAGE_KEY } from '@/constants';
 
-import { useRoundStorage } from './useRoundStorage';
-import type { Hole } from '../types/score-card';
-import { hasRoundData } from '../domain/round-tracker/golf-round-selectors';
+import { useRoundStorage } from '@/hooks/useRoundStorage';
+import type { Hole } from '@/types/score-card';
+import { hasRoundData } from '@/domain/round-tracker/golf-round-selectors';
 
 type Props = {
     holes?: Hole[];

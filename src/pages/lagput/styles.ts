@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import styled from "styled-components";
 
-import type { Round } from "../../types/lag-put";
+import type { Round } from "@/types/lag-put";
 
 export const StyledPage = styled.main`
   box-sizing: border-box;
@@ -27,9 +27,6 @@ export const StyledBackLink = styled.a`
     height: 1rem;
   }
 
-  &:hover {
-    text-decoration: underline;
-  }
 `;
 
 export const StyledResetButton = styled.button`
@@ -163,12 +160,6 @@ export const StyledFinishButton = styled.button`
     box-shadow 150ms ease,
     background 150ms ease;
 
-  @media (hover: hover) {
-    &:hover {
-      box-shadow: ${({ theme }) => theme.shadows.primaryButton};
-      transform: translateY(-0.0625rem);
-    }
-  }
 
   &:active {
     box-shadow: ${({ theme }) => theme.shadows.primaryButton};
@@ -204,12 +195,6 @@ export const StyledSavedRoundsLink = styled(Link)`
     background: ${({ theme }) => theme.palette.surfaceSecondary};
   }
 
-  @media (hover: hover) {
-    &:hover {
-      background: ${({ theme }) => theme.palette.surfaceSecondary};
-      box-shadow: ${({ theme }) => theme.shadows.iconButton};
-    }
-  }
 
   &:focus-visible {
     outline: 0.1875rem solid ${({ theme }) => theme.palette.primaryMain};

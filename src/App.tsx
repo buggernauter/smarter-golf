@@ -1,9 +1,9 @@
 import { Outlet } from "@tanstack/react-router";
 import { ThemeProvider, createGlobalStyle } from "styled-components";
 
-import { ThemeModeProvider, useThemeMode } from "./hooks/useThemeMode";
+import { ThemeModeProvider, useThemeMode } from "@/hooks/useThemeMode";
 
-import { StyledAppLayout } from "./styles/layout";
+import { StyledAppLayout } from "@/styles/layout";
 
 const StyledBaseStyles = createGlobalStyle`
   html,
