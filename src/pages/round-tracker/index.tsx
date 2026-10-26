@@ -10,43 +10,48 @@ import { useSwipeNavigation } from '@/hooks/useRoundNavigation';
 import { CardsCarousel } from '@/pages/round-tracker/components/cards-carousel';
 
 import { SummaryDialog } from '@/pages/round-tracker/components/summary-dialog';
-import { predictRound } from '@/domain/round-tracker/predicted-result';
+import { predictRound } from '@/domain/round-tracker/round-prediction';
 import { Forecast } from '@/pages/round-tracker/components/forecast/forecast';
 import { Spacer } from '@/components/ui/spacer';
-import { readRoundHistory, saveRound, type SavedRound } from '@/domain/round-tracker/round-history';
 import { HistoryDialog } from '@/pages/round-tracker/components/history-dialog';
+import { RoundGoalDialog } from '@/pages/round-tracker/components/round-goal-dialog';
+import { ScoreGoal } from '@/types/score-card';
 
 export const RoundTrackerPage = () => {
-    const [isSummaryOpen, setIsSummaryOpen] = useState(false);
-    const [oldRounds, setOldRounds] = useState<SavedRound[]>([]);
-    const [isHistoryOpen, setIsHistoryOpen] = useState(false);
     const navigate = useNavigate();
-    const { holes, playStrategy, resetRound, updateStrokes, toggleCheckbox } = useScorecard();
+    const [isSummaryOpen, setIsSummaryOpen] = useState(false);
+    const [isHistoryOpen, setIsHistoryOpen] = useState(false);
+    const [selectedRoundGoal, setSelectedRoundGoal] = useState<ScoreGoal>(ScoreGoal.Break90);
+    const {
+        holes, scoreGoal, startRound, playStrategy, resetRound, finishRound,
+        rounds, loadHistory, deleteRound, updateStrokes, toggleCheckbox,
+    } = useScorecard();
     const { activeHoleIndex, carouselRef, nextHole, previousHole, setHoleCardRef, scrollToHole } =
         useSwipeNavigation();
 
     const handleSaveRound = useCallback(() => {
+        if (scoreGoal === null) return;
+
         try {
-            saveRound(holes);
+            finishRound();
         } catch (error) {
             console.error(error);
-            alert('Kunde inte spara rundan. Försök igen.');
+            alert('Try again later.');
             return;
         }
 
         setIsSummaryOpen(false);
-        resetRound();
         void navigate({ to: '/' });
-    }, [resetRound, navigate, holes]);
+    }, [finishRound, navigate, scoreGoal]);
 
     const handleOpenHistory = () => {
         try {
-            setOldRounds(readRoundHistory());
+            loadHistory();
             setIsSummaryOpen(false);
             setIsHistoryOpen(true);
         } catch (error) {
             console.error(error);
-            alert('Kunde inte läsa sparade rundor.');
+            alert('Try again later.');
         }
     };
 
@@ -58,11 +63,10 @@ export const RoundTrackerPage = () => {
 
     const handleDeleteRound = (id: string) => {
         try {
-            window.localStorage.removeItem(id);
-            setOldRounds((rounds) => rounds.filter((round) => round.id !== id));
+            deleteRound(id);
         } catch (error) {
             console.error(error);
-            alert('Kunde inte radera rundan.');
+            alert('Try again later');
         }
     };
     const handleHoleFinished = () => {
@@ -73,6 +77,19 @@ export const RoundTrackerPage = () => {
         scrollToHole(activeHoleIndex + 1);
     };
     const prediction = predictRound({ holes });
+
+    if (scoreGoal === null) {
+        return (
+            <StyledPage>
+                <RoundGoalDialog
+                    scoreGoal={selectedRoundGoal}
+                    onScoreGoalChange={setSelectedRoundGoal}
+                    onStart={() => startRound(selectedRoundGoal)}
+                    onCancel={() => void navigate({ to: '/' })}
+                />
+            </StyledPage>
+        );
+    }
 
     return (
         <StyledPage>
@@ -87,6 +104,7 @@ export const RoundTrackerPage = () => {
 
             <Forecast
                 prediction={prediction}
+                scoreGoal={scoreGoal}
                 totalHoles={holes.length}
                 onOpenSummary={() => setIsSummaryOpen(true)}
             />
@@ -113,7 +131,7 @@ export const RoundTrackerPage = () => {
             />
             {isHistoryOpen && (
                 <HistoryDialog
-                    rounds={oldRounds}
+                    rounds={rounds}
                     onDeleteRound={handleDeleteRound}
                     onClose={() => setIsHistoryOpen(false)}
                 />

@@ -1,6 +1,5 @@
 import { ClipboardList } from 'lucide-react';
-import { scoreGoal } from '@/api/player';
-import type { Prediction } from '@/types/score-card';
+import type { Prediction, ScoreGoal } from '@/types/score-card';
 import { StyledIconButton } from '@/pages/round-tracker/styles';
 import {
     StyledForecastCard,
@@ -17,12 +16,13 @@ import { Spacer } from '@/components/ui/spacer';
 
 interface Props {
     prediction: Prediction;
+    scoreGoal: ScoreGoal;
     totalHoles: number;
     onOpenSummary: () => void;
 }
 
-export const Forecast = ({ prediction, totalHoles, onOpenSummary }: Props) => {
-    const remainingBudget = scoreGoal - prediction.strokesSoFar;
+export const Forecast = ({ prediction, scoreGoal, totalHoles, onOpenSummary }: Props) => {
+    const remainingBudget = scoreGoal - 1 - prediction.strokesSoFar;
     const range = prediction.predictedStrokesRange;
     const forecast = prediction.isRoundComplete
         ? prediction.strokesSoFar

@@ -5,6 +5,7 @@
   "type": "module",
   "packageManager": "pnpm@10.32.1",
   "scripts": {
+    "test": "node --experimental-strip-types --import ./tests/register-aliases.mjs --test tests/*.test.ts",
     "dev": "vite",
     "build": "vite build && tsc -b",
     "tsc": "tsc -b",

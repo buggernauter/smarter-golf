@@ -1,86 +1,36 @@
 import { useCallback } from 'react';
 
 import { STORAGE_KEY } from '@/constants';
-
-import { useLocalStorage } from '@/hooks/useLocalStorage';
-import type { Hole } from '@/types/score-card';
-import { hasRoundData } from '@/domain/round-tracker/golf-round-selectors';
+import type { Hole, ScoreGoal } from '@/types/score-card';
+import { hasPlayedHoles } from '@/domain/round-tracker/round-summary';
+import {
+    hydrateActiveRound,
+    hydrateActiveScoreGoal,
+    saveActiveRound as persistActiveRound,
+    clearActiveRound,
+} from '@/storage/round-storage';
 
 export const useRoundStorage = (storageKey = STORAGE_KEY) => {
-    const { getValue, removeValue, setValue } = useLocalStorage();
-
     const hydrateRound = useCallback(
-        (baseRound: Hole[]) => {
-            try {
-                const storedValue = getValue(storageKey);
-
-                if (!storedValue) {
-                    return baseRound;
-                }
-
-                return mergeStoredRound(baseRound, JSON.parse(storedValue));
-            } catch (error) {
-                console.error(error);
-                return baseRound;
-            }
-        },
-        [getValue, storageKey],
+        (baseRound: Hole[]) => hydrateActiveRound(baseRound, storageKey),
+        [storageKey],
     );
-
-    const saveRound = useCallback(
-        (round: Hole[]) => {
-            setValue({
-                key: storageKey,
-                value: JSON.stringify(round),
-            });
-        },
-        [setValue, storageKey],
+    const hydrateScoreGoal = useCallback(() => hydrateActiveScoreGoal(storageKey), [storageKey]);
+    const saveActiveRound = useCallback(
+        (holes: Hole[], scoreGoal: ScoreGoal | null) => persistActiveRound(holes, scoreGoal, storageKey),
+        [storageKey],
     );
-
-    const clearRound = useCallback(() => {
-        removeValue(storageKey);
-    }, [removeValue, storageKey]);
-
+    const clearRound = useCallback(() => clearActiveRound(storageKey), [storageKey]);
     const syncRound = useCallback(
-        (round: Hole[]) => {
-            if (!hasRoundData(round)) {
+        (holes: Hole[], scoreGoal: ScoreGoal | null) => {
+            if (!hasPlayedHoles(holes) && scoreGoal === null) {
                 clearRound();
                 return;
             }
-
-            saveRound(round);
+            saveActiveRound(holes, scoreGoal);
         },
-        [clearRound, saveRound],
+        [clearRound, saveActiveRound],
     );
 
-    return {
-        clearRound,
-        hydrateRound,
-        saveRound,
-        syncRound,
-    };
-};
-
-const mergeStoredRound = (baseRound: Hole[], storedValue: unknown) => {
-    if (!Array.isArray(storedValue)) {
-        return baseRound;
-    }
-
-    return baseRound.map((hole, index) => {
-        const storedHole = storedValue[index];
-
-        if (!storedHole || typeof storedHole !== 'object') {
-            return hole;
-        }
-
-        return {
-            ...hole,
-            stroke: typeof storedHole.stroke === 'number' ? storedHole.stroke : hole.stroke,
-            penalty: typeof storedHole.penalty === 'number' ? storedHole.penalty : hole.penalty,
-            downIn3: typeof storedHole.downIn3 === 'boolean' ? storedHole.downIn3 : hole.downIn3,
-            threePutt: typeof storedHole.threePutt === 'boolean' ? storedHole.threePutt : hole.threePutt,
-            scoringZone:
-                typeof storedHole.scoringZone === 'boolean' ? storedHole.scoringZone : hole.scoringZone,
-        };
-    });
+    return { hydrateRound, hydrateScoreGoal, saveActiveRound, clearRound, syncRound };
 };

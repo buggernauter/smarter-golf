@@ -1,14 +1,14 @@
 import { PREDICTION_MARGIN } from '@/constants.ts';
-import type { GetPredictedStrokesRange, Hole, Prediction } from '@/types/score-card.ts';
-import { isHoleCompleted } from '@/domain/round-tracker/golf-round-selectors.ts';
+import type { Hole, Prediction } from '@/types/score-card.ts';
+import { isHoleCompleted } from '@/domain/round-tracker/round-summary';
 
 type PredictionInput = {
     holes: ReadonlyArray<Hole>;
 };
 
 const validate = ({ holes }: PredictionInput) => {
-    if (holes.length !== 18) {
-        throw new RangeError('The forecast requires a planned 18-hole round.');
+    if (holes.length === 0) {
+        throw new RangeError('The forecast requires at least one planned hole.');
     }
     for (const hole of holes) {
         if (!Number.isSafeInteger(hole.stroke) || hole.stroke < 0) {
@@ -20,15 +20,12 @@ const validate = ({ holes }: PredictionInput) => {
     }
 };
 
-const getPredictedStrokesRange: GetPredictedStrokesRange = ({
-    completedHoles,
-    strokesSoFar,
-    predictedTotalStrokes,
-}) => {
-    if (completedHoles === 0) {
-        return null;
-    }
-    if (completedHoles === 18) {
+const getPredictedStrokesRange = (
+    strokesSoFar: number,
+    predictedTotalStrokes: number,
+    isRoundComplete: boolean,
+): Prediction['predictedStrokesRange'] => {
+    if (isRoundComplete) {
         return { lower: strokesSoFar, higher: strokesSoFar };
     }
 
@@ -43,6 +40,18 @@ export const predictRound = ({ holes }: PredictionInput): Prediction => {
     validate({ holes });
 
     const completedHoles = holes.filter(isHoleCompleted);
+    if (completedHoles.length === 0) {
+        return {
+            completedHoles: 0,
+            strokesSoFar: 0,
+            predictedRemainingStrokes: null,
+            predictedTotalStrokes: null,
+            predictedStrokesRange: null,
+            playedPercentage: 0,
+            isRoundComplete: false,
+        };
+    }
+
     const remainingHoles = holes.filter((hole) => !isHoleCompleted(hole));
     const strokesSoFar = completedHoles.reduce((sum, hole) => sum + hole.stroke, 0);
     const completedHolesPar = completedHoles.reduce((sum, hole) => sum + hole.par, 0);
@@ -55,11 +64,11 @@ export const predictRound = ({ holes }: PredictionInput): Prediction => {
     const predictedTotalStrokes = strokesSoFar + predictedRemainingStrokes;
     const isRoundComplete = remainingHoles.length === 0;
 
-    const predictedStrokesRange = getPredictedStrokesRange({
-        completedHoles: completedHoles.length,
+    const predictedStrokesRange = getPredictedStrokesRange(
         strokesSoFar,
         predictedTotalStrokes,
-    });
+        isRoundComplete,
+    );
 
     return {
         completedHoles: completedHoles.length,

@@ -1,6 +1,6 @@
 import type { RefObject } from 'react';
 
-import type { PlayStrategy } from '@/domain/round-tracker/golf-round-strategy';
+import type { PlayStrategy } from '@/types/score-card';
 import type { BooleanHoleValue, Hole, NumericHoleValue } from '@/types/score-card';
 import { Card } from '@/pages/round-tracker/components/forecast/card/card';
 import {
@@ -8,7 +8,7 @@ import {
     StyledCarouselList,
     StyledCarouselWrapper,
     StyledNavigationButton,
-} from '@/pages/round-tracker/components/cards-carousel.styles';
+} from '@/pages/round-tracker/components/cards-carousel/styles';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 type Props = {

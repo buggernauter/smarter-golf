@@ -1,3 +1,18 @@
+export const ScoreGoal = {
+    Break100: 100,
+    Break90: 90,
+    Break80: 80,
+} as const;
+
+export type ScoreGoal = (typeof ScoreGoal)[keyof typeof ScoreGoal];
+
+export type SavedRound = {
+    id: string;
+    savedAt: string;
+    playedHoles: Hole[];
+    scoreGoal: ScoreGoal | null;
+};
+
 export type Hole = {
     number: number;
     par: number;
@@ -6,7 +21,6 @@ export type Hole = {
     downIn3: boolean;
     threePutt: boolean;
     meter: number;
-    scoringGoal: string;
     scoringZone: boolean;
 };
 
@@ -21,12 +35,17 @@ export type Prediction = {
     isRoundComplete: boolean;
     predictedStrokesRange: { lower: number; higher: number } | null;
 };
-export type GetPredictedStrokesRange = ({
-    completedHoles,
-    strokesSoFar,
-    predictedTotalStrokes,
-}: {
-    completedHoles: number;
-    strokesSoFar: number;
-    predictedTotalStrokes: number;
-}) => Prediction['predictedStrokesRange'];
+export type PlayedHoleSummary = {
+    playedHoles: Hole[];
+    totalDownIn3: number;
+    totalPar: number;
+    totalPenalty: number;
+    totalScore: number;
+    totalScoringZone: number;
+    totalThreePutt: number;
+};
+
+export type PlayStrategy = {
+    heading: string;
+    points: readonly string[];
+};

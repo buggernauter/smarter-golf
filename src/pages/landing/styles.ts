@@ -1,76 +1,158 @@
-import styled, { css } from "styled-components";
-import { Link } from "@tanstack/react-router";
+import styled, { css } from 'styled-components';
+import { Link } from '@tanstack/react-router';
 
 export const StyledLandingPage = styled.main`
-  box-sizing: border-box;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  color: ${({ theme }) => theme.palette.textPrimary};
-  font-family: "Avenir Next", Inter, ui-sans-serif, system-ui, sans-serif;
+    box-sizing: border-box;
+    min-height: 100dvh;
+    color: ${({ theme }) => theme.palette.textPrimary};
+    font-family: 'Avenir Next', Inter, ui-sans-serif, system-ui, sans-serif;
 `;
 
-export const StyledCardSurface = css`
-  border-radius: 1.75rem;
-  background: ${({ theme }) => theme.gradients.cardSurface};
-  box-shadow: ${({ theme }) => theme.shadows.cardSurface};
-  border: 0.0625rem solid ${({ theme }) => theme.palette.divider};
+export const StyledLandingContent = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+    width: 100%;
+    max-width: 38rem;
+    margin: 0 auto;
+    padding: 0.75rem 1rem max(2rem, env(safe-area-inset-bottom));
+    box-sizing: border-box;
 `;
 
-export const StyledLinkGrid = styled.section`
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  justify-content: center;
-  gap: 0.9rem;
-  padding: 1rem;
+export const StyledIntroduction = styled.section`
+    h1 {
+        margin: 0 0 0.65rem;
+        font-size: clamp(1.8rem, 7vw, 2.4rem);
+        line-height: 1.15;
+        letter-spacing: -0.04em;
+    }
+
+    p {
+        margin: 0;
+        max-width: 34rem;
+        color: ${({ theme }) => theme.palette.textSecondary};
+        font-size: 1rem;
+        line-height: 1.6;
+    }
 `;
 
-export const StyledRouteLink = styled(Link)`
-  ${StyledCardSurface};
-  display: flex;
-  align-items: flex-start;
-  gap: 1rem;
-  padding: 1rem;
-  text-decoration: none;
-  color: inherit;
-  transition:
-    transform 180ms ease,
-    box-shadow 180ms ease,
-    border-color 180ms ease;
-
-  &:active {
-    transform: scale(0.985);
-  }
+const cardSurface = css`
+    border: 1px solid ${({ theme }) => theme.palette.divider};
+    border-radius: 1.25rem;
+    background: ${({ theme }) => theme.palette.backgroundPaper};
 `;
 
-export const StyledLinkIcon = styled.div<{ $tone: "primary" | "secondary" }>`
-  flex: 0 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 3.5rem;
-  height: 3.5rem;
-  border-radius: 1.2rem;
-  color: ${({ theme }) => theme.palette.backgroundPaper};
-  background: ${({ $tone, theme }) =>
-    $tone === "primary"
-      ? `linear-gradient(135deg, ${theme.palette.primaryMain} 0%, ${theme.palette.textSecondary} 100%)`
-      : `linear-gradient(135deg, ${theme.palette.textSecondary} 0%, ${theme.palette.textDisabled} 100%)`};
-  box-shadow: ${({ theme }) => theme.shadows.primaryButton};
-
-  svg {
-    width: 1.6rem;
-    height: 1.6rem;
-  }
+const linkFocus = css`
+    &:focus-visible {
+        outline: 3px solid ${({ theme }) => theme.palette.primaryMain};
+        outline-offset: 4px;
+    }
 `;
 
-export const StyledLinkContent = styled.div`
-  min-width: 0;
+export const StyledRoundCard = styled.section`
+    ${cardSurface};
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.5rem;
+
+    h2 {
+        font-size: 1.6rem;
+    }
+`;
+
+export const StyledLinkIcon = styled.div`
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 0.75rem;
+    background: ${({ theme }) => theme.palette.surfaceSecondary};
+    color: ${({ theme }) => theme.palette.primaryMain};
+
+    svg {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
 `;
 
 export const StyledLinkTitle = styled.h2`
-  margin: 0 0 0.35rem;
-  font-size: 1.05rem;
-  letter-spacing: -0.02em;
+    margin: 0;
+    font-size: 1.05rem;
+    letter-spacing: -0.02em;
+`;
+
+export const StyledDescription = styled.p`
+    margin: 0;
+    color: ${({ theme }) => theme.palette.textSecondary};
+    font-size: 0.95rem;
+    line-height: 1.6;
+`;
+
+export const StyledStartLink = styled(Link)`
+    ${linkFocus};
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    align-self: stretch;
+    min-height: 3rem;
+    margin-top: 0.5rem;
+    padding: 0.5rem 1rem;
+    box-sizing: border-box;
+    border-radius: 0.75rem;
+    background: ${({ theme }) => theme.palette.success};
+    color: ${({ theme }) => theme.palette.textOnAccent};
+    font-weight: 700;
+    text-decoration: none;
+
+    &:hover {
+        filter: brightness(1.08);
+    }
+`;
+
+export const StyledPractice = styled.section`
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+`;
+
+export const StyledPracticeTitle = styled.h2`
+    margin: 0;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: ${({ theme }) => theme.palette.textSecondary};
+`;
+
+export const StyledPracticeLink = styled(Link)`
+    ${cardSurface};
+    ${linkFocus};
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    color: inherit;
+    text-decoration: none;
+
+    > svg {
+        flex-shrink: 0;
+        color: ${({ theme }) => theme.palette.textDisabled};
+    }
+
+    &:hover {
+        border-color: ${({ theme }) => theme.palette.primaryMain};
+    }
+`;
+
+export const StyledLinkContent = styled.div`
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 0;
 `;

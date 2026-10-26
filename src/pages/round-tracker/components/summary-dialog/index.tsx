@@ -2,7 +2,7 @@ import { ArrowLeft, Check, X } from 'lucide-react';
 
 import type { Hole } from '@/types/score-card';
 
-import { getPlayedHoleSummary } from '@/domain/round-tracker/golf-round-selectors';
+import { getRoundSummary } from '@/domain/round-tracker/round-summary';
 import {
     StyledBadge,
     StyledEmptyText,
@@ -45,7 +45,7 @@ export const SummaryDialog = ({ holes, isOpen, onClose, onSaveRound, onBack, onR
         totalScore,
         totalScoringZone,
         totalThreePutt,
-    } = getPlayedHoleSummary(holes);
+    } = getRoundSummary(holes);
     const isOngoingRound = Boolean(onSaveRound || onResetRound);
     return (
         <StyledSummarySheetBackdrop $open={isOpen} aria-hidden={!isOpen} onClick={onClose}>

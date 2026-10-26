@@ -1,8 +1,8 @@
 import { ChevronRight, Trash2, X } from 'lucide-react';
 import { useState } from 'react';
 
-import type { SavedRound } from '@/domain/round-tracker/round-history';
-import { getPlayedHoleSummary } from '@/domain/round-tracker/golf-round-selectors';
+import type { SavedRound } from '@/types/score-card';
+import { getRoundSummary } from '@/domain/round-tracker/round-summary';
 import { SummaryDialog } from '@/pages/round-tracker/components/summary-dialog';
 import {
     StyledSummaryCloseButton,
@@ -72,7 +72,7 @@ export const HistoryDialog = ({ rounds, onClose, onDeleteRound }: Props) => {
                     {rounds.length !== 0 ? (
                         <StyledList>
                             {rounds.map((round) => {
-                                const summary = getPlayedHoleSummary(round.playedHoles);
+                                const summary = getRoundSummary(round.playedHoles);
                                 const date = shortDate(round.savedAt);
 
                                 return (

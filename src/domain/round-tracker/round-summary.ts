@@ -1,23 +1,13 @@
-import type { Hole } from '@/types/score-card';
-
-type PlayedHoleSummary = {
-    playedHoles: Hole[];
-    totalDownIn3: number;
-    totalPar: number;
-    totalPenalty: number;
-    totalScore: number;
-    totalScoringZone: number;
-    totalThreePutt: number;
-};
+import type { Hole, PlayedHoleSummary } from '@/types/score-card';
 
 export const isHoleCompleted = (hole: Pick<Hole, 'stroke'>) =>
     Number.isSafeInteger(hole.stroke) && hole.stroke > 0;
 
 const getPlayedHoles = (holes: Hole[]) => holes.filter(isHoleCompleted);
 
-export const hasRoundData = (holes: Hole[]) => holes.some(isHoleCompleted);
+export const hasPlayedHoles = (holes: Hole[]) => holes.some(isHoleCompleted);
 
-export const getPlayedHoleSummary = (holes: Hole[]): PlayedHoleSummary =>
+export const getRoundSummary = (holes: Hole[]): PlayedHoleSummary =>
     getPlayedHoles(holes).reduce<PlayedHoleSummary>(
         (summary, hole) => {
             summary.playedHoles.push(hole);

@@ -1,5 +1,6 @@
 import { MAX_SCORE } from '@/constants';
-import { getStrategyDelta, type PlayStrategy } from '@/domain/round-tracker/golf-round-strategy';
+import { getStrategyDelta } from '@/domain/round-tracker/round-strategy';
+import type { PlayStrategy } from '@/types/score-card';
 import type { BooleanHoleValue, Hole, NumericHoleValue } from '@/types/score-card';
 
 import { ScorePicker } from '@/components/score-picker';
