@@ -22,6 +22,7 @@ export type Hole = {
     threePutt: boolean;
     meter: number;
     scoringZone: boolean;
+    completedStrategyPoints?: string[];
 };
 
 export type BooleanHoleValue = 'scoringZone' | 'downIn3' | 'threePutt';

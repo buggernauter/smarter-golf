@@ -10,9 +10,7 @@ export const useSwipeNavigation = () => {
 
     useVisibleSlideObserver({
         rootRef: carouselRef,
-
         elementsRef: cardRefs,
-
         onVisibleIndexChange: (nextIndex) => {
             setActiveHoleIndex((currentIndex) => (currentIndex === nextIndex ? currentIndex : nextIndex));
         },

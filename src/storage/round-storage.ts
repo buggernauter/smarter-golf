@@ -1,3 +1,4 @@
+import { getChecklistStats } from '@/domain/round-tracker/round-checklist';
 import { ScoreGoal, type Hole, type SavedRound } from '@/types/score-card';
 import { STORAGE_KEY } from '@/constants';
 import { getRoundSummary } from '@/domain/round-tracker/round-summary';
@@ -126,14 +127,20 @@ const mergeStoredRound = (baseRound: Hole[], storedValue: unknown) => {
             return hole;
         }
 
+        const completedStrategyPoints = Array.isArray(storedHole.completedStrategyPoints)
+            ? storedHole.completedStrategyPoints.filter((point: unknown): point is string => typeof point === 'string')
+            : undefined;
+
         return {
             ...hole,
+            completedStrategyPoints: completedStrategyPoints ?? [],
             stroke: typeof storedHole.stroke === 'number' ? storedHole.stroke : hole.stroke,
             penalty: typeof storedHole.penalty === 'number' ? storedHole.penalty : hole.penalty,
             downIn3: typeof storedHole.downIn3 === 'boolean' ? storedHole.downIn3 : hole.downIn3,
             threePutt: typeof storedHole.threePutt === 'boolean' ? storedHole.threePutt : hole.threePutt,
             scoringZone:
                 typeof storedHole.scoringZone === 'boolean' ? storedHole.scoringZone : hole.scoringZone,
+            ...(completedStrategyPoints ? getChecklistStats(completedStrategyPoints) : {}),
         };
     });
 };

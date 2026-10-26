@@ -46,6 +46,7 @@ export const StyledCardDescription = styled.section`
     box-shadow: ${({ theme }) => theme.shadows.descriptionSurface};
 `;
 export const StyledCardDescriptionList = styled.ul`
+    width: 100%;
     display: flex;
     flex-direction: column;
     gap: 0.32rem;
@@ -57,6 +58,35 @@ export const StyledCardDescriptionList = styled.ul`
 export const StyledCardDescriptionPoint = styled.li`
     position: relative;
     padding: 0;
+
+    label {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+        min-height: 3rem;
+        touch-action: manipulation;
+        cursor: pointer;
+    }
+
+    input {
+        flex-shrink: 0;
+        width: 1.75rem;
+        height: 1.75rem;
+        margin: 0;
+        accent-color: ${({ theme }) => theme.palette.primaryMain};
+        cursor: pointer;
+    }
+
+    input:focus-visible {
+        outline: 2px solid ${({ theme }) => theme.palette.primaryMain};
+        outline-offset: 3px;
+    }
+
+    label:has(input:checked) span {
+        color: ${({ theme }) => theme.palette.primaryMain};
+        /* text-decoration: line-through; */
+    }
 `;
 
 export const StyledCardDescriptionPointText = styled.span`
@@ -85,63 +115,4 @@ export const StyledCardMeta = styled.p`
 `;
 export const StyledControlStack = styled.div`
     margin-top: auto;
-`;
-export const StyledButtonsWrapper = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-`;
-
-export const StyledToggleRow = styled.div`
-    display: flex;
-    gap: 1rem;
-`;
-
-export const StyledToggleButton = styled.button<{
-    $active: boolean;
-    $tone?: 'success' | 'danger';
-}>`
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 2.0625rem;
-    padding: 0.4375rem 0.6875rem;
-    border-radius: 999rem;
-    width: auto;
-    max-width: 100%;
-    border: 0;
-    font: inherit;
-    font-size: 0.77rem;
-    font-weight: 540;
-    letter-spacing: -0.01em;
-    text-align: center;
-    white-space: nowrap;
-    color: ${({ $active, theme }) =>
-        $active
-            ? theme.mode === 'dark'
-                ? theme.palette.textPrimary
-                : theme.palette.backgroundPaper
-            : theme.palette.textPrimary};
-    background: ${({ $active, $tone = 'success', theme }) =>
-        $active
-            ? $tone === 'danger'
-                ? theme.palette.fail
-                : theme.palette.primaryMain
-            : theme.gradients.fieldSurface};
-    box-shadow: ${({ $active, $tone = 'success', theme }) =>
-        $active
-            ? $tone === 'danger'
-                ? theme.shadows.toggleButtonDanger
-                : theme.shadows.toggleButtonSuccess
-            : theme.shadows.fieldSurface};
-    transition:
-        transform 160ms ease,
-        box-shadow 180ms ease,
-        background 180ms ease,
-        color 180ms ease;
-
-    &:active {
-        transform: scale(0.98);
-    }
 `;

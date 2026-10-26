@@ -1,3 +1,5 @@
+import { useRoundHistory } from '@/hooks/useRoundHistory';
+import { useHoleScore } from '@/hooks/useHoleScore';
 import { useNavigate } from '@tanstack/react-router';
 import { Home, Save, CalendarDays } from 'lucide-react';
 import { useCallback, useState } from 'react';
@@ -16,16 +18,24 @@ import { Spacer } from '@/components/ui/spacer';
 import { HistoryDialog } from '@/pages/round-tracker/components/history-dialog';
 import { RoundGoalDialog } from '@/pages/round-tracker/components/round-goal-dialog';
 import { ScoreGoal } from '@/types/score-card';
+import { useRoundChecklist } from '@/hooks/useRoundChecklist';
 
 export const RoundTrackerPage = () => {
     const navigate = useNavigate();
     const [isSummaryOpen, setIsSummaryOpen] = useState(false);
     const [isHistoryOpen, setIsHistoryOpen] = useState(false);
     const [selectedRoundGoal, setSelectedRoundGoal] = useState<ScoreGoal>(ScoreGoal.Break90);
+    const { rounds, loadHistory, saveToHistory, deleteRound } = useRoundHistory();
     const {
-        holes, scoreGoal, startRound, playStrategy, resetRound, finishRound,
-        rounds, loadHistory, deleteRound, updateStrokes, toggleCheckbox,
-    } = useScorecard();
+        holes,
+        scoreGoal,
+        startRound,
+        resetRound,
+        finishRound,
+        setHoles,
+    } = useScorecard(saveToHistory);
+    const { updateStrokes } = useHoleScore(setHoles);
+    const { toggleStrategyPoint } = useRoundChecklist(setHoles);
     const { activeHoleIndex, carouselRef, nextHole, previousHole, setHoleCardRef, scrollToHole } =
         useSwipeNavigation();
 
@@ -111,10 +121,9 @@ export const RoundTrackerPage = () => {
             <CardsCarousel
                 carouselRef={carouselRef}
                 holes={holes}
-                onToggleCheckboxValue={toggleCheckbox}
+                onToggleStrategyPoint={toggleStrategyPoint}
                 updateStrokes={updateStrokes}
                 setHoleCardRef={setHoleCardRef}
-                playStrategy={playStrategy}
                 isOnFirstHole={activeHoleIndex === 0}
                 isOnLastHole={activeHoleIndex === holes.length - 1}
                 onHoleFinish={handleHoleFinished}

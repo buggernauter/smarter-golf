@@ -1,28 +1,22 @@
 import type { PlayStrategy } from '@/types/score-card';
 
+export const StrategyPoint = {
+    ScoringZone: '~ 90 m from green',
+    TwoPutts: '2 putts',
+} as const;
+
 const par3Strategy: PlayStrategy = {
     heading: 'Scoring zone in 1 shot',
-    points: ['Tee shot: secure side of green ', '2 putts'],
+    points: ['Ball of green ', StrategyPoint.TwoPutts],
 };
 const par4Strategy: PlayStrategy = {
     heading: 'Scoring zone in 2 shots',
-    points: [
-        'Tee shot: keep the ball in play',
-        '2nd shot: get within 90 m of the green',
-        '3rd shot: middle of the green',
-        '2 putts',
-    ],
+    points: ['Ball in play', StrategyPoint.ScoringZone, 'Green hit', StrategyPoint.TwoPutts],
 };
 
 const par5Strategy: PlayStrategy = {
     heading: 'Scoring zone in 3 shots',
-    points: [
-        'Tee shot: keep the ball in play',
-        '2nd shot: advance towards the scoring zone',
-        '3rd shot: get within 90 m of the green',
-        '4th shot: aim for the middle of the green',
-        '2 putts',
-    ],
+    points: ['Ball in play', 'layup', StrategyPoint.ScoringZone, 'Green hit', StrategyPoint.TwoPutts],
 };
 
 export const getPlayStrategy = (parValue: number): PlayStrategy => {

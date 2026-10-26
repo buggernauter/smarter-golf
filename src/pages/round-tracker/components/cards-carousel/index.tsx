@@ -1,7 +1,6 @@
 import type { RefObject } from 'react';
 
-import type { PlayStrategy } from '@/types/score-card';
-import type { BooleanHoleValue, Hole, NumericHoleValue } from '@/types/score-card';
+import type { Hole, NumericHoleValue } from '@/types/score-card';
 import { Card } from '@/pages/round-tracker/components/forecast/card/card';
 import {
     StyledCarouselItem,
@@ -15,10 +14,9 @@ type Props = {
     carouselRef: RefObject<HTMLDivElement | null>;
     holes: Hole[];
 
-    onToggleCheckboxValue: (index: number, field: BooleanHoleValue) => void;
+    onToggleStrategyPoint: (index: number, point: string) => void;
     updateStrokes: (index: number, field: NumericHoleValue, value: number) => void;
     setHoleCardRef: (index: number, card: HTMLElement | null) => void;
-    playStrategy: (parValue: number) => PlayStrategy;
     onHoleFinish: VoidFunction;
     onNextHole: VoidFunction;
     onPreviousHole: VoidFunction;
@@ -29,10 +27,9 @@ type Props = {
 export const CardsCarousel = ({
     carouselRef,
     holes,
-    onToggleCheckboxValue,
+    onToggleStrategyPoint,
     updateStrokes,
     setHoleCardRef,
-    playStrategy,
     onNextHole,
     onHoleFinish,
     onPreviousHole,
@@ -53,10 +50,9 @@ export const CardsCarousel = ({
                 {holes.map((hole, index) => (
                     <StyledCarouselItem key={hole.number}>
                         <Card
-                            playStrategy={playStrategy(hole.par)}
                             hole={hole}
                             index={index}
-                            onToggleCheckbox={onToggleCheckboxValue}
+                            onToggleStrategyPoint={onToggleStrategyPoint}
                             updateStrokes={updateStrokes}
                             setHoleCardRef={setHoleCardRef}
                             onHoleFinish={onHoleFinish}

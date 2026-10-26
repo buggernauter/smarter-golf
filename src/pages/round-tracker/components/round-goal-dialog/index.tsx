@@ -1,7 +1,9 @@
 import { useEffect, useRef } from 'react';
+import { Check, ChevronDown } from 'lucide-react';
 
 import { ScoreGoal } from '@/types/score-card';
-import { StyledDialog } from '@/pages/round-tracker/components/round-goal-dialog/styles';
+import { useOutsideClick } from '@/hooks/useOutsideClick';
+import { StyledDialog, StyledSelect } from '@/pages/round-tracker/components/round-goal-dialog/styles';
 
 type Props = {
     scoreGoal: ScoreGoal;
@@ -12,6 +14,11 @@ type Props = {
 
 export const RoundGoalDialog = ({ scoreGoal, onScoreGoalChange, onStart, onCancel }: Props) => {
     const dialogRef = useRef<HTMLDialogElement>(null);
+    const selectRef = useRef<HTMLDetailsElement>(null);
+
+    useOutsideClick(selectRef, () => {
+        if (selectRef.current) selectRef.current.open = false;
+    });
 
     useEffect(() => {
         const dialog = dialogRef.current;
@@ -23,7 +30,6 @@ export const RoundGoalDialog = ({ scoreGoal, onScoreGoalChange, onStart, onCance
         <StyledDialog
             ref={dialogRef}
             aria-labelledby="round-goal-title"
-            aria-describedby="round-goal-description"
             onCancel={(event) => {
                 event.preventDefault();
                 onCancel();
@@ -36,25 +42,49 @@ export const RoundGoalDialog = ({ scoreGoal, onScoreGoalChange, onStart, onCance
                 }}
             >
                 <h1 id="round-goal-title">Set your round goal</h1>
-                <p id="round-goal-description">What score do you want to break?</p>
-                <label htmlFor="round-score-goal">Score goal</label>
-                <select
-                    id="round-score-goal"
-                    value={scoreGoal}
-                    onChange={(event) => {
-                        if (event.target.value === String(ScoreGoal.Break90)) {
-                            onScoreGoalChange(ScoreGoal.Break90);
+
+                <StyledSelect
+                    ref={selectRef}
+                    onKeyDown={(event) => {
+                        if (event.key === 'Escape' && selectRef.current?.open) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                            selectRef.current.open = false;
+                            selectRef.current.querySelector('summary')?.focus();
                         }
                     }}
                 >
-                    <option value={ScoreGoal.Break100} disabled>
-                        Break 100 — not available
-                    </option>
-                    <option value={ScoreGoal.Break90}>Break 90</option>
-                    <option value={ScoreGoal.Break80} disabled>
-                        Break 80 — not available
-                    </option>
-                </select>
+                    <summary aria-label={`Score goal: Break ${scoreGoal}`}>
+                        Break {scoreGoal}
+                        <ChevronDown aria-hidden="true" size={18} />
+                    </summary>
+                    <ul aria-label="Score goal options">
+                        {Object.values(ScoreGoal).map((goal) => (
+                            <li key={goal}>
+                                <button
+                                    type="button"
+                                    disabled={goal !== ScoreGoal.Break90}
+                                    aria-pressed={scoreGoal === goal}
+                                    onClick={() => {
+                                        onScoreGoalChange(goal);
+                                        if (selectRef.current) {
+                                            selectRef.current.open = false;
+                                            selectRef.current.querySelector('summary')?.focus();
+                                        }
+                                    }}
+                                >
+                                    <Check
+                                        aria-hidden="true"
+                                        size={16}
+                                        visibility={scoreGoal === goal ? 'visible' : 'hidden'}
+                                    />
+                                    Break {goal}
+                                    {goal !== ScoreGoal.Break90 ? ' — not available' : ''}
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+                </StyledSelect>
                 <button type="submit">Start round</button>
                 <button type="button" onClick={onCancel}>
                     Cancel
