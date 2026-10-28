@@ -7,7 +7,6 @@ const createInitialHole = ({ holeNr, parValue, meterValue }: (typeof holeData)[n
     stroke: 0,
     penalty: 0,
     downIn3: false,
-    threePutt: false,
     meter: meterValue,
     scoringZone: false,
     completedStrategyPoints: [],

@@ -1,14 +1,15 @@
+import { spacing, sizes, radii } from '@/styles/tokens';
 import { RotateCcw } from 'lucide-react';
 import styled from 'styled-components';
 
 export const StyledPage = styled.div`
     box-sizing: border-box;
-    min-height: 100vh;
+    min-height: ${sizes.viewportHeight};
 
-    padding: 0.875rem 0.75rem 3rem;
+    padding: ${spacing[3.5]} ${spacing[3]} ${spacing[12]};
     color: ${({ theme }) => theme.palette.textPrimary};
-    width: 100%;
-    max-width: 100vw;
+    width: ${sizes.full};
+    max-width: ${sizes.viewportWidth};
     min-width: 0;
     font-family:
         Inter,
@@ -25,40 +26,40 @@ export const StyledFooter = styled.div`
     flex-direction: row;
     justify-content: space-evenly;
 
-    padding-top: 2rem;
+    padding-top: ${spacing[8]};
 `;
 
 export const StyledIconButton = styled.button`
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 3rem;
-    height: 3rem;
+    width: ${sizes[12]};
+    height: ${sizes[12]};
     padding: 0;
     border: 0;
-    border-radius: 1rem;
+    border-radius: ${radii[4]};
     background: ${({ theme }) =>
         theme.mode === 'dark' ? theme.gradients.iconButton : theme.palette.backgroundPaper};
     color: ${({ theme }) => theme.palette.primaryMain};
     box-shadow: ${({ theme }) => theme.shadows.iconButton};
 
     svg {
-        width: 1.375rem;
-        height: 1.375rem;
+        width: ${sizes[5.5]};
+        height: ${sizes[5.5]};
     }
 `;
 
 export const StyledSummaryGrid = styled.div`
     display: flex;
     flex-wrap: wrap;
-    gap: 0.75rem;
+    gap: ${spacing[3]};
 `;
 
 export const StyledSummaryCard = styled.div`
-    flex: 1 1 calc(50% - 0.375rem);
+    flex: 1 1 calc(50% - ${sizes[1.5]});
     min-width: 0;
-    padding: 0.75rem 0.875rem;
-    border-radius: 1rem;
+    padding: ${spacing[3]} ${spacing[3.5]};
+    border-radius: ${radii[4]};
     background: ${({ theme }) =>
         theme.mode === 'dark' ? theme.gradients.summaryCard : theme.gradients.summaryCard};
     color: ${({ theme }) =>

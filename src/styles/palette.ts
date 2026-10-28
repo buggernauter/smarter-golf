@@ -2,7 +2,7 @@ import type { Palette, PrintPalette } from '@/styles/type';
 
 const lightColors: Palette = {
     textOnAccent: '#ffffff',
-    scoreOptionBackground: '#ff0000',
+    scoreOptionBackground: '#334155',
     backdrop: 'rgb(0 0 0 / 80%)',
     backgroundDefault: '#f7fafc',
     backgroundPaper: '#ffffff',
@@ -29,7 +29,7 @@ const lightColors: Palette = {
 
 const darkColors: Palette = {
     textOnAccent: '#ffffff',
-    scoreOptionBackground: '#ff0000',
+    scoreOptionBackground: '#334150',
     backdrop: 'rgb(0 0 0 / 80%)',
     backgroundDefault: '#1f1f1f',
     backgroundPaper: '#121212',

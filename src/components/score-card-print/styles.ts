@@ -1,19 +1,20 @@
+import { spacing, sizes, radii, borderWidths, printLengths } from '@/styles/tokens';
 import styled, { createGlobalStyle, css } from "styled-components";
 
 import { printPalette } from "@/styles/palette";
 
 const StyledInfoCardSurface = css`
-  padding: 0.75rem 0.875rem;
-  border: 0.0625rem solid ${printPalette.borderSubtle};
-  border-radius: 1.125rem;
+  padding: ${spacing[3]} ${spacing[3.5]};
+  border: ${borderWidths.hairline} solid ${printPalette.borderSubtle};
+  border-radius: ${radii[4.5]};
   background: ${printPalette.panelTint};
 
   @media print {
     break-inside: avoid;
     page-break-inside: avoid;
-    padding: 2.5mm 3mm;
+    padding: ${printLengths[2.5]} ${printLengths[3]};
     border-color: ${printPalette.borderStrong};
-    border-radius: 4mm;
+    border-radius: ${printLengths[4]};
     background: ${printPalette.paper};
     box-shadow: none;
   }
@@ -21,11 +22,11 @@ const StyledInfoCardSurface = css`
 
 const StyledInputBoxBase = css`
   display: inline-block;
-  border: 0.1125rem solid ${printPalette.borderSubtle};
+  border: ${borderWidths.input} solid ${printPalette.borderSubtle};
   background: ${printPalette.paper};
 
   @media print {
-    border-width: 0.0625rem;
+    border-width: ${borderWidths.hairline};
     border-color: ${printPalette.line};
   }
 `;
@@ -34,7 +35,7 @@ export const StyledPrintGlobalStyle = createGlobalStyle`
   @media print {
     @page {
       size: A4 landscape;
-      margin: 5mm;
+      margin: ${printLengths[5]};
     }
 
     html,
@@ -56,14 +57,14 @@ export const StyledPrintGlobalStyle = createGlobalStyle`
 `;
 
 export const StyledPage = styled.div`
-  min-height: 100vh;
-  padding: 0.0625rem;
+  min-height: ${sizes.viewportHeight};
+  padding: ${spacing[0.25]};
   background: ${printPalette.pageGradient};
   color: ${printPalette.text};
   font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
 
   @media print {
-    width: 100%;
+    width: ${sizes.full};
     min-height: auto;
     padding: 0;
     background: ${printPalette.paper};
@@ -76,15 +77,15 @@ export const StyledToolbar = styled.div`
   flex-direction: column;
   align-items: stretch;
   justify-content: space-between;
-  gap: 1rem;
-  margin: 0 auto 1.125rem;
+  gap: ${spacing[4]};
+  margin: 0 auto ${spacing[4.5]};
 
 `;
 
 export const StyledActionGroup = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: ${spacing[3]};
 `;
 
 export const StyledActionButton = styled.button`
@@ -93,8 +94,8 @@ export const StyledActionButton = styled.button`
   justify-content: center;
   align-self: flex-end;
   appearance: none;
-  width: 3.25rem;
-  height: 3.25rem;
+  width: ${sizes[13]};
+  height: ${sizes[13]};
   padding: 0;
   border: 0;
   background: transparent;
@@ -104,8 +105,8 @@ export const StyledActionButton = styled.button`
   cursor: pointer;
 
   svg {
-    width: 1.375rem;
-    height: 1.375rem;
+    width: ${sizes[5.5]};
+    height: ${sizes[5.5]};
   }
 `;
 
@@ -113,14 +114,14 @@ export const StyledSheet = styled.main`
   box-sizing: border-box;
   margin: 0 auto;
   padding: 0;
-  border: 0.0625rem solid ${printPalette.border};
-  border-radius: 1.75rem;
+  border: ${borderWidths.hairline} solid ${printPalette.border};
+  border-radius: ${radii[7]};
   background: ${printPalette.sheetGradient};
   box-shadow: ${printPalette.sheetShadow};
 
   @media print {
     display: block;
-    width: 100%;
+    width: ${sizes.full};
     padding: 0;
     border: 0;
     border-radius: 0;
@@ -137,7 +138,7 @@ export const StyledGrid = styled.section`
     flex: 1 1 auto;
     min-width: 0;
   }
-  gap: 0.875rem;
+  gap: ${spacing[3.5]};
 
   @media print {
     flex-direction: row;
@@ -147,14 +148,14 @@ export const StyledGrid = styled.section`
     }
     display: flex;
     align-items: flex-start;
-    gap: 1mm;
+    gap: ${printLengths[1]};
   }
 `;
 
 export const StyledCard = styled.section`
   overflow: hidden;
-  border: 0.0625rem solid ${printPalette.border};
-  border-radius: 1.5rem;
+  border: ${borderWidths.hairline} solid ${printPalette.border};
+  border-radius: ${radii[6]};
   background: ${printPalette.card};
 
   @media print {
@@ -163,7 +164,7 @@ export const StyledCard = styled.section`
     break-inside: avoid;
     page-break-inside: avoid;
     border-color: ${printPalette.borderStrong};
-    border-radius: 5mm;
+    border-radius: ${printLengths[5]};
     background: ${printPalette.paper};
     box-shadow: none;
   }
@@ -173,13 +174,13 @@ export const StyledCardHeader = styled.div`
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  gap: 0.75rem;
-  padding: 0.875rem 1rem;
-  border-bottom: 0.0625rem solid ${printPalette.border};
+  gap: ${spacing[3]};
+  padding: ${spacing[3.5]} ${spacing[4]};
+  border-bottom: ${borderWidths.hairline} solid ${printPalette.border};
   background: ${printPalette.card};
 
   @media print {
-    padding: 2mm 2.4mm;
+    padding: ${printLengths[2]} ${printLengths[2.4]};
     border-bottom-color: ${printPalette.borderStrong};
     background: ${printPalette.paper};
   }
@@ -207,15 +208,15 @@ export const StyledCardMeta = styled.p`
 `;
 
 export const StyledTable = styled.table`
-  width: 100%;
+  width: ${sizes.full};
   border-collapse: collapse;
   table-layout: fixed;
   font-size: 0.78rem;
 
   th,
   td {
-    padding: 0.4375rem 0.125rem;
-    border-bottom: 0.0625rem solid ${printPalette.borderSoft};
+    padding: ${spacing[1.75]} ${spacing[0.5]};
+    border-bottom: ${borderWidths.hairline} solid ${printPalette.borderSoft};
     text-align: center;
     vertical-align: middle;
   }
@@ -235,49 +236,43 @@ export const StyledTable = styled.table`
 
   th:nth-child(1),
   td:nth-child(1) {
-    width: 1.375rem;
+    width: ${sizes[5.5]};
   }
 
   th:nth-child(2),
   td:nth-child(2) {
-    width: 1.625rem;
+    width: ${sizes[6.5]};
   }
 
   th:nth-child(3),
   td:nth-child(3) {
-    width: 3rem;
+    width: ${sizes[12]};
   }
 
   th:nth-child(4),
   td:nth-child(4) {
-    width: 3rem;
+    width: ${sizes[12]};
   }
 
   th:nth-child(5),
   td:nth-child(5) {
-    width: 3.5rem;
+    width: ${sizes[14]};
   }
 
   th:nth-child(6),
   td:nth-child(6) {
-    width: 3.5rem;
-  }
-
-  th:nth-child(7),
-  td:nth-child(7) {
-    width: 2.75rem;
+    width: ${sizes[14]};
   }
 
   th:nth-child(5),
   th:nth-child(6),
-  th:nth-child(7),
-  th:nth-child(8) {
+  th:nth-child(7) {
     white-space: nowrap;
   }
 
-  th:nth-child(8),
-  td:nth-child(8) {
-    width: 3.625rem;
+  th:nth-child(7),
+  td:nth-child(7) {
+    width: ${sizes[14.5]};
   }
 
   @media print {
@@ -298,72 +293,67 @@ export const StyledTable = styled.table`
 
     th:nth-child(1),
     td:nth-child(1) {
-      width: 3.1mm;
+      width: ${printLengths[3.1]};
     }
 
     th:nth-child(2),
     td:nth-child(2) {
-      width: 3.8mm;
+      width: ${printLengths[3.8]};
     }
 
     th:nth-child(3),
     td:nth-child(3) {
-      width: 7.2mm;
+      width: ${printLengths[7.2]};
     }
 
     th:nth-child(4),
     td:nth-child(4) {
-      width: 7.2mm;
+      width: ${printLengths[7.2]};
     }
 
     th:nth-child(5),
     td:nth-child(5) {
-      width: 7.8mm;
+      width: ${printLengths[7.8]};
     }
 
     th:nth-child(6),
     td:nth-child(6) {
-      width: 7.8mm;
+      width: ${printLengths[7.8]};
     }
 
     th:nth-child(7),
     td:nth-child(7) {
-      width: 6.2mm;
-    }
-
-    th:nth-child(8),
-    td:nth-child(8) {
-      width: 7.8mm;
+      width: ${printLengths[7.8]};
     }
   }
 `;
 
 export const StyledCheckboxBox = styled.span`
   ${StyledInputBoxBase};
-  width: 1.375rem;
-  height: 1.125rem;
+  width: ${sizes[5.5]};
+  height: ${sizes[4.5]};
 
   @media print {
-    width: 2.6mm;
-    height: 3mm;
+    width: ${printLengths[2.6]};
+    height: ${printLengths[3]};
   }
 `;
 
 export const StyledInputBox = styled.span`
   ${StyledInputBoxBase};
-  width: 2.875rem;
-  height: 1.25rem;
+  width: ${sizes[11.5]};
+  height: ${sizes[5]};
 
   @media print {
-    width: 5.4mm;
-    height: 3.8mm;
+    width: ${printLengths[5.4]};
+    height: ${printLengths[3.8]};
   }
 `;
 
 export const StyledSectionGroup = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: ${spacing[3]};
 
   > * {
     flex-basis: auto;
@@ -373,8 +363,8 @@ export const StyledSectionGroup = styled.div`
     flex-direction: row;
     display: flex;
     align-items: flex-start;
-    gap: 1.5mm;
-    margin-top: 2mm;
+    gap: ${printLengths[1.5]};
+    margin-top: ${printLengths[2]};
   }
 `;
 
@@ -385,8 +375,8 @@ export const StyledSummary = styled.section`
     flex: 1 1 auto;
     min-width: 0;
   }
-  gap: 0.625rem;
-  margin: 0.75rem 0;
+  gap: ${spacing[2.5]};
+  margin: ${spacing[3]} 0;
 
   @media print {
     flex-direction: row;
@@ -394,19 +384,19 @@ export const StyledSummary = styled.section`
     > * {
       flex-basis: 0;
     }
-    flex: 0 0 84mm;
+    flex: 0 0 ${printLengths[84]};
     margin: 0;
-    gap: 2mm;
+    gap: ${printLengths[2]};
   }
 `;
 
 export const StyledSummaryField = styled.div`
   ${StyledInfoCardSurface};
-  padding: 0.625rem 0.75rem;
+  padding: ${spacing[2.5]} ${spacing[3]};
 
   span {
     display: block;
-    margin-bottom: 0.5rem;
+    margin-bottom: ${spacing[2]};
     font-size: 0.76rem;
     font-weight: 700;
     letter-spacing: 0.04em;
@@ -415,15 +405,15 @@ export const StyledSummaryField = styled.div`
 
   strong {
     display: block;
-    margin-bottom: 0.5rem;
+    margin-bottom: ${spacing[2]};
     font-size: 1rem;
   }
 
   @media print {
-    padding: 2.25mm 2.5mm;
+    padding: ${printLengths[2.25]} ${printLengths[2.5]};
 
     strong {
-      margin-bottom: 2mm;
+      margin-bottom: ${printLengths[2]};
       font-size: 10pt;
     }
   }
@@ -431,12 +421,12 @@ export const StyledSummaryField = styled.div`
 
 export const StyledSummaryInput = styled.div`
   ${StyledInputBoxBase};
-  width: 100%;
-  height: 1.625rem;
-  border-radius: 0.5rem;
+  width: ${sizes.full};
+  height: ${sizes[6.5]};
+  border-radius: ${radii[2]};
 
   @media print {
-    height: 7mm;
+    height: ${printLengths[7]};
   }
 `;
 
@@ -451,7 +441,7 @@ export const StyledAsideGrid = styled.section`
   > :first-child {
     flex-grow: 1.2;
   }
-  gap: 0.875rem;
+  gap: ${spacing[3.5]};
 
   @media print {
     flex-direction: row;
@@ -462,17 +452,17 @@ export const StyledAsideGrid = styled.section`
     flex: 1 1 0;
     min-width: 0;
     align-items: flex-start;
-    gap: 1.5mm;
+    gap: ${printLengths[1.5]};
   }
 `;
 
 export const StyledInfoCard = styled.div`
   ${StyledInfoCardSurface};
-  padding: 0.875rem 1rem;
+  padding: ${spacing[3.5]} ${spacing[4]};
   background: ${printPalette.muted};
 
   h3 {
-    margin: 0 0 0.625rem;
+    margin: 0 0 ${spacing[2.5]};
     font-size: 0.95rem;
   }
 
@@ -484,16 +474,16 @@ export const StyledInfoCard = styled.div`
   }
 
   ul {
-    padding-left: 1.125rem;
+    padding-left: ${spacing[4.5]};
   }
 
   @media print {
     flex: 1 1 0;
     min-width: 0;
-    padding: 2.25mm 2.5mm;
+    padding: ${printLengths[2.25]} ${printLengths[2.5]};
 
     h3 {
-      margin-bottom: 1.5mm;
+      margin-bottom: ${printLengths[1.5]};
       font-size: 7.5pt;
     }
 
@@ -504,7 +494,7 @@ export const StyledInfoCard = styled.div`
     }
 
     ul {
-      padding-left: 4mm;
+      padding-left: ${printLengths[4]};
     }
   }
 `;

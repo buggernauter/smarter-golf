@@ -1,3 +1,5 @@
+import { breakpoints } from '@/styles/breakpoints';
+import { spacing, sizes, radii, borderWidths } from '@/styles/tokens';
 import { Link } from "@tanstack/react-router";
 import styled from "styled-components";
 
@@ -5,7 +7,7 @@ import type { Round } from "@/types/lag-put";
 
 export const StyledPage = styled.main`
   box-sizing: border-box;
-  min-height: 100dvh;
+  min-height: ${sizes.dynamicViewportHeight};
   overflow-x: hidden;
   background: ${({ theme }) => theme.palette.backgroundPaper};
   color: ${({ theme }) => theme.palette.textPrimary};
@@ -16,30 +18,30 @@ export const StyledBackLink = styled.a`
   display: inline-flex;
   align-items: center;
   justify-self: start;
-  gap: 0.35rem;
+  gap: ${spacing[1.4]};
   color: ${({ theme }) => theme.palette.textPrimary};
   font-family: Arial, sans-serif;
   font-size: 0.875rem;
   text-decoration: none;
 
   svg {
-    width: 1rem;
-    height: 1rem;
+    width: ${sizes[4]};
+    height: ${sizes[4]};
   }
 
 `;
 
 export const StyledResetButton = styled.button`
   display: flex;
-  width: calc(100% - 2rem);
-  min-height: 3rem;
+  width: calc(${sizes.full} - ${sizes[8]});
+  min-height: ${sizes[12]};
   align-items: center;
   justify-content: center;
-  gap: 0.35rem;
-  margin: 1rem 1rem 0;
-  padding: 0.75rem 1rem;
-  border: 0.0625rem solid ${({ theme }) => theme.palette.outlineVariant};
-  border-radius: 0.875rem;
+  gap: ${spacing[1.4]};
+  margin: ${spacing[4]} ${spacing[4]} 0;
+  padding: ${spacing[3]} ${spacing[4]};
+  border: ${borderWidths.hairline} solid ${({ theme }) => theme.palette.outlineVariant};
+  border-radius: ${radii[3.5]};
   background: ${({ theme }) => theme.gradients.fieldSurface};
   box-shadow: ${({ theme }) => theme.shadows.fieldSurface};
   color: ${({ theme }) => theme.palette.textPrimary};
@@ -48,18 +50,18 @@ export const StyledResetButton = styled.button`
   cursor: pointer;
 
   svg {
-    width: 1rem;
-    height: 1rem;
+    width: ${sizes[4]};
+    height: ${sizes[4]};
   }
 `;
 
 export const StyledForm = styled.form<{ $round: Round }>`
   display: flex;
   box-sizing: border-box;
-  margin: 0 1rem;
-  padding: 0.625rem;
-  border: 0.0625rem solid ${({ theme }) => theme.palette.outline};
-  border-radius: 1.5rem;
+  margin: 0 ${spacing[4]};
+  padding: ${spacing[2.5]};
+  border: ${borderWidths.hairline} solid ${({ theme }) => theme.palette.outline};
+  border-radius: ${radii[6]};
   background: ${({ theme, $round }) =>
     $round === "frontNine"
       ? theme.gradients.pageBackground
@@ -70,21 +72,21 @@ export const StyledForm = styled.form<{ $round: Round }>`
   box-shadow: ${({ theme }) => theme.shadows.cardSurface};
 
   & + & {
-    margin-top: clamp(1.5rem, 4vw, 2.75rem);
+    margin-top: clamp(${spacing[6]}, 4vw, ${spacing[11]});
   }
 `;
 
 export const StyledScoringSystem = styled.section`
-  margin: 1rem;
-  padding: 1.25rem;
-  border: 0.0625rem solid ${({ theme }) => theme.palette.divider};
-  border-radius: 1rem;
+  margin: ${spacing[4]};
+  padding: ${spacing[5]};
+  border: ${borderWidths.hairline} solid ${({ theme }) => theme.palette.divider};
+  border-radius: ${radii[4]};
   background: ${({ theme }) => theme.gradients.fieldSurface};
   box-shadow: ${({ theme }) => theme.shadows.fieldSurface};
   color: ${({ theme }) => theme.palette.textPrimary};
 
   p {
-    margin: 1rem 0;
+    margin: ${spacing[4]} 0;
   }
 
   p:last-child {
@@ -94,31 +96,31 @@ export const StyledScoringSystem = styled.section`
 
 export const StyledReferenceCard = styled.aside`
   box-sizing: border-box;
-  margin: 1rem;
-  padding: 1.25rem;
-  border: 0.0625rem solid ${({ theme }) => theme.palette.divider};
-  border-radius: 1rem;
+  margin: ${spacing[4]};
+  padding: ${spacing[5]};
+  border: ${borderWidths.hairline} solid ${({ theme }) => theme.palette.divider};
+  border-radius: ${radii[4]};
   background: ${({ theme }) => theme.gradients.fieldSurface};
   box-shadow: ${({ theme }) => theme.shadows.fieldSurface};
   color: ${({ theme }) => theme.palette.textPrimary};
 `;
 
 export const StyledReferenceTitle = styled.h2`
-  margin: 0 0 0.2rem;
+  margin: 0 0 ${spacing[0.8]};
   font-family: Arial, sans-serif;
   font-size: 1.15rem;
   font-weight: 700;
 `;
 
 export const StyledReferenceTable = styled.table`
-  width: 100%;
+  width: ${sizes.full};
   border-collapse: collapse;
   font-size: 1.4rem;
   letter-spacing: 0.025em;
 
   th,
   td {
-    padding: 0.12rem 0;
+    padding: ${spacing[0.48]} 0;
 
     font-weight: 400;
     line-height: 1.15;
@@ -132,20 +134,20 @@ export const StyledReferenceTable = styled.table`
     text-align: right;
   }
 
-  @media (max-width: 27rem) {
+  @media (max-width: ${breakpoints.compact}) {
     font-size: 1.15rem;
   }
 `;
 export const StyledFinishButton = styled.button`
   display: flex;
-  width: calc(100% - 2rem);
-  min-height: 3.25rem;
+  width: calc(${sizes.full} - ${sizes[8]});
+  min-height: ${sizes[13]};
   align-items: center;
   justify-content: center;
-  margin: 1rem;
-  padding: 0.75rem 1rem;
+  margin: ${spacing[4]};
+  padding: ${spacing[3]} ${spacing[4]};
   border: 0;
-  border-radius: 0.875rem;
+  border-radius: ${radii[3.5]};
   background: ${({ theme }) => theme.palette.primaryMain};
   color: ${({ theme }) => theme.palette.backgroundPaper};
   box-shadow: ${({ theme }) => theme.shadows.primaryButton};
@@ -163,26 +165,26 @@ export const StyledFinishButton = styled.button`
 
   &:active {
     box-shadow: ${({ theme }) => theme.shadows.primaryButton};
-    transform: translateY(0.0625rem);
+    transform: translateY(${sizes[0.25]});
   }
 
   &:focus-visible {
-    outline: 0.1875rem solid ${({ theme }) => theme.palette.primaryMain};
-    outline-offset: 0.1875rem;
+    outline: ${borderWidths.focus} solid ${({ theme }) => theme.palette.primaryMain};
+    outline-offset: ${spacing[0.75]};
   }
 `;
 
 export const StyledSavedRoundsLink = styled(Link)`
   display: flex;
-  width: calc(100% - 2rem);
-  min-height: 3rem;
+  width: calc(${sizes.full} - ${sizes[8]});
+  min-height: ${sizes[12]};
   box-sizing: border-box;
   align-items: center;
   justify-content: center;
-  margin: 0 1rem 1rem;
-  padding: 0.75rem 1rem;
-  border: 0.0625rem solid ${({ theme }) => theme.palette.outlineVariant};
-  border-radius: 0.875rem;
+  margin: 0 ${spacing[4]} ${spacing[4]};
+  padding: ${spacing[3]} ${spacing[4]};
+  border: ${borderWidths.hairline} solid ${({ theme }) => theme.palette.outlineVariant};
+  border-radius: ${radii[3.5]};
   background: ${({ theme }) => theme.gradients.fieldSurface};
   box-shadow: ${({ theme }) => theme.shadows.fieldSurface};
   color: ${({ theme }) => theme.palette.textPrimary};
@@ -197,7 +199,7 @@ export const StyledSavedRoundsLink = styled(Link)`
 
 
   &:focus-visible {
-    outline: 0.1875rem solid ${({ theme }) => theme.palette.primaryMain};
-    outline-offset: 0.1875rem;
+    outline: ${borderWidths.focus} solid ${({ theme }) => theme.palette.primaryMain};
+    outline-offset: ${spacing[0.75]};
   }
 `;

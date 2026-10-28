@@ -14,7 +14,7 @@ const isHole = (value: unknown): value is Hole => {
         ['number', 'par', 'stroke', 'penalty', 'meter'].every(
             (field) => typeof hole[field] === 'number' && Number.isFinite(hole[field]),
         ) &&
-        ['downIn3', 'threePutt', 'scoringZone'].every((field) => typeof hole[field] === 'boolean')
+        ['downIn3', 'scoringZone'].every((field) => typeof hole[field] === 'boolean')
     );
 };
 
@@ -137,7 +137,6 @@ const mergeStoredRound = (baseRound: Hole[], storedValue: unknown) => {
             stroke: typeof storedHole.stroke === 'number' ? storedHole.stroke : hole.stroke,
             penalty: typeof storedHole.penalty === 'number' ? storedHole.penalty : hole.penalty,
             downIn3: typeof storedHole.downIn3 === 'boolean' ? storedHole.downIn3 : hole.downIn3,
-            threePutt: typeof storedHole.threePutt === 'boolean' ? storedHole.threePutt : hole.threePutt,
             scoringZone:
                 typeof storedHole.scoringZone === 'boolean' ? storedHole.scoringZone : hole.scoringZone,
             ...(completedStrategyPoints ? getChecklistStats(completedStrategyPoints) : {}),

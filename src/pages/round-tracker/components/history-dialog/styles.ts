@@ -1,3 +1,4 @@
+import { spacing, sizes, borderWidths, pixels } from '@/styles/tokens';
 import styled from 'styled-components';
 
 export const StyledList = styled.div`
@@ -8,8 +9,8 @@ export const StyledRow = styled.div`
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid ${({ theme }) => theme.palette.outlineVariant};
+    padding-bottom: ${spacing[2]};
+    border-bottom: ${borderWidths.pixel} solid ${({ theme }) => theme.palette.outlineVariant};
     color: ${({ theme }) => theme.palette.textPrimary};
 `;
 export const StyledOpenButton = styled.button`
@@ -17,9 +18,9 @@ export const StyledOpenButton = styled.button`
     flex: 1;
     align-items: center;
     justify-content: space-between;
-    gap: 0.75rem;
+    gap: ${spacing[3]};
     min-width: 0;
-    padding: 1rem 0.75rem;
+    padding: ${spacing[4]} ${spacing[3]};
     border: 0;
     background: transparent;
     color: inherit;
@@ -29,14 +30,14 @@ export const StyledOpenButton = styled.button`
 
 
     &:focus-visible {
-        outline: 2px solid currentColor;
-        outline-offset: -2px;
+        outline: ${borderWidths.doublePixel} solid currentColor;
+        outline-offset: -${pixels[2]};
     }
 
     > svg {
         flex-shrink: 0;
-        width: 1.5rem;
-        height: 1.5rem;
+        width: ${sizes[6]};
+        height: ${sizes[6]};
     }
 `;
 
@@ -45,9 +46,9 @@ export const StyledDeleteButton = styled.button`
     align-items: center;
     justify-content: center;
     align-self: flex-start;
-    width: 2.75rem;
-    height: 2.75rem;
-    margin-left: 0.25rem;
+    width: ${sizes[11]};
+    height: ${sizes[11]};
+    margin-left: ${spacing[1]};
     padding: 0;
     border: 0;
     background: transparent;
@@ -56,20 +57,20 @@ export const StyledDeleteButton = styled.button`
 
 
     &:focus-visible {
-        outline: 2px solid currentColor;
-        outline-offset: -2px;
+        outline: ${borderWidths.doublePixel} solid currentColor;
+        outline-offset: -${pixels[2]};
     }
 
     svg {
-        width: 1.25rem;
-        height: 1.25rem;
+        width: ${sizes[5]};
+        height: ${sizes[5]};
     }
 `;
 
 export const StyledRowDetails = styled.span`
     display: flex;
     flex-direction: column;
-    gap: 0.375rem;
+    gap: ${spacing[1.5]};
     min-width: 0;
 `;
 

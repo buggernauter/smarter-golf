@@ -1,0 +1,116 @@
+// Spacing scale: one step equals 0.25rem. Fractional steps preserve existing layouts.
+export const spacing = {
+    0.25: '0.0625rem',
+    0.48: '0.12rem',
+    0.5: '0.125rem',
+    0.6: '0.15rem',
+    0.75: '0.1875rem',
+    0.8: '0.2rem',
+    1: '0.25rem',
+    1.25: '0.3125rem',
+    1.28: '0.32rem',
+    1.4: '0.35rem',
+    1.5: '0.375rem',
+    1.75: '0.4375rem',
+    2: '0.5rem',
+    2.5: '0.625rem',
+    2.6: '0.65rem',
+    2.8: '0.7rem',
+    3: '0.75rem',
+    3.4: '0.85rem',
+    3.5: '0.875rem',
+    3.6: '0.9rem',
+    4: '1rem',
+    4.5: '1.125rem',
+    4.8: '1.2rem',
+    5: '1.25rem',
+    5.5: '1.375rem',
+    5.6: '1.4rem',
+    6: '1.5rem',
+    6.5: '1.625rem',
+    7: '1.75rem',
+    7.5: '1.875rem',
+    8: '2rem',
+    10: '2.5rem',
+    11: '2.75rem',
+    11.5: '2.875rem',
+    12: '3rem',
+    12.8: '3.2rem',
+    13: '3.25rem',
+    14: '3.5rem',
+    14.4: '3.6rem',
+    14.5: '3.625rem',
+    15: '3.75rem',
+    15.5: '3.875rem',
+    16: '4rem',
+    17.6: '4.4rem',
+    20: '5rem',
+    22: '5.5rem',
+    24: '6rem',
+    32: '8rem',
+} as const;
+
+// Dimensions share the spacing scale; larger steps cover dialogs and page widths.
+export const sizes = {
+    ...spacing,
+    56: '14rem',
+    88: '22rem',
+    104: '26rem',
+    105: '26.25rem',
+    112: '28rem',
+    136: '34rem',
+    152: '38rem',
+    170: '42.5rem',
+    full: '100%',
+    viewportWidth: '100vw',
+    viewportHeight: '100vh',
+    dynamicViewportHeight: '100dvh',
+    summarySheetHeight: '82vh',
+} as const;
+
+export const radii = {
+    ...spacing,
+    circle: '50%',
+    pill: '999rem',
+    pillPixels: '999px',
+} as const;
+
+export const borderWidths = {
+    hairline: '0.0625rem',
+    doublePixel: '2px',
+    pixel: '1px',
+    regular: '0.125rem',
+    input: '0.1125rem',
+    focus: '0.1875rem',
+    triplePixel: '3px',
+} as const;
+
+// Pixel values retain their units so browser zoom and root font size behave as before.
+export const pixels = {
+    2: '2px',
+    3: '3px',
+    4: '4px',
+    12: '12px',
+} as const;
+
+// Physical dimensions for the printed scorecard, in millimetres.
+export const printLengths = {
+    1: '1mm',
+    1.5: '1.5mm',
+    2: '2mm',
+    2.25: '2.25mm',
+    2.4: '2.4mm',
+    2.5: '2.5mm',
+    2.6: '2.6mm',
+    3: '3mm',
+    3.1: '3.1mm',
+    3.8: '3.8mm',
+    4: '4mm',
+    5: '5mm',
+    5.4: '5.4mm',
+    7: '7mm',
+    7.2: '7.2mm',
+    7.8: '7.8mm',
+    84: '84mm',
+} as const;
+

@@ -1,3 +1,4 @@
+import { spacing, sizes, radii, borderWidths, pixels } from '@/styles/tokens';
 import styled from 'styled-components';
 
 export const StyledInstallInfo = styled.details`
@@ -7,9 +8,9 @@ export const StyledInstallInfo = styled.details`
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 2.75rem;
-    height: 2.75rem;
-    border-radius: 50%;
+    width: ${sizes[11]};
+    height: ${sizes[11]};
+    border-radius: ${radii.circle};
     color: ${({ theme }) => theme.palette.textPrimary};
     cursor: pointer;
     list-style: none;
@@ -20,25 +21,25 @@ export const StyledInstallInfo = styled.details`
   }
 
   summary:focus-visible {
-    outline: 2px solid ${({ theme }) => theme.palette.primaryMain};
-    outline-offset: 2px;
+    outline: ${borderWidths.doublePixel} solid ${({ theme }) => theme.palette.primaryMain};
+    outline-offset: ${pixels[2]};
   }
 `;
 
 export const StyledInstallInstructions = styled.div`
   position: absolute;
-  top: calc(100% + 0.5rem);
+  top: calc(100% + ${spacing[2]});
   left: 0;
   z-index: 10;
   box-sizing: border-box;
-  width: min(22rem, calc(100vw - 2rem));
+  width: min(${sizes[88]}, calc(${sizes.viewportWidth} - ${sizes[8]}));
   max-height: 70dvh;
   overflow-y: auto;
-  padding: 1rem;
-  border-radius: 1rem;
+  padding: ${spacing[4]};
+  border-radius: ${radii[4]};
   background: ${({ theme }) => theme.palette.backgroundPaper};
   color: ${({ theme }) => theme.palette.textPrimary};
-  border: 1px solid ${({ theme }) => theme.palette.divider};
+  border: ${borderWidths.pixel} solid ${({ theme }) => theme.palette.divider};
   box-shadow: ${({ theme }) => theme.shadows.cardSurface};
   font-size: 0.9rem;
   line-height: 1.5;
@@ -49,7 +50,7 @@ export const StyledInstallInstructions = styled.div`
   }
 
   ol {
-    padding-left: 1.5rem;
+    padding-left: ${spacing[6]};
   }
 
   p:last-child {

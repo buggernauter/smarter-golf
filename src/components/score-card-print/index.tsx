@@ -93,7 +93,6 @@ export default function ScoreCardPrint() {
                       <th>D3</th>
                       <th>Penalties</th>
                       <th>Putts</th>
-                      <th>3-putt</th>
                       <th>Score</th>
                     </tr>
                   </thead>
@@ -114,9 +113,6 @@ export default function ScoreCardPrint() {
                         </td>
                         <td>
                           <StyledInputBox aria-hidden="true" />
-                        </td>
-                        <td>
-                          <StyledCheckboxBox aria-hidden="true" />
                         </td>
                         <td>
                           <StyledInputBox aria-hidden="true" />

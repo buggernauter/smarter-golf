@@ -1,12 +1,13 @@
+import { spacing, sizes } from '@/styles/tokens';
 import styled from "styled-components";
 
 export const StyledGlobalHeader = styled.header`
   position: relative;
   display: flex;
-  min-height: calc(3.75rem + env(safe-area-inset-top));
+  min-height: calc(${sizes[15]} + env(safe-area-inset-top));
   box-sizing: border-box;
   align-items: center;
-  padding: max(1rem, env(safe-area-inset-top)) 1rem 1rem;
+  padding: max(${spacing[4]}, env(safe-area-inset-top)) ${spacing[4]} ${spacing[4]};
   color: inherit;
 `;
 
@@ -15,10 +16,10 @@ export const StyledHeaderAction = styled.div<{
 }>`
   z-index: 1;
   display: flex;
-  min-width: 2.75rem;
-  min-height: 2.75rem;
+  min-width: ${sizes[11]};
+  min-height: ${sizes[11]};
   align-items: center;
-  gap: 0.5rem;
+  gap: ${spacing[2]};
   justify-content: ${({ $position }) =>
     $position === "end" ? "flex-end" : "flex-start"};
 

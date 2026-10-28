@@ -1,8 +1,9 @@
+import { spacing, sizes, radii, borderWidths } from '@/styles/tokens';
 import { Link } from "@tanstack/react-router";
 import styled from "styled-components";
 
 export const StyledSavedRoundsPage = styled.main`
-  min-height: 100dvh;
+  min-height: ${sizes.dynamicViewportHeight};
   background: ${({ theme }) => theme.gradients.pageBackground};
   color: ${({ theme }) => theme.palette.textPrimary};
   font-family: Arial, sans-serif;
@@ -10,30 +11,30 @@ export const StyledSavedRoundsPage = styled.main`
 
 export const StyledBackLink = styled(Link)`
   display: flex;
-  width: 2.75rem;
-  height: 2.75rem;
+  width: ${sizes[11]};
+  height: ${sizes[11]};
   align-items: center;
   justify-content: center;
   color: ${({ theme }) => theme.palette.textPrimary};
   text-decoration: none;
 
   svg {
-    width: 1.5rem;
-    height: 1.5rem;
+    width: ${sizes[6]};
+    height: ${sizes[6]};
   }
 
   &:focus-visible {
-    outline: 0.1875rem solid ${({ theme }) => theme.palette.primaryMain};
-    outline-offset: 0.1875rem;
+    outline: ${borderWidths.focus} solid ${({ theme }) => theme.palette.primaryMain};
+    outline-offset: ${spacing[0.75]};
   }
 `;
 
 export const StyledRoundList = styled.ul`
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: ${spacing[3]};
   margin: 0;
-  padding: 0 1rem 1rem;
+  padding: 0 ${spacing[4]} ${spacing[4]};
   list-style: none;
 `;
 
@@ -44,14 +45,14 @@ export const StyledRoundItem = styled.li`
 export const StyledRoundButton = styled.button`
   position: relative;
   display: flex;
-  min-height: 5.5rem;
+  min-height: ${sizes[22]};
   flex-direction: column;
   justify-content: center;
-  width: 100%;
-  gap: 0.375rem;
-  padding: 1rem;
-  border: 0.0625rem solid ${({ theme }) => theme.palette.outline};
-  border-radius: 1rem;
+  width: ${sizes.full};
+  gap: ${spacing[1.5]};
+  padding: ${spacing[4]};
+  border: ${borderWidths.hairline} solid ${({ theme }) => theme.palette.outline};
+  border-radius: ${radii[4]};
   background: ${({ theme }) => theme.gradients.cardSurface};
   color: ${({ theme }) => theme.palette.textPrimary};
   box-shadow: ${({ theme }) => theme.shadows.cardSurface};
@@ -62,7 +63,7 @@ export const StyledRoundButton = styled.button`
   strong {
     position: absolute;
     top: 50%;
-    right: 4rem;
+    right: ${spacing[16]};
     color: ${({ theme }) => theme.palette.primaryMain};
     font-size: 1.5rem;
     transform: translateY(-50%);
@@ -78,31 +79,31 @@ export const StyledRoundButton = styled.button`
   }
 
   &:focus-visible {
-    outline: 0.1875rem solid ${({ theme }) => theme.palette.primaryMain};
-    outline-offset: 0.1875rem;
+    outline: ${borderWidths.focus} solid ${({ theme }) => theme.palette.primaryMain};
+    outline-offset: ${spacing[0.75]};
   }
 `;
 
 export const StyledDeleteButton = styled.button`
   position: absolute;
   top: 50%;
-  right: 0.625rem;
+  right: ${spacing[2.5]};
   display: flex;
-  width: 2.75rem;
-  height: 2.75rem;
+  width: ${sizes[11]};
+  height: ${sizes[11]};
   align-items: center;
   justify-content: center;
   padding: 0;
   border: 0;
-  border-radius: 50%;
+  border-radius: ${radii.circle};
   background: ${({ theme }) => theme.palette.transparent};
   color: ${({ theme }) => theme.palette.textDisabled};
   cursor: pointer;
   transform: translateY(-50%);
 
   svg {
-    width: 1.25rem;
-    height: 1.25rem;
+    width: ${sizes[5]};
+    height: ${sizes[5]};
   }
 
   &:active {
@@ -111,13 +112,13 @@ export const StyledDeleteButton = styled.button`
   }
 
   &:focus-visible {
-    outline: 0.1875rem solid ${({ theme }) => theme.palette.primaryMain};
-    outline-offset: 0.125rem;
+    outline: ${borderWidths.focus} solid ${({ theme }) => theme.palette.primaryMain};
+    outline-offset: ${spacing[0.5]};
   }
 `;
 
 export const StyledEmptyState = styled.p`
-  margin: 2rem 1rem;
+  margin: ${spacing[8]} ${spacing[4]};
   color: ${({ theme }) => theme.palette.textDisabled};
   text-align: center;
 `;

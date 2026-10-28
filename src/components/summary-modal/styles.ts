@@ -1,3 +1,4 @@
+import { spacing, sizes, radii, borderWidths } from '@/styles/tokens';
 import styled from "styled-components";
 
 export const StyledModalBackdrop = styled.div`
@@ -7,18 +8,18 @@ export const StyledModalBackdrop = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
+  padding: ${spacing[4]};
   background: ${({ theme }) => theme.palette.shadowDark};
 `;
 
 export const StyledSummaryModal = styled.section`
-  width: 100%;
-  max-height: calc(100dvh - 2rem);
+  width: ${sizes.full};
+  max-height: calc(${sizes.dynamicViewportHeight} - ${sizes[8]});
   box-sizing: border-box;
   overflow-y: auto;
-  padding: 1.25rem;
-  border: 0.0625rem solid ${({ theme }) => theme.palette.outline};
-  border-radius: 1.25rem;
+  padding: ${spacing[5]};
+  border: ${borderWidths.hairline} solid ${({ theme }) => theme.palette.outline};
+  border-radius: ${radii[5]};
   background: ${({ theme }) => theme.gradients.cardSurface};
   box-shadow: ${({ theme }) => theme.shadows.cardSurface};
 `;
@@ -27,7 +28,7 @@ export const StyledSummaryHeader = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
+  gap: ${spacing[4]};
 `;
 
 export const StyledSummaryTitle = styled.h2`
@@ -38,14 +39,14 @@ export const StyledSummaryTitle = styled.h2`
 
 export const StyledSummaryClose = styled.button`
   display: flex;
-  width: 2.75rem;
-  min-width: 2.75rem;
-  height: 2.75rem;
+  width: ${sizes[11]};
+  min-width: ${sizes[11]};
+  height: ${sizes[11]};
   align-items: center;
   justify-content: center;
   padding: 0;
-  border: 0.0625rem solid ${({ theme }) => theme.palette.outline};
-  border-radius: 50%;
+  border: ${borderWidths.hairline} solid ${({ theme }) => theme.palette.outline};
+  border-radius: ${radii.circle};
   background: ${({ theme }) => theme.palette.backgroundPaper};
   color: ${({ theme }) => theme.palette.textPrimary};
   cursor: pointer;
@@ -54,10 +55,10 @@ export const StyledSummaryClose = styled.button`
 export const StyledSummaryScore = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
-  margin: 1.25rem 0;
-  padding: 1rem;
-  border-radius: 0.875rem;
+  gap: ${spacing[1]};
+  margin: ${spacing[5]} 0;
+  padding: ${spacing[4]};
+  border-radius: ${radii[3.5]};
   background: ${({ theme }) => theme.gradients.fieldSurface};
   color: ${({ theme }) => theme.palette.textPrimary};
   box-shadow: ${({ theme }) => theme.shadows.fieldSurface};
@@ -78,7 +79,7 @@ export const StyledSummaryScore = styled.div`
 `;
 
 export const StyledSummaryLevel = styled.p`
-  margin: 0 0 1.25rem;
+  margin: 0 0 ${spacing[5]};
   color: ${({ theme }) => theme.palette.textPrimary};
   font-family: Arial, sans-serif;
   font-size: 1.125rem;
@@ -95,16 +96,16 @@ export const StyledSummaryList = styled.ul`
   gap: 0;
   margin: 0;
   padding: 0;
-  border-top: 0.0625rem solid ${({ theme }) => theme.palette.outlineVariant};
+  border-top: ${borderWidths.hairline} solid ${({ theme }) => theme.palette.outlineVariant};
   list-style: none;
 `;
 
 export const StyledSummaryListItem = styled.li`
   display: flex;
-  gap: 1rem;
+  gap: ${spacing[4]};
   align-items: center;
-  min-height: 2.75rem;
-  border-bottom: 0.0625rem solid ${({ theme }) => theme.palette.outlineVariant};
+  min-height: ${sizes[11]};
+  border-bottom: ${borderWidths.hairline} solid ${({ theme }) => theme.palette.outlineVariant};
   color: ${({ theme }) => theme.palette.textPrimary};
   font-family: Arial, sans-serif;
 
@@ -118,7 +119,7 @@ export const StyledSummaryListItem = styled.li`
   }
 
   span:last-child {
-    min-width: 3.5rem;
+    min-width: ${sizes[14]};
     color: ${({ theme }) => theme.palette.textDisabled};
     text-align: right;
   }

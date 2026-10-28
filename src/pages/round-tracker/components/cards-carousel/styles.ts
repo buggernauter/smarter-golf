@@ -1,13 +1,14 @@
+import { spacing, sizes, radii, borderWidths } from '@/styles/tokens';
 import styled from 'styled-components';
 
 export const StyledNavigationButton = styled.button`
     flex-shrink: 0;
-    width: 2.75rem;
-    height: 2.75rem;
-    border-radius: 999rem;
+    width: ${sizes[11]};
+    height: ${sizes[11]};
+    border-radius: ${radii.pill};
     background: ${({ theme }) =>
         theme.mode === 'dark' ? theme.gradients.navigationButton : theme.palette.backgroundPaper};
-    border: ${({ theme }) => (theme.mode === 'dark' ? '0' : `0.0625rem solid ${theme.palette.outline}`)};
+    border: ${({ theme }) => (theme.mode === 'dark' ? '0' : `${borderWidths.hairline} solid ${theme.palette.outline}`)};
     color: ${({ theme }) => theme.palette.textPrimary};
     font: inherit;
     box-shadow: ${({ theme }) => theme.shadows.navigationButton};
@@ -25,29 +26,29 @@ export const StyledNavigationButton = styled.button`
         box-shadow: none;
     }
     svg {
-        width: 1.375rem;
-        height: 1.375rem;
+        width: ${sizes[5.5]};
+        height: ${sizes[5.5]};
     }
 `;
 export const StyledCarouselWrapper = styled.div`
     display: flex;
-    width: 100%;
+    width: ${sizes.full};
     min-width: 0;
     align-items: center;
-    gap: 0.625rem;
+    gap: ${spacing[2.5]};
 `;
 export const StyledCarouselList = styled.div`
     display: flex;
     flex: 1;
     min-width: 0;
     flex-direction: row;
-    gap: 0.625rem;
+    gap: ${spacing[2.5]};
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
-    margin: 0 -0.125rem;
+    margin: 0 -${spacing[0.5]};
     align-items: stretch;
     &::-webkit-scrollbar {
         display: none;

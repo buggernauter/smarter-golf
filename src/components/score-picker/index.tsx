@@ -1,18 +1,14 @@
 import { useRef, type ChangeEvent } from 'react';
 import {
-    ScoreGrid,
-    ScoreButton,
-    SelectedScore,
     ScoreModal,
-    ScoreRow,
-    DeleteButton,
     ScoreTrigger,
     StyledPlaceHolder,
     StyledValue,
     StrategyBadge,
 } from '@/components/score-picker/styles';
-import { Delete } from 'lucide-react';
+
 import { fadeOut } from '@/components/ui/animations';
+import { NumericKeypad } from '../numeric-keypad';
 
 interface Props {
     value: number;
@@ -84,52 +80,25 @@ export const ScorePicker = ({ value, par, strategyDelta, maxValue, updateStrokes
                     handleCloseModal();
                 }}
             >
-                <SelectedScore
-                    type="text"
-                    inputMode="numeric"
-                    pattern="[0-9]*"
-                    aria-label="Number of strokes"
-                    value={value === 0 ? '' : String(value)}
-                    placeholder=""
-                    onChange={handleupdateStrokes}
+                <NumericKeypad
+                    value={value}
+                    rows={scoreRows}
+                    onSelectNumber={selectScore}
+                    onValueChange={handleupdateStrokes}
+                    onDelete={() => updateStrokes(0)}
                     onBlur={handleCloseModal}
+                    ariaLabel="Number of strokes"
+                    deleteLabel="Reset score"
+                    getNumberLabel={(number) =>
+                        number === par - 1
+                            ? 'Birdie'
+                            : number === par
+                              ? 'Par'
+                              : number === par + 1
+                                ? 'Bogey'
+                                : ''
+                    }
                 />
-                <ScoreGrid>
-                    {scoreRows.map((row, rowIndex) => (
-                        <ScoreRow key={row[0]}>
-                            {row.map((score) => (
-                                <ScoreButton
-                                    key={score}
-                                    type="button"
-                                    aria-pressed={value === score}
-                                    onPointerDown={(event) => event.preventDefault()}
-                                    onClick={() => selectScore(score)}
-                                >
-                                    <span>{score}</span>
-                                    <small>
-                                        {score === par - 1
-                                            ? 'Birdie'
-                                            : score === par
-                                              ? 'Par'
-                                              : score === par + 1
-                                                ? 'Bogey'
-                                                : ''}
-                                    </small>
-                                </ScoreButton>
-                            ))}
-                            {rowIndex === scoreRows.length - 1 && (
-                                <DeleteButton
-                                    type="button"
-                                    aria-label="Reset score"
-                                    onPointerDown={(event) => event.preventDefault()}
-                                    onClick={() => updateStrokes(0)}
-                                >
-                                    <Delete strokeWidth={1} aria-hidden="true" />
-                                </DeleteButton>
-                            )}
-                        </ScoreRow>
-                    ))}
-                </ScoreGrid>
             </ScoreModal>
         </>
     );

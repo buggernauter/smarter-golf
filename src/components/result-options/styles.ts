@@ -1,24 +1,26 @@
+import { breakpoints } from '@/styles/breakpoints';
+import { spacing, sizes, radii, borderWidths } from '@/styles/tokens';
 import styled from "styled-components";
 
 export const StyledScoreTableFrame = styled.div`
-  width: 100%;
-  border-radius: 1.25rem;
+  width: ${sizes.full};
+  border-radius: ${radii[5]};
   overflow: hidden;
   background: ${({ theme }) => theme.palette.transparent};
 `;
 
 export const StyledScoreTable = styled.table`
-  width: 100%;
+  width: ${sizes.full};
   border-spacing: 0;
   border-collapse: separate;
   table-layout: fixed;
 
   th,
   td {
-    height: clamp(3.2rem, 7vw, 4rem);
-    padding: 0.25rem 0.75rem;
-    border-right: 0.0625rem solid ${({ theme }) => theme.palette.outlineVariant};
-    border-bottom: 0.0625rem solid
+    height: clamp(${sizes[12.8]}, 7vw, ${sizes[16]});
+    padding: ${spacing[1]} ${spacing[3]};
+    border-right: ${borderWidths.hairline} solid ${({ theme }) => theme.palette.outlineVariant};
+    border-bottom: ${borderWidths.hairline} solid
       ${({ theme }) => theme.palette.outlineVariant};
     background: ${({ theme }) => theme.palette.transparent};
     color: ${({ theme }) => theme.palette.textPrimary};
@@ -32,7 +34,7 @@ export const StyledScoreTable = styled.table`
   }
 
   thead th {
-    height: clamp(3.6rem, 8vw, 4.4rem);
+    height: clamp(${sizes[14.4]}, 8vw, ${sizes[17.6]});
     font-family: "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
     font-size: clamp(0.9rem, 2.5vw, 1.25rem);
     font-variant-numeric: lining-nums tabular-nums;
@@ -64,17 +66,17 @@ export const StyledScoreTable = styled.table`
 
   tfoot th,
   tfoot td {
-    height: clamp(3.25rem, 7vw, 4rem);
+    height: clamp(${sizes[13]}, 7vw, ${sizes[16]});
     border-bottom: 0;
     font-size: clamp(1.1rem, 3vw, 1.4rem);
 
     text-transform: uppercase;
   }
 
-  @media (max-width: 27rem) {
+  @media (max-width: ${breakpoints.compact}) {
     th,
     td {
-      padding: 0.25rem;
+      padding: ${spacing[1]};
     }
 
     thead th {
@@ -91,11 +93,11 @@ export const StyledScoreTable = styled.table`
 export const StyledScoreButton = styled.button`
   position: relative;
   display: block;
-  width: 100%;
-  min-height: 2.75rem;
-  padding: 0 2.5rem 0 0.75rem;
-  border: 0.0625rem solid ${({ theme }) => theme.palette.outlineVariant};
-  border-radius: 0.625rem;
+  width: ${sizes.full};
+  min-height: ${sizes[11]};
+  padding: 0 ${spacing[10]} 0 ${spacing[3]};
+  border: ${borderWidths.hairline} solid ${({ theme }) => theme.palette.outlineVariant};
+  border-radius: ${radii[2.5]};
   background: ${({ theme }) => theme.gradients.fieldSurface};
   box-shadow: ${({ theme }) => theme.shadows.fieldSurface};
   color: ${({ theme }) => theme.palette.textPrimary};
@@ -107,9 +109,9 @@ export const StyledScoreButton = styled.button`
   svg {
     position: absolute;
     top: 50%;
-    right: 0.75rem;
-    width: 1.25rem;
-    height: 1.25rem;
+    right: ${spacing[3]};
+    width: ${sizes[5]};
+    height: ${sizes[5]};
     transform: translateY(-50%);
   }
 
@@ -121,8 +123,8 @@ export const StyledScoreButton = styled.button`
 
 
   &:focus-visible {
-    outline: 0.125rem solid ${({ theme }) => theme.palette.primaryMain};
-    outline-offset: -0.125rem;
+    outline: ${borderWidths.regular} solid ${({ theme }) => theme.palette.primaryMain};
+    outline-offset: -${spacing[0.5]};
   }
 `;
 
@@ -135,9 +137,9 @@ export const StyledScoreMenuLayer = styled.div`
 export const StyledScoreMenu = styled.div`
   position: fixed;
   overflow: hidden;
-  margin-top: 0.85rem;
-  border: 0.0625rem solid ${({ theme }) => theme.palette.outline};
-  border-radius: 1rem;
+  margin-top: ${spacing[3.4]};
+  border: ${borderWidths.hairline} solid ${({ theme }) => theme.palette.outline};
+  border-radius: ${radii[4]};
   background: ${({ theme }) => theme.gradients.fieldSurface};
   box-shadow: ${({ theme }) => theme.shadows.fieldSurface};
 `;
@@ -147,11 +149,11 @@ export const StyledScoreMenuOption = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  width: ${sizes.full};
   box-sizing: border-box;
 
-  min-height: 2.75rem;
-  padding: 1.25rem 0.75rem;
+  min-height: ${sizes[11]};
+  padding: ${spacing[5]} ${spacing[3]};
   border: 0;
   background: ${({ theme }) => theme.gradients.scoreMenuOption};
   color: ${({ theme }) => theme.palette.textPrimary};
@@ -162,9 +164,9 @@ export const StyledScoreMenuOption = styled.button`
 
   svg {
     position: absolute;
-    left: 0.75rem;
-    width: 1.125rem;
-    height: 1.125rem;
+    left: ${spacing[3]};
+    width: ${sizes[4.5]};
+    height: ${sizes[4.5]};
     opacity: 0;
   }
 

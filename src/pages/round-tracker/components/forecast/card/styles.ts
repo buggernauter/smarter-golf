@@ -1,57 +1,43 @@
-import styled, { css } from 'styled-components';
-
-export const StyledCardSurface = css`
-    border-radius: 1.25rem;
-    ${({ theme }) =>
-        theme.mode === 'dark'
-            ? css`
-                  border: 0;
-                  background: ${theme.gradients.cardSurface};
-                  box-shadow: ${theme.shadows.cardSurface};
-              `
-            : css`
-                  border: 0;
-                  background: ${theme.gradients.cardSurface};
-                  box-shadow: ${theme.shadows.cardSurface};
-              `}
-`;
+import { spacing, sizes, radii, borderWidths, pixels } from '@/styles/tokens';
+import styled from 'styled-components';
 
 export const StyledCardWrapper = styled.section`
-    ${StyledCardSurface};
+    border: 0;
+    background: ${({ theme }) => theme.gradients.cardSurface};
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: ${sizes.full};
     min-width: 0;
     box-sizing: border-box;
-    padding: 1rem 0.875rem 0.5rem;
-    border-radius: 1.5rem;
+    padding: ${spacing[4]} ${spacing[3.5]} ${spacing[2]};
+    border-radius: ${radii[6]};
 `;
 
 export const StyledCardHeader = styled.div`
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 0.75rem;
-    margin-bottom: 0.875rem;
+    gap: ${spacing[3]};
+    margin-bottom: ${spacing[3.5]};
 `;
 export const StyledCardDescription = styled.section`
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.4375rem;
-    padding: 1rem 0.625rem 3.875rem 1rem;
+    gap: ${spacing[1.75]};
+    padding: ${spacing[4]} ${spacing[2.5]} ${spacing[15.5]} ${spacing[4]};
 
     background: ${({ theme }) => theme.gradients.descriptionSurface};
-    box-shadow: ${({ theme }) => theme.shadows.descriptionSurface};
+    /* box-shadow: ${({ theme }) => theme.shadows.descriptionSurface}; */
 `;
 export const StyledCardDescriptionList = styled.ul`
-    width: 100%;
+    width: ${sizes.full};
     display: flex;
     flex-direction: column;
-    gap: 0.32rem;
+    gap: ${spacing[1.28]};
     margin: 0;
-    margin-top: 0.7rem;
+    margin-top: ${spacing[2.8]};
     padding: 0;
     list-style: none;
 `;
@@ -63,24 +49,24 @@ export const StyledCardDescriptionPoint = styled.li`
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 0.75rem;
-        min-height: 3rem;
+        gap: ${spacing[3]};
+        min-height: ${sizes[12]};
         touch-action: manipulation;
         cursor: pointer;
     }
 
     input {
         flex-shrink: 0;
-        width: 1.75rem;
-        height: 1.75rem;
+        width: ${sizes[7]};
+        height: ${sizes[7]};
         margin: 0;
         accent-color: ${({ theme }) => theme.palette.primaryMain};
         cursor: pointer;
     }
 
     input:focus-visible {
-        outline: 2px solid ${({ theme }) => theme.palette.primaryMain};
-        outline-offset: 3px;
+        outline: ${borderWidths.doublePixel} solid ${({ theme }) => theme.palette.primaryMain};
+        outline-offset: ${pixels[3]};
     }
 
     label:has(input:checked) span {
@@ -103,7 +89,7 @@ export const StyledCardDescriptionText = styled.p`
     color: ${({ theme }) => theme.palette.warn};
 `;
 export const StyledCardTitle = styled.h2`
-    margin: 0 0 0.1875rem;
+    margin: 0 0 ${spacing[0.75]};
     font-size: large;
     font-weight: 600;
 `;
@@ -112,7 +98,4 @@ export const StyledCardMeta = styled.p`
     margin: 0;
     font-size: large;
     letter-spacing: 0.015em;
-`;
-export const StyledControlStack = styled.div`
-    margin-top: auto;
 `;

@@ -37,15 +37,7 @@ const renderCheckState = (value: boolean) =>
     value ? <Check aria-hidden="true" /> : <X aria-hidden="true" />;
 
 export const SummaryDialog = ({ holes, isOpen, onClose, onSaveRound, onBack, onResetRound }: Props) => {
-    const {
-        playedHoles,
-        totalDownIn3,
-        totalPar,
-        totalPenalty,
-        totalScore,
-        totalScoringZone,
-        totalThreePutt,
-    } = getRoundSummary(holes);
+    const { playedHoles, totalDownIn3, totalPar, totalScore, totalScoringZone } = getRoundSummary(holes);
     const isOngoingRound = Boolean(onSaveRound || onResetRound);
     return (
         <StyledSummarySheetBackdrop $open={isOpen} aria-hidden={!isOpen} onClick={onClose}>
@@ -98,8 +90,7 @@ export const SummaryDialog = ({ holes, isOpen, onClose, onSaveRound, onBack, onR
                                             <th>Strokes</th>
                                             <th>SZ</th>
                                             <th>D3</th>
-                                            <th>Penalties</th>
-                                            <th>3-putt</th>
+                                            {/* <th>Penalties</th> */}
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -120,10 +111,7 @@ export const SummaryDialog = ({ holes, isOpen, onClose, onSaveRound, onBack, onR
                                                 >
                                                     {renderCheckState(hole.downIn3)}
                                                 </StyledTableStatusCell>
-                                                <StyledTableCell>{hole.penalty}</StyledTableCell>
-                                                <StyledTableStatusCell $tone="danger">
-                                                    {hole.threePutt ? <X aria-hidden="true" /> : 'No'}
-                                                </StyledTableStatusCell>
+                                                {/* <StyledTableCell>{hole.penalty}</StyledTableCell> */}
                                             </tr>
                                         ))}
                                     </tbody>
@@ -134,8 +122,7 @@ export const SummaryDialog = ({ holes, isOpen, onClose, onSaveRound, onBack, onR
                                             <StyledTableValue>{totalScore}</StyledTableValue>
                                             <StyledTableCell>{totalScoringZone}</StyledTableCell>
                                             <StyledTableCell>{totalDownIn3}</StyledTableCell>
-                                            <StyledTableCell>{totalPenalty}</StyledTableCell>
-                                            <StyledTableCell>{totalThreePutt}</StyledTableCell>
+                                            {/* <StyledTableCell>{totalPenalty}</StyledTableCell> */}
                                         </tr>
                                     </tfoot>
                                 </StyledTable>

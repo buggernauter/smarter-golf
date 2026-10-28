@@ -1,3 +1,4 @@
+import { spacing, sizes, radii, borderWidths } from '@/styles/tokens';
 import type { CSSProperties } from "react";
 import { css } from "styled-components";
 import styled from "styled-components";
@@ -17,12 +18,12 @@ export const StyledButton = styled.button<StyledButtonProps>`
   display: inline-flex;
   width: ${({ $fullWidth, $width }) =>
     $fullWidth ? "100%" : ($width ?? "auto")};
-  min-height: 3rem;
+  min-height: ${sizes[12]};
   align-items: center;
   justify-content: center;
-  padding: 0.75rem 1rem;
+  padding: ${spacing[3]} ${spacing[4]};
   border: 0;
-  border-radius: 0.875rem;
+  border-radius: ${radii[3.5]};
   font: inherit;
   font-weight: 700;
   cursor: pointer;
@@ -68,12 +69,12 @@ export const StyledButton = styled.button<StyledButtonProps>`
 
 
   &:active:not(:disabled) {
-    transform: translateY(0.0625rem);
+    transform: translateY(${sizes[0.25]});
   }
 
   &:focus-visible {
-    outline: 0.1875rem solid ${({ theme }) => theme.palette.primaryMain};
-    outline-offset: 0.1875rem;
+    outline: ${borderWidths.focus} solid ${({ theme }) => theme.palette.primaryMain};
+    outline-offset: ${spacing[0.75]};
   }
 
   &:disabled {

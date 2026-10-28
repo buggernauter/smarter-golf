@@ -1,9 +1,10 @@
+import { spacing, sizes, radii } from '@/styles/tokens';
 import styled from 'styled-components';
 
 export const StyledField = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 0.4375rem;
+    gap: ${spacing[1.75]};
     padding: 0;
     border-radius: 0;
     background: transparent;
@@ -12,22 +13,22 @@ export const StyledField = styled.div`
 `;
 export const StyledFieldLabel = styled.span`
     display: block;
-    margin-bottom: 0.4375rem;
+    margin-bottom: ${spacing[1.75]};
     font-size: 0.88rem;
     font-weight: 600;
     color: ${({ theme }) =>
         theme.mode === 'dark' ? theme.palette.textSecondary : theme.palette.textDisabled};
 `;
 export const StyledStepperButton = styled.button`
-    flex: 0 0 3rem;
+    flex: 0 0 ${sizes[12]};
     display: inline-flex;
     align-items: center;
     justify-content: center;
     width: 0rem;
-    height: 3rem;
+    height: ${sizes[12]};
     padding: 0;
     border: 0;
-    border-radius: 999rem;
+    border-radius: ${radii.pill};
     color: ${({ theme }) => theme.palette.textPrimary};
     background: ${({ theme }) => theme.gradients.stepperButton};
     box-shadow: ${({ theme }) => theme.shadows.stepperButton};
@@ -50,8 +51,8 @@ export const StyledStepperButton = styled.button`
     }
 
     svg {
-        width: 1.2rem;
-        height: 1.2rem;
+        width: ${sizes[4.8]};
+        height: ${sizes[4.8]};
     }
 `;
 export const StyledStepperValue = styled.div`
@@ -60,7 +61,7 @@ export const StyledStepperValue = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 0.125rem;
+    gap: ${spacing[0.5]};
     min-width: 0;
     text-align: center;
 
@@ -74,11 +75,11 @@ export const StyledStepperValue = styled.div`
 export const StyledStepperControl = styled.div`
     display: flex;
     align-items: center;
-    gap: 0.625rem;
-    width: 100%;
-    max-width: 14rem;
-    padding: 0.3125rem;
-    border-radius: 1.25rem;
+    gap: ${spacing[2.5]};
+    width: ${sizes.full};
+    max-width: ${sizes[56]};
+    padding: ${spacing[1.25]};
+    border-radius: ${radii[5]};
     background: ${({ theme }) => theme.gradients.stepperControl};
     box-shadow: ${({ theme }) => theme.shadows.stepperControl};
 `;

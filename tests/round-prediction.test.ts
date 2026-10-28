@@ -8,7 +8,6 @@ const createHoles = () => Array.from({ length: 18 }, (_, index) => ({
     stroke: 0,
     penalty: 0,
     downIn3: false,
-    threePutt: false,
     meter: 300,
     scoringZone: false,
 }));

@@ -13,7 +13,6 @@ import {
     StyledCardDescriptionText,
     StyledCardMeta,
     StyledCardTitle,
-    StyledControlStack,
 } from '@/pages/round-tracker/components/forecast/card/styles';
 
 type Props = {
@@ -54,22 +53,20 @@ export const Card = ({
             <StyledCardDescription aria-label={`Target for hole ${hole.number}`}>
                 <StyledCardDescriptionText>{playStrategy.heading}</StyledCardDescriptionText>
                 <StyledCardDescriptionList aria-label="Game plan">
-                    {playStrategy.points.map((point) => (
-                        <StyledCardDescriptionPoint key={point}>
+                    {playStrategy.points.map((element) => (
+                        <StyledCardDescriptionPoint key={element}>
                             <label>
-                                <StyledCardDescriptionPointText>{point}</StyledCardDescriptionPointText>
+                                <StyledCardDescriptionPointText>{element}</StyledCardDescriptionPointText>
                                 <input
                                     type="checkbox"
-                                    checked={hole.completedStrategyPoints?.includes(point) ?? false}
-                                    onChange={() => onToggleStrategyPoint(index, point)}
+                                    checked={hole.completedStrategyPoints?.includes(element) ?? false}
+                                    onChange={() => onToggleStrategyPoint(index, element)}
                                 />
                             </label>
                         </StyledCardDescriptionPoint>
                     ))}
                 </StyledCardDescriptionList>
-            </StyledCardDescription>
 
-            <StyledControlStack>
                 <ScorePicker
                     value={hole.stroke}
                     par={hole.par}
@@ -78,7 +75,7 @@ export const Card = ({
                     strategyDelta={strategyDelta}
                     onHoleFinish={onHoleFinish}
                 />
-            </StyledControlStack>
+            </StyledCardDescription>
         </StyledCardWrapper>
     );
 };

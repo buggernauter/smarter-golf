@@ -1,9 +1,10 @@
+import { sizes } from '@/styles/tokens';
 import styled from "styled-components";
 
 export const StyledThemeToggle = styled.button`
   display: inline-flex;
-  width: 2.75rem;
-  height: 2.75rem;
+  width: ${sizes[11]};
+  height: ${sizes[11]};
   align-items: center;
   justify-content: center;
   padding: 0;
@@ -12,7 +13,7 @@ export const StyledThemeToggle = styled.button`
   color: ${({ theme }) => theme.palette.primaryMain};
 
   svg {
-    width: 1.25rem;
-    height: 1.25rem;
+    width: ${sizes[5]};
+    height: ${sizes[5]};
   }
 `;

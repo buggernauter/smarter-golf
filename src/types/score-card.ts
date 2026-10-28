@@ -19,13 +19,12 @@ export type Hole = {
     stroke: number;
     penalty: number;
     downIn3: boolean;
-    threePutt: boolean;
     meter: number;
     scoringZone: boolean;
     completedStrategyPoints?: string[];
 };
 
-export type BooleanHoleValue = 'scoringZone' | 'downIn3' | 'threePutt';
+export type BooleanHoleValue = 'scoringZone' | 'downIn3';
 export type NumericHoleValue = 'penalty' | 'stroke';
 export type Prediction = {
     completedHoles: number;
@@ -36,14 +35,13 @@ export type Prediction = {
     isRoundComplete: boolean;
     predictedStrokesRange: { lower: number; higher: number } | null;
 };
-export type PlayedHoleSummary = {
+export type PlayedHolesSummary = {
     playedHoles: Hole[];
     totalDownIn3: number;
     totalPar: number;
     totalPenalty: number;
     totalScore: number;
     totalScoringZone: number;
-    totalThreePutt: number;
 };
 
 export type PlayStrategy = {

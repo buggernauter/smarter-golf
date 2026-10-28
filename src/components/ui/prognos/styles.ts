@@ -1,17 +1,18 @@
+import { spacing, sizes, radii } from '@/styles/tokens';
 import styled from 'styled-components';
 
 export const StyledPrognosTrack = styled.div`
     display: flex;
-    height: 0.375rem;
-    margin-top: 0.625rem;
+    height: ${sizes[1.5]};
+    margin-top: ${spacing[2.5]};
     overflow: hidden;
-    border-radius: 999rem;
+    border-radius: ${radii.pill};
     background: ${({ theme }) => theme.palette.divider};
 `;
 
 export const StyledPrognosFill = styled.div<{ $percentage: number }>`
     width: ${({ $percentage }) => $percentage}%;
-    height: 100%;
+    height: ${sizes.full};
     border-radius: inherit;
     background: ${({ theme }) => theme.palette.primaryMain};
 `;

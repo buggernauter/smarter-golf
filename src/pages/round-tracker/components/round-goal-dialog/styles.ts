@@ -1,14 +1,15 @@
+import { spacing, sizes, radii, borderWidths, pixels } from '@/styles/tokens';
 import styled from 'styled-components';
 
 export const StyledDialog = styled.dialog`
     box-sizing: border-box;
-    width: min(26rem, calc(100% - 2rem));
-    min-height: min(26rem, calc(100dvh - 2rem));
-    max-height: calc(100dvh - 2rem);
+    width: min(${sizes[104]}, calc(${sizes.full} - ${sizes[8]}));
+    min-height: min(${sizes[104]}, calc(${sizes.dynamicViewportHeight} - ${sizes[8]}));
+    max-height: calc(${sizes.dynamicViewportHeight} - ${sizes[8]});
     overflow-y: auto;
-    padding: 1.5rem;
-    border: 1px solid ${({ theme }) => theme.palette.divider};
-    border-radius: 1.25rem;
+    padding: ${spacing[6]};
+    border: ${borderWidths.pixel} solid ${({ theme }) => theme.palette.divider};
+    border-radius: ${radii[5]};
     background: ${({ theme }) => theme.palette.backgroundPaper};
     color: ${({ theme }) => theme.palette.textPrimary};
     font-family: inherit;
@@ -20,7 +21,7 @@ export const StyledDialog = styled.dialog`
     form {
         display: flex;
         flex-direction: column;
-        gap: 1rem;
+        gap: ${spacing[4]};
     }
 
     h1 {
@@ -40,10 +41,10 @@ export const StyledDialog = styled.dialog`
 
     summary,
     button {
-        min-height: 3rem;
-        padding: 0.75rem 1rem;
-        border: 1px solid ${({ theme }) => theme.palette.divider};
-        border-radius: 0.75rem;
+        min-height: ${sizes[12]};
+        padding: ${spacing[3]} ${spacing[4]};
+        border: ${borderWidths.pixel} solid ${({ theme }) => theme.palette.divider};
+        border-radius: ${radii[3]};
         background: ${({ theme }) => theme.palette.surfaceSecondary};
         color: inherit;
         font: inherit;
@@ -61,8 +62,8 @@ export const StyledDialog = styled.dialog`
     }
 
     :is(summary, button):focus-visible {
-        outline: 3px solid ${({ theme }) => theme.palette.primaryMain};
-        outline-offset: 3px;
+        outline: ${borderWidths.triplePixel} solid ${({ theme }) => theme.palette.primaryMain};
+        outline-offset: ${pixels[3]};
     }
 `;
 
@@ -84,24 +85,24 @@ export const StyledSelect = styled.details`
 
     ul {
         position: absolute;
-        top: calc(100% + 0.5rem);
+        top: calc(100% + ${spacing[2]});
         left: 0;
         right: 0;
         z-index: 1;
         margin: 0;
-        padding: 0.25rem;
+        padding: ${spacing[1]};
         list-style: none;
-        border: 1px solid ${({ theme }) => theme.palette.divider};
-        border-radius: 0.75rem;
+        border: ${borderWidths.pixel} solid ${({ theme }) => theme.palette.divider};
+        border-radius: ${radii[3]};
         background: ${({ theme }) => theme.palette.backgroundPaper};
-        box-shadow: 0 4px 12px ${({ theme }) => theme.palette.shadowDark};
+        box-shadow: 0 ${pixels[4]} ${pixels[12]} ${({ theme }) => theme.palette.shadowDark};
     }
 
     li button {
         display: flex;
         align-items: center;
-        gap: 0.5rem;
-        width: 100%;
+        gap: ${spacing[2]};
+        width: ${sizes.full};
         border: 0;
         text-align: left;
         background: transparent;
